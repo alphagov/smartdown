@@ -1,10 +1,11 @@
+$LOAD_PATH << File.expand_path("../lib", File.dirname(__FILE__))
+
 RSpec.configure do |config|
   if config.files_to_run.one?
-    config.full_backtrace = true
+    config.full_backtrace = false
     config.default_formatter = 'doc'
   end
 
-  config.profile_examples = 10
   config.order = :random
 
   Kernel.srand config.seed
