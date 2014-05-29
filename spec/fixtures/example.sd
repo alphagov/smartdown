@@ -1,22 +1,17 @@
-multiple_choice(border_control?) {
-  title("Will you pass through UK Border Control?")
-  hint("You might pass through UK Border Control even if you don't leave the airport -
-eg your bags aren't checked through and you need to collect them before transferring
-to your outbound flight.")
-  options {
-    yes => Yes
-    no => No
-  }
+name: border_control?
 
-  next_node {
-    country_group_taiwan_venezuela => outcome_visit_waiver
-    response(yes) {
-      country_group_visa_national => outcome_transit_leaving_airport
-      country_group_datv => outcome_transit_leaving_airport_datv
-    }
-    response(no) {
-      country_group_datv => outcome_transit_not_leaving_airport, country_group_datv)
-      country_group_visa_national => outcome_no_visa_needed
-    }
-  }
-}
+# Will you pass through UK Border Control?
+
+You might pass through UK Border Control even if you don't leave the airport -
+eg your bags aren't checked through and you need to collect them before transferring
+to your outbound flight.
+
+* yes: Yes
+* no: No
+
+-----------
+
+# Next node
+
+* border_control is 'yes' => transit
+* border_control is 'no' => outcome_visa
