@@ -1,0 +1,31 @@
+# What are you coming to the UK to do?
+
+* study: Study
+* work: Work or business
+* tourism: Tourism, including visiting friends or family
+* school: Visit your child at school
+* marriage: Get married
+* medical: Get private medical treatment
+* transit: Transit (on your way to somewhere else)
+* family: Join family for a long stay
+
+-----
+
+# Next node
+
+* purpose_of_visit in {tourism school medical}
+  * what_passport_do_you_have in {oman qatar united-arab-emirates} => outcome_visit_waiver_oman_quatar_uae
+  * what_passport_do_you_have is 'taiwan' => outcome_taiwan_exception
+* non_visa_national_passport? | uk_overseas_territory_passport?
+  * purpose_of_visit in {tourism school} => outcome_school_n
+  * purpose_of_visit in {medical} => outcome_medical_n
+* purpose_of_visit in {school} => outcome_school_y
+* purpose_of_visit in {tourism} => outcome_general_y
+* repsonse in {marriage} => outcome_marriage
+* repsonse in {medical} => outcome_medical_y
+* purpose_of_visit in {transit}
+  * direct_airside_transit_visa_passport? | visa_national_passport? | taiwan_venezuela_passport? => planning_to_leave_airport?
+  * otherwise => outcome_no_visa_needed
+* purpose_of_visit is 'family'
+  * uk_overseas_territory_passport? => outcome_joining_family_m
+  * otherwise => outcome_joining_family_y

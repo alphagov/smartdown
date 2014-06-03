@@ -1,0 +1,28 @@
+# How long are you planning to %{activity_whilst_staying} in the UK for?"
+
+* six_months_or_less: "6 months or less"
+* longer_than_six_months: "longer than 6 months"
+
+------
+
+# Next node
+
+* response(longer_than_six_months)
+  * visiting_for_study => outcome_study_y
+  * visiting_for_work => outcome_work_y
+* response(six_months_or_less)
+  * visiting_for_study
+    * passport_country in {oman qatar united-arab-emirates} => outcome_visit_waiver_oman_qatar_uae
+    * passport_country is 'taiwan' => outcome_taiwan_exception
+    * country_group_datv or country_group_visa_national => outcome_study_m
+    * country_group_ukot or country_group_non_visa_national => outcome_no_visa_needed
+  * visiting_for_work
+    * country_group_datv or country_group_visa_national => outcome_work_m
+    * country_group_ukot or country_group_non_visa_national => outcome_work_n
+
+# Definitions
+
+activity_whilst_staying
+* purpose_of_visit is 'study' => "study"
+* purpose_of_visit is 'work' => "work"
+

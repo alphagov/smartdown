@@ -1,0 +1,10 @@
+# What passport do you have?
+
+[country v]
+
+-------
+
+# Next nodes
+
+* eea_passport? => outcome_no_visa_needed
+* otherwise => purpose_of_visit?

@@ -1,0 +1,61 @@
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: study
+staying_for_how_long?: six_months_or_less
+outcome_no_visa_needed
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: work
+staying_for_how_long?: six_months_or_less
+outcome_work_n
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: tourism
+outcome_school_n
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: school
+outcome_school_n
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: marriage
+outcome_marriage
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: medical
+outcome_medical_n
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: transit
+outcome_no_visa_needed
+
+what_passport_do_you_have?: anguilla
+purpose_of_visit?: family
+outcome_joining_family_m
+
+# Non-visa national country
+what_passport_do_you_have?: andorra
+purpose_of_visit?
+
+what_passport_do_you_have?: andorra
+purpose_of_visit?: tourism
+outcome_school_n
+
+what_passport_do_you_have?: andorra
+purpose_of_visit?: school
+outcome_school_n
+
+what_passport_do_you_have?: andorra
+purpose_of_visit?: marriage
+outcome_marriage
+
+what_passport_do_you_have?: andorra
+purpose_of_visit?: medical
+outcome_medical_n
+
+what_passport_do_you_have?: andorra
+purpose_of_visit?: transit
+outcome_no_visa_needed
+
+what_passport_do_you_have?: andorra
+purpose_of_visit?: family
+outcome_joining_family_y

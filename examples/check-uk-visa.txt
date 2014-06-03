@@ -1,0 +1,82 @@
+meta_description: You may need a visa to come to the UK to visit, study or work.
+satisfies_need: 100982
+start_with: what_passport_do_you_have?
+
+# Check if you need a UK visa
+
+You may need a visa to come to the UK to visit, study or work.
+
+------
+
+# Predicates
+
+predicate uk_overseas_territory_passport? {
+  what_passport_do_you_have in {
+    anguilla bermuda british-dependent-territories-citizen british-overseas-
+    citizen british-protected-person british-virgin-islands cayman-islands
+    falkland-islands montserrat st-helena-ascension-and-tristan-da-cunha
+    south-georgia-and-south-sandwich-islands turks-and-caicos-islands
+  }
+}
+
+predicate non_visa_national_passport? {
+  what_passport_do_you_have in {
+    andorra antigua-and-barbuda argentina aruba australia bahamas barbados
+    belize bonaire-st-eustatius-saba botswana brazil british-national-overseas
+    brunei canada chile costa-rica curacao dominica timor-leste el-salvador
+    grenada guatemala honduras hong-kong hong-kong-(british-national-overseas)
+    israel japan kiribati south-korea macao malaysia maldives marshall-islands
+    mauritius mexico micronesia monaco namibia nauru new-zealand nicaragua
+    palau panama papua-new-guinea paraguay pitcairn-island st-kitts-and-nevis
+    st-lucia st-maarten st-vincent-and-the-grenadines samoa san-marino
+    seychelles singapore solomon-islands tonga trinidad-and-tobago tuvalu usa
+    uruguay vanuatu vatican-city
+  }
+)
+
+predicate visa_national_passport? {
+  what_passport_do_you_have in {
+    armenia azerbaijan bahrain benin bhutan bosnia-and-herzegovina burkina-
+    faso cambodia cape-verde central-african-republic chad comoros cuba
+    djibouti dominican-republic equatorial-guinea fiji gabon georgia guyana
+    haiti indonesia jordan kazakhstan north-korea kuwait kyrgyzstan laos
+    madagascar mali mauritania morocco mozambique niger oman peru philippines
+    qatar russia sao-tome-and-principe saudi-arabia suriname tajikistan taiwan
+    thailand togo tunisia turkmenistan ukraine united-arab-emirates uzbekistan
+    zambia
+  }
+)
+
+predicate direct_airside_transit_visa_passport? {
+  what_passport_do_you_have in {
+    afghanistan albania algeria angola bangladesh belarus bolivia burma
+    burundi cameroon china colombia congo cyprus-north democratic-republic-of-
+    congo ecuador egypt eritrea ethiopia gambia ghana guinea guinea-bissau
+    india iran iraq cote-d-ivoire jamaica kenya kosovo lebanon lesotho liberia
+    libya macedonia malawi moldova mongolia montenegro nepal nigeria the-
+    occupied-palestinian-territories pakistan rwanda senegal serbia sierra-
+    leone somalia south-africa south-sudan sri-lanka sudan swaziland syria
+    tanzania turkey uganda venezuela vietnam yemen zimbabwe
+  }
+}
+
+predicate taiwan_venezuela_passport? {
+  what_passport_do_you_have in {taiwan venezuela}
+}
+
+predicate eea_passport? {
+  what_passport_do_you_have in {
+    austria belgium bulgaria croatia cyprus czech-republic denmark estonia
+    finland france germany greece hungary iceland ireland italy latvia
+    liechtenstein lithuania luxembourg malta netherlands norway poland
+    portugal romania slovakia slovenia spain sweden switzerland
+  }
+)
+
+predicate visiting_for_study? {
+  purpose_of_visit is "study"
+}
+predicate visiting_for_work? {
+  purpose_of_visit is "work"
+}
+
