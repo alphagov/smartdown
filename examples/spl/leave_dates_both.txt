@@ -1,0 +1,10 @@
+# Leave dates
+
+## When will the mother's leave start? (> #{earliest_start_date}) {#mother_start_leave}
+!!!date!!!
+
+## How much leave will the partner take? {#partner_leave_amount}
+!!!free_text!!!
+
+## When will the partner's leave start? (#{partner_leave_range}) {#partner_start_leave}
+!!!date!!!

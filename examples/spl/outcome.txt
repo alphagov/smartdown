@@ -1,0 +1,12 @@
+$IF what_information == 'maternity' OR what_information == 'maternity_partner'
+
+Statuatory Maternity Pay
+{maternity_leave_information}
+
+$ENDIF
+
+$IF what_information == 'partner' OR what_information == 'maternity_partner'
+
+Text about partner leave here
+
+$ENDIF

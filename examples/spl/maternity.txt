@@ -1,0 +1,25 @@
+#Mother's employment
+
+## Are you employed?  {#mother_employed}
+* employed: "Yes"
+* unemployed: "No"
+
+## Did you start your job on or before #{minimum_employment_date}? {#mother_employment_before_minimum_date}
+
+* employment_before_minimum_date: "Yes"
+* employment_after_minimum_date: "No"
+
+## Will you be in the same job after #{same_job_date}? {#mother_same_job_after}
+
+* same_job_after: "Yes"
+* not_same_job_after: "No"
+
+#How much do you earn? {#mother_salary}
+!!!money!!!
+
+----
+
+# Next nodes
+
+* what_information == "maternity" => leave_dates_maternity
+* what_information == "maternity_partner" => partner
