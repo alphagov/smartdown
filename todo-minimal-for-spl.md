@@ -5,12 +5,8 @@
 * cover sheet
 * questions
  - multiple choice
- - country
  - date
- - value
- - money
  - salary
- - checkbox
 * multiple questions per node
  - symbolic identifier for each question (like Kramdown e.g. `# My question{#my-question}`)
  - Q: do we need to allow some q's to be optional?
@@ -20,12 +16,6 @@
 * predicates
  * variable eq X
  * variable in set
- * set intersection
- * predicate composition
-  * AND
-  * OR
-  * NOT
-  * PARENTHESIS
  * date predicates ??
   * date op XXX
   * date between XXX and YYY
@@ -49,56 +39,6 @@
      * predicate2 => outcome1
      * predicate3 => outcome2
    ```
-
-## Outcome conditional blocks
-
-Replaces phrase lists.
-
-```
-$IF predicate THEN
-
-Markdown blah blah
-
-$ENDIF
-```
-
-Probably else/elsifs:
-
-```
-$IF predicate THEN
-
-Markdown blah blah
-
-$ELSIF predicate2 THEN
-
-Markdown blah blah
-
-$ELSE
-
-Markdown blah blah
-
-$ENDIF
-```
-
-Maybe nesting?
-
-```
-$IF predicate THEN
-
-Markdown blah blah
-
-  $IF predicate2 THEN
-
-Markdown blah blah
-
-  $ELSE
-
-Markdown blah blah
-
-  $ENDIF
-
-$ENDIF
-```
 
 ## Variable interpolation
 
@@ -145,16 +85,7 @@ q2: a2
 outcome
 ```
 
-Maybe you also want to be able to make assertions at each point e.g.
-
-```
-q1: a1
-q2: a2
-outcome
-  variable_blah == baz
-```
-
-## Smart-answer frontend
+## SPL frontend
 
 ```ruby
 class MyController < ActionView::Controller
@@ -179,8 +110,9 @@ end
 - evaluation of conditional blocks in markdown body .. processor does this?
 - Flow repository: loads the smartdown from disk or other place
 - ERB html files, integrate with govuk template
-
-## Customised frontend
-
 - custom ERB html files
 - presenter results vary on at what stage of the flow we are
+- interpolating tables?
+
+- actually figure out what the rules are of SPL
+- actually build the calculator
