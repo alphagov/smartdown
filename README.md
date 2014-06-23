@@ -91,7 +91,17 @@ to your outbound flight.
 # What passport do you have?
 
 [country]
+```
 
+Presents a drop-down list of countries from the built-in list.
+
+Use front matter to exclude/include countries
+
+```
+exclude_countries: country1, country2
+include_countries: {country3: "Country 3", country4: "Country 4"}
+
+[country]
 ```
 
 ### Date
@@ -99,8 +109,10 @@ to your outbound flight.
 ```markdown
 # What is the baby’s due date?
 
-[d/m/y: -1 year...+1 year]
+[d/m/y: -1...+1]
 ```
+
+Asks for a specific date in the given range. Ranges can be expressed as a relative number of years or absolute dates in YYYY-MM-DD format.
 
 ### Value
 
@@ -108,17 +120,23 @@ to your outbound flight.
 [value]
 ```
 
+Asks for an arbitrary text input.
+
 ### Money
 
 ```markdown
 [money]
 ```
 
+Asks for a numerical input which can have decimals and optional thousand-separating commas.
+
 ### Salary
 
 ```markdown
 [salary]
 ```
+
+Asks for salary which can be expressed as either a weekly or monthly money amount. The user chooses between weekly/monthly
 
 ### Checkbox
 
@@ -127,12 +145,47 @@ to your outbound flight.
 
 * [ ] yes: Yes
 * [ ] no: No
+```
 
-## Conditional blocks
+## Next node rules
+
+Logical rules for transitioning to the next node are defined in 'Next node' section. This is declared using a markdown h1 'Next node'.
+
+There are two constructs for defining rules:
+
+```
+# Next node
+
+* predicate => outcome
+```
+
+defines a conditional transition
+
+```
+# Next node
+
+* predicate1
+  * predicate2 => outcome1
+  * predicate3 => outcome2
+```
+
+defines nested rules.
+
+## Predicates
+
+```
+variable_name is 'string'
+```
+
+## Conditional blocks in outcomes
 
 ## Processing model
 
-Each response to a question is assigned to a
+Each response to a question is assigned to a variable which corresponds to the question name (as determined by the filename).
+
+## Named predicates
+
+Named predicates
 
 ## Plugin API
 
