@@ -41,11 +41,11 @@ flow:
 
 ## General file syntax
 
-Each file follows the same approximate file syntax:
+Each file has three parts: front-matter, a model definition, rules/logic. Only the model definition is required.
 
-```
-flow = front-matter question-definition rules
-```
+* **front-matter** defines metadata in the form `property: value`
+* the **model definition** is a markdown-like block which defines a flow, question or outcome.
+* **rules/logic** defines 'next node' transition rules or other logic/predicate definitions
 
 ## Cover sheet
 
@@ -67,9 +67,75 @@ You may need a visa to come to the UK to visit, study or work.
 
 ## Questions
 
-A question definition may have front-matter metadata
+A question model definition has optional front matter, followed by a title and
+question type.
+
+The next sections define the various question types
+
+### Multiple choice
+
+```markdown
+# Will you pass through UK Border Control?
+
+You might pass through UK Border Control even if you don't leave the airport -
+eg your bags aren't checked through and you need to collect them before transferring
+to your outbound flight.
+
+* yes: Yes
+* no: No
+```
+
+### Country
+
+```markdown
+# What passport do you have?
+
+[country]
+
+```
+
+### Date
+
+```markdown
+# What is the baby’s due date?
+
+[d/m/y: -1 year...+1 year]
+```
+
+### Value
+
+```markdown
+[value]
+```
+
+### Money
+
+```markdown
+[money]
+```
+
+### Salary
+
+```markdown
+[salary]
+```
+
+### Checkbox
+
+```markdown
+# Will you pass through UK Border Control?
+
+* [ ] yes: Yes
+* [ ] no: No
 
 ## Conditional blocks
 
 ## Processing model
+
+Each response to a question is assigned to a
+
+## Plugin API
+
+A plugin API will be provided to allow more complex calculations to be defined
+in an external ruby class.
 
