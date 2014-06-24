@@ -1,6 +1,4 @@
 require 'parslet'
-require 'smart_answer/node'
-require 'smart_answer/question/multiple_choice'
 
 module Smartdown
   module Parser
@@ -46,12 +44,11 @@ module Smartdown
       }
 
       rule(:multiple_choice_paragraph) {
-        (option_definition_line >> (eof | newline)).repeat(1)
+        (option_definition_line >> (eof | newline)).repeat(1).as(:multiple_choice)
       }
 
       rule(:markdown_paragraph) {
-        option_definition_line.absent? >>
-          (markdown_line >> (eof | newline)).repeat(1).as(:p)
+        (markdown_line >> (eof | newline)).repeat(1).as(:p)
       }
 
       rule(:markdown_heading) {
@@ -59,7 +56,7 @@ module Smartdown
       }
 
       rule(:markdown_block) {
-        markdown_heading | markdown_paragraph
+        markdown_heading | multiple_choice_paragraph | markdown_paragraph
       }
 
       rule(:markdown_paragraphs) {
@@ -67,8 +64,6 @@ module Smartdown
       }
 
       rule(:body) {
-        multiple_choice_paragraph.as(:multiple_choice) |
-        markdown_paragraphs.as(:body) >> newline >> multiple_choice_paragraph.as(:multiple_choice) |
         markdown_paragraphs.as(:body)
       }
 

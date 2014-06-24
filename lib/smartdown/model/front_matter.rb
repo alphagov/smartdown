@@ -1,7 +1,7 @@
 module Smartdown
   module Model
     class FrontMatter
-      def initialize(attributes)
+      def initialize(attributes = {})
         @attributes = attributes
       end
 

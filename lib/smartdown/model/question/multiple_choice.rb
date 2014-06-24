@@ -1,35 +1,20 @@
 require 'smartdown/util/hash'
-require 'smartdown/model/indeterminate_next_node'
+require 'smartdown/errors'
 
 module Smartdown
   module Model
     module Question
       class MultipleChoice
         include Smartdown::Util::Hash
-        attr_accessor :name, :body, :choices
+        attr_accessor :name, :choices
 
-        def initialize(name, options = {})
+        def initialize(name, choices = {})
           @name = name
-          @body = options[:body] || ""
-          @choices = duplicate_and_normalize_hash(options[:choices] || {})
-          @next_node = nil
+          @choices = duplicate_and_normalize_hash(choices)
         end
 
         def add_choice(name, value)
           @choices[name.to_s] = value
-        end
-
-        def transition(state, input)
-          raise Smartdown::Model::IndeterminateNextNode unless @next_node
-          state
-            .put(:path, state.get(:path) + [state.get(:current_node)])
-            .put(:responses, state.get(:responses) + [input])
-            .put(name_as_state_variable, input)
-            .put(:current_node, @next_node)
-        end
-
-        def next_node(node)
-          @next_node = node
         end
 
         def valid_choice?(choice)
@@ -37,8 +22,11 @@ module Smartdown
         end
 
         def parse_input(raw_input)
-          raise SmartAnswer::InvalidResponse, "Illegal option #{raw_input} for #{name}", caller unless valid_choice?(raw_input)
-          super
+          if valid_choice?(raw_input)
+            raw_input
+          else
+            raise Smartdown::InvalidResponse, "Illegal option #{raw_input} for #{name}", caller
+          end
         end
 
       private

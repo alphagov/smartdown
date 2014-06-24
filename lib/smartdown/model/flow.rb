@@ -3,19 +3,15 @@ module Smartdown
     class Flow
       extend Forwardable
 
-      attr_reader :questions
+      attr_reader :nodes
       attr_reader :coversheet
 
-      def initialize(coversheet)
+      def initialize(coversheet, nodes = [])
         @coversheet = coversheet
-        @questions = []
+        @nodes = nodes
       end
 
       def_delegator :coversheet, :name
-
-      def add_question(question)
-        @questions << question
-      end
 
       def start_state
         @state ||= Smartdown::Model::State.new(current_node: questions.first.name)

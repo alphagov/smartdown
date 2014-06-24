@@ -1,6 +1,6 @@
 require 'smartdown.rb'
 
-describe Smartdown do
+describe "Smartdown.parse" do
 
   def fixture(name)
     File.dirname(__FILE__) + "/../fixtures/acceptance/#{name}/#{name}.txt"
@@ -9,46 +9,45 @@ describe Smartdown do
   context "flow with only a cover-sheet" do
     subject(:flow) { Smartdown.parse(fixture("cover-sheet")) }
 
-    describe "#parse" do
-      it "should build a Flow model" do
-        expect(flow).to be_a(Smartdown::Model::Flow)
+    it "should build a Flow model" do
+      expect(flow).to be_a(Smartdown::Model::Flow)
+    end
+
+    it "should derive the name from the filename" do
+      expect(flow.name).to eq("cover-sheet")
+    end
+
+    it "should have a coversheet" do
+      expect(flow.coversheet).to be_a(Smartdown::Model::Node)
+    end
+
+    it "should have no questions" do
+      expect(flow.questions).to eq([])
+    end
+
+    describe "coversheet" do
+      subject(:coversheet) { flow.coversheet }
+
+      it "should have front matter" do
+        expect(coversheet.front_matter).to be_a(Smartdown::Model::FrontMatter)
       end
 
-      it "should derive the name from the filename" do
-        expect(flow.name).to eq("cover-sheet")
-      end
-
-      it "should have a coversheet" do
-        expect(flow.coversheet).to be_a(Smartdown::Model::Coversheet)
-      end
-
-      it "should have no questions" do
-        expect(flow.questions).to eq([])
-      end
-
-      describe "coversheet" do
-        subject(:coversheet) { flow.coversheet }
-
-        it "should have front matter" do
-          expect(coversheet.front_matter).to be_a(Smartdown::Model::FrontMatter)
+      describe "front matter" do
+        it "should have satisfies_need" do
+          expect(coversheet.front_matter.satisfies_need).to eq("1234")
         end
 
-        describe "front matter" do
-          it "should have satisfies_need" do
-            expect(coversheet.front_matter.satisfies_need).to eq("1234")
-          end
-
-          it "should have meta_description" do
-            expect(coversheet.front_matter.meta_description).to eq("Blah blah")
-          end
+        it "should have meta_description" do
+          expect(coversheet.front_matter.meta_description).to eq("Blah blah")
         end
+      end
 
-        it "should have a title extracted from the first markdown H1" do
-          expect(coversheet.title).to eq("My coversheet")
-        end
+      it "should have a title extracted from the first markdown H1" do
+        expect(coversheet.title).to eq("My coversheet")
+      end
 
-        it "should have a body" do
-          expect(coversheet.body).to eq(<<-EXPECTED)
+      it "should have a body" do
+        expect(coversheet.body).to eq(<<-EXPECTED)
 This is the body markdown.
 
 It has many paragraphs
@@ -59,9 +58,39 @@ of text.
 * have
 * lists
 EXPECTED
-        end
+      end
+    end
+  end
+
+  context "flow with a cover-sheet and a question" do
+    subject(:flow) { Smartdown.parse(fixture("one-question")) }
+
+    it "should have one question node" do
+      expect(flow.questions.size).to eq(1)
+      expect(flow.questions.first).to be_a(Smartdown::Model::Node)
+    end
+
+    describe "the question" do
+      subject(:question) { flow.questions.first }
+
+      it "should have title" do
+        expect(question.title).to eq("Question one")
+      end
+
+      it "should have two body paras" do
+        expect(question.body).to eq(<<-EXPECTED)
+Body text line 1.
+
+Body text
+para 2.
+EXPECTED
+      end
+
+      it "should have a multiple choice question" do
+        expect(question.questions).to match([instance_of(Smartdown::Model::Question::MultipleChoice)])
       end
     end
   end
 end
+
 

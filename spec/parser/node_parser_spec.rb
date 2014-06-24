@@ -3,13 +3,15 @@ require 'smartdown/parser/node_parser'
 describe "parsing multiple choice nodes" do
   let(:parser) { Smartdown::Parser::NodeParser.new }
 
-  subject {
+  def parse_and_rescue(source)
     begin
       parser.parse(source)
     rescue Parslet::ParseFailed => error
       raise error.cause.ascii_tree
     end
-  }
+  end
+
+  subject { parse_and_rescue(source) }
 
   describe "front matter only" do
     let(:source) {
@@ -99,10 +101,12 @@ SOURCE
 
     it "extracts it" do
       should eq({
-        body: {h1: "This is my title\n"},
-        multiple_choice: [
-          {value: "yes", label: "Yes"},
-          {value: "no", label: "No"}
+        body: [
+          {h1: "This is my title\n"},
+          {multiple_choice: [
+            {value: "yes", label: "Yes"},
+            {value: "no", label: "No"}
+          ]}
         ]
       })
     end

@@ -1,33 +1,56 @@
+require 'pathname'
 require 'smartdown/model/flow'
-require 'smartdown/model/coversheet'
+require 'smartdown/model/node'
 require 'smartdown/parser/node_parser'
 require 'smartdown/parser/transform'
 
 module Smartdown
   module Parser
     class Parser
-      def parse(coversheet_file)
-        # parse coversheet
-        coversheet = parse_coversheet(coversheet_file)
-        # parse all questions
+      attr_reader :coversheet_file
+
+      def initialize(coversheet_file)
+        @coversheet_file = coversheet_file
+      end
+
+      def parse
         # parse all outcomes
+
         # create flow model out of all that stuff
-        Smartdown::Model::Flow.new(coversheet)
+        Smartdown::Model::Flow.new(coversheet, questions)
       end
 
     private
-      def parse_coversheet(coversheet_file)
-        parser = Smartdown::Parser::NodeParser.new
-        parsed = parser.parse(File.read(coversheet_file))
-
-        transform = Smartdown::Parser::Transform.new
-        transform.apply(parsed).tap do |coversheet|
-          coversheet.name = flow_name_from_filename(coversheet_file)
-        end
+      def basedir
+        Pathname.new(coversheet_file).dirname
       end
 
-      def flow_name_from_filename(file)
-        File.basename(file, ".txt")
+      def node_name_from_filename(filename)
+        File.basename(filename, ".txt")
+      end
+
+      def parse_node(filename, page_class)
+        data = File.read(filename)
+        parsed = Smartdown::Parser::NodeParser.new.parse(data)
+        transform = Smartdown::Parser::Transform.new
+        transform.apply(parsed,
+          page_class: page_class,
+          node_name: node_name_from_filename(filename)
+        )
+      end
+
+      def coversheet
+        parse_node(coversheet_file, Smartdown::Model::Node)
+      end
+
+      def parse_question(filename)
+        parse_node(filename, Smartdown::Model::Node)
+      end
+
+      def questions
+        Dir[basedir + "questions" + "*.txt"].map do |filename|
+          parse_question(filename)
+        end
       end
     end
   end

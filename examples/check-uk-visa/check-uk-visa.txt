@@ -1,10 +1,11 @@
 meta_description: You may need a visa to come to the UK to visit, study or work.
 satisfies_need: 100982
-start_with: what_passport_do_you_have?
 
 # Check if you need a UK visa
 
 You may need a visa to come to the UK to visit, study or work.
+
+[start: what_passport_do_you_have?]
 
 ------
 
