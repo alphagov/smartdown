@@ -1,13 +1,17 @@
 module Smartdown
   module Model
     class Flow
-      attr_accessor :name
-      attr_reader :questions
+      extend Forwardable
 
-      def initialize(name)
-        @name = name
+      attr_reader :questions
+      attr_reader :coversheet
+
+      def initialize(coversheet)
+        @coversheet = coversheet
         @questions = []
       end
+
+      def_delegator :coversheet, :name
 
       def add_question(question)
         @questions << question

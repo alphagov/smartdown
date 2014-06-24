@@ -3,8 +3,12 @@ require 'smartdown/model/state'
 require 'smartdown/model/question/multiple_choice'
 
 describe Smartdown::Model::Flow do
+  let(:coversheet) {
+    double("coversheet", name: "my_name")
+  }
+
   subject {
-    Smartdown::Model::Flow.new("my_name")
+    Smartdown::Model::Flow.new(coversheet)
   }
 
   let(:question) {
@@ -14,7 +18,6 @@ describe Smartdown::Model::Flow do
       q.next_node(:sweet)
     end
   }
-
 
   it "has a name" do
     expect(subject.name).to eq "my_name"

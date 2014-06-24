@@ -1,7 +1,7 @@
-require 'smartdown/node_parser'
+require 'smartdown/parser/node_parser'
 
 describe "parsing multiple choice nodes" do
-  let(:parser) { Smartdown::NodeParser.new }
+  let(:parser) { Smartdown::Parser::NodeParser.new }
 
   subject {
     begin
@@ -13,12 +13,12 @@ describe "parsing multiple choice nodes" do
 
   describe "front matter only" do
     let(:source) {
-<<SOURCE
-name: What country are you from?
-country_exclusions: england ireland scotland wales
-colour: red
-SOURCE
-     }
+      <<-SOURCE.gsub(/^ */, '')
+        name: What country are you from?
+        country_exclusions: england ireland scotland wales
+        colour: red
+      SOURCE
+    }
 
     it "extracts it" do
       should eq({
@@ -54,13 +54,11 @@ SOURCE
 
     it "extracts it" do
       should eq({
-        body: "# This is my title
-
-This is a paragraph of text with stuff
-that flows along
-
-Another paragraph of text
-"
+        body: [
+          {h1: "This is my title\n"},
+          {p: "This is a paragraph of text with stuff\nthat flows along\n"},
+          {p: "Another paragraph of text\n"}
+        ]
       })
     end
   end
@@ -81,10 +79,10 @@ SOURCE
         front_matter: [
           {name: "name", value: "My node"}
         ],
-        body: "# This is my title
-
-A paragraph
-"
+        body: [
+          {h1: "This is my title\n"},
+          {p: "A paragraph\n"}
+        ]
       })
     end
   end
@@ -101,7 +99,7 @@ SOURCE
 
     it "extracts it" do
       should eq({
-        body: "# This is my title\n",
+        body: {h1: "This is my title\n"},
         multiple_choice: [
           {value: "yes", label: "Yes"},
           {value: "no", label: "No"}
