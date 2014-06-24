@@ -5,6 +5,7 @@ GEM
     diff-lcs (1.2.5)
     parslet (1.6.1)
       blankslate (~> 2.0)
+    rake (10.3.2)
     rspec (3.0.0.rc1)
       rspec-core (= 3.0.0.rc1)
       rspec-expectations (= 3.0.0.rc1)
@@ -23,4 +24,5 @@ PLATFORMS
 
 DEPENDENCIES
   parslet
+  rake
   rspec (= 3.0.0.rc1)
