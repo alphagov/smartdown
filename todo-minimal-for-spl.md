@@ -2,37 +2,41 @@
 
 ## Parser and models
 
-* cover sheet
-* questions
+* cover sheet (0.5 day)
+* questions (0.5 day)
  - multiple choice
  - date
  - salary
-* multiple questions per node
+
+* multiple questions per node (1 day)
  - symbolic identifier for each question (like Kramdown e.g. `# My question{#my-question}`)
  - Q: do we need to allow some q's to be optional?
 
 ## next node rules
 
-* predicates
+* basic predicates (1 day)
  * variable eq X
  * variable in set
- * date predicates ??
+* date predicates (1 day)
   * date op XXX
   * date between XXX and YYY
   * where XXX is either a specific date or a date relative to today
   * op is one of > < >= <=
- * money/salary predicates ??
- * named predicates
+* salary predicates (1 day)
+  * salary op X per week
+  * op is one of `>` `<` `>=` `<=`
+* named predicates (1 day)
 
-   ```
-   predicate visiting_for_study? {
-     purpose_of_visit is "study"
-   }
-   ```
-* rule definitions
- * simple rule
+  ```
+  predicate visiting_for_study? {
+   purpose_of_visit is "study"
+  }
+  ```
+* simple rule definitions (1 day)
+
   `* predicate => outcome`
- * nested rules
+
+* nested rule definitions (1 day)
 
    ```
    * predicate1
@@ -40,7 +44,7 @@
      * predicate3 => outcome2
    ```
 
-## Variable interpolation
+## Variable interpolation (1 day: presenter does interpolation and parses strings with placeholders)
 
 ```
 # How long are you planning to %{reason_of_staying} in the UK for?
@@ -48,15 +52,11 @@
 
 Syntax `%{variable_name}` interpolates the value of the named variable from the state, which will be formatted appropriately for the type (date/money etc).
 
-## Processing
+## Processing (1 day)
 
 - evaluating predicates in a state context to determine next node, calculating new state
-- validation??
 
-Note:
-- calculations are probably not needed as they can either be done using an external plugin, or as a named predicate
-
-## Plugin API
+## Plugin API (0.5 day)
 
 A plugin API will be provided to allow more complex calculations to be defined
 in an external ruby class. When a flow is loaded, the corresponding plugins are connected to the flow.
@@ -75,15 +75,17 @@ my_flow.add_plugin(MyCalculator.new)
 
 ```
 
-## Test scenarios (as data)
+## Test scenarios (as data) (1 day)
 
-The main one will be
+Test scenarios will be stored in a folder. Each file can define one or more scenarios of the form:
 
 ```
 q1: a1
 q2: a2
 outcome
 ```
+
+The tests will be run using a command-line tool which will run each scenario and report any errors.
 
 ## SPL frontend
 
@@ -100,19 +102,12 @@ class MyController < ActionView::Controller
 end
 ```
 
-- parsing raw input from HTTP POST request (into value primitive String, Money, Salary, Date)
-- redirect to canonical url on POST
-- parsing raw input from URL fragment of GET request
-- decide where responsibility for presenting interpolated values lies, options:
-  - presenter does interpolation and parses strings with placeholders
-  - presenter does interpolation and parser returns parse tree for dynamic string blocks
-  - presenter passed to processor and used by processor to convert values for interpolation
-- evaluation of conditional blocks in markdown body .. processor does this?
-- Flow repository: loads the smartdown from disk or other place
-- ERB html files, integrate with govuk template
-- custom ERB html files
-- presenter results vary on at what stage of the flow we are
-- interpolating tables?
+- parsing raw input from HTTP POST request (into value primitive String, Money, Salary, Date) (0.5 day)
+- redirect to canonical url on POST (0.5 day)
+- parsing raw input from URL fragment of GET request (0.5 day)
+- Flow repository: loads the smartdown from disk or other place (0.5 day)
+- ERB html files, integrate with govuk template (0.5 day)
+- presenters and ERB files (5 days)
 
-- actually figure out what the rules are of SPL
-- actually build the calculator
+- assist the writing of smardown (all the time)
+- actually build the calculators (2 to 8 days)
