@@ -24,6 +24,14 @@ module Smartdown
       def fetch(name)
         @attributes.fetch(name.to_s)
       end
+
+      def to_hash
+        @attributes.dup
+      end
+
+      def ==(other)
+        other.is_a?(self.class) && self.to_hash == other.to_hash
+      end
     end
   end
 end

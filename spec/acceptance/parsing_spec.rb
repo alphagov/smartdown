@@ -21,8 +21,8 @@ describe "Smartdown.parse" do
       expect(flow.coversheet).to be_a(Smartdown::Model::Node)
     end
 
-    it "should have no questions" do
-      expect(flow.questions).to eq([])
+    it "should have no nodes" do
+      expect(flow.nodes).to eq([])
     end
 
     describe "coversheet" do
@@ -59,6 +59,9 @@ of text.
 * lists
 EXPECTED
       end
+
+      it "should have next node rules derived from the start_question" do
+      end
     end
   end
 
@@ -66,19 +69,19 @@ EXPECTED
     subject(:flow) { Smartdown.parse(fixture("one-question")) }
 
     it "should have one question node" do
-      expect(flow.questions.size).to eq(1)
-      expect(flow.questions.first).to be_a(Smartdown::Model::Node)
+      expect(flow.nodes.size).to eq(1)
+      expect(flow.nodes.first).to be_a(Smartdown::Model::Node)
     end
 
-    describe "the question" do
-      subject(:question) { flow.questions.first }
+    describe "the question node" do
+      subject(:question_node) { flow.nodes.first }
 
       it "should have title" do
-        expect(question.title).to eq("Question one")
+        expect(question_node.title).to eq("Question one")
       end
 
       it "should have two body paras" do
-        expect(question.body).to eq(<<-EXPECTED)
+        expect(question_node.body).to eq(<<-EXPECTED)
 Body text line 1.
 
 Body text
@@ -87,7 +90,7 @@ EXPECTED
       end
 
       it "should have a multiple choice question" do
-        expect(question.questions).to match([instance_of(Smartdown::Model::Question::MultipleChoice)])
+        expect(question_node.questions).to match([instance_of(Smartdown::Model::Question::MultipleChoice)])
       end
     end
   end

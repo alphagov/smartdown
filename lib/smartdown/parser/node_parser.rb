@@ -1,16 +1,18 @@
 require 'parslet'
+require 'smartdown/parser/element/start_button'
 
 module Smartdown
   module Parser
     class NodeParser < Parslet::Parser
 
       rule(:eof) { any.absent? }
-      rule(:ws_char) { match('\s')}
+      rule(:ws_char) { match('\s') }
       rule(:space_char) { str(" ") }
-      rule(:optional_space) { space_char.repeat }
       rule(:non_ws_char) { match('\S') }
       rule(:newline) { str("\r\n") | str("\n\r") | str("\n") | str("\r") }
+      rule(:line_ending) { eof | newline }
 
+      rule(:optional_space) { space_char.repeat }
       rule(:ws) { ws_char.repeat }
       rule(:non_ws) { non_ws.repeat }
 
@@ -21,8 +23,11 @@ module Smartdown
       rule(:identifier) {
         match('[a-zA-Z_0-9-]').repeat(1)
       }
+      rule(:front_matter_line) {
+        identifier.as(:name) >> str(":") >> ws >> whitespace_terminated_string.as(:value) >> line_ending
+      }
       rule(:front_matter) {
-        identifier.as(:name) >> str(":") >> ws >> whitespace_terminated_string.as(:value) >> newline
+        front_matter_line.repeat(1).as(:front_matter)
       }
       rule(:blank_line) {
         newline >> newline
@@ -44,19 +49,19 @@ module Smartdown
       }
 
       rule(:multiple_choice_paragraph) {
-        (option_definition_line >> (eof | newline)).repeat(1).as(:multiple_choice)
+        (option_definition_line >> line_ending).repeat(1).as(:multiple_choice)
       }
 
       rule(:markdown_paragraph) {
-        (markdown_line >> (eof | newline)).repeat(1).as(:p)
+        (markdown_line >> line_ending).repeat(1).as(:p)
       }
 
       rule(:markdown_heading) {
-        str('# ') >> (whitespace_terminated_string >> optional_space >> (eof | newline)).as(:h1)
+        str('# ') >> (whitespace_terminated_string >> optional_space >> line_ending).as(:h1)
       }
 
       rule(:markdown_block) {
-        markdown_heading | multiple_choice_paragraph | markdown_paragraph
+        markdown_heading | multiple_choice_paragraph | Element::StartButton.new | markdown_paragraph
       }
 
       rule(:markdown_paragraphs) {
@@ -68,9 +73,9 @@ module Smartdown
       }
 
       rule(:flow) {
-        front_matter.repeat.as(:front_matter) >> newline >> body |
-        front_matter.repeat.as(:front_matter) |
-        body
+        front_matter >> newline.repeat(1) >> body |
+        front_matter |
+        ws >> body
       }
 
       root(:flow)

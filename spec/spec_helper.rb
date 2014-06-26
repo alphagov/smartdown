@@ -1,5 +1,8 @@
 $LOAD_PATH << File.expand_path("../lib", File.dirname(__FILE__))
 
+require 'pathname'
+require 'parslet/rig/rspec'
+
 RSpec.configure do |config|
   if config.files_to_run.one?
     config.full_backtrace = false

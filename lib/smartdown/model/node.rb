@@ -1,16 +1,21 @@
+require 'smartdown/model/front_matter'
+
 module Smartdown
   module Model
     class Node
-      attr_accessor :name, :front_matter, :body_blocks
+      attr_accessor :name, :front_matter, :elements
 
-      def initialize(name, body_blocks, front_matter = nil)
+      def initialize(name, elements, front_matter = nil)
         @name = name
-        @body_blocks = body_blocks
+        @elements = elements
         @front_matter = front_matter || Smartdown::Model::FrontMatter.new
       end
 
+      def next_node_rules
+      end
+
       def questions
-        body_blocks.select { |b| b.is_a?(Smartdown::Model::Question::MultipleChoice) }
+        elements.select { |b| b.is_a?(Smartdown::Model::Question::MultipleChoice) }
       end
 
       def title
@@ -18,7 +23,7 @@ module Smartdown
       end
 
       def markdown_blocks
-        body_blocks.select { |b| b.is_a?(Hash) }
+        elements.select { |b| b.is_a?(Hash) }
       end
 
       def h1s

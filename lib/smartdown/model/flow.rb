@@ -14,7 +14,7 @@ module Smartdown
       def_delegator :coversheet, :name
 
       def start_state
-        @state ||= Smartdown::Model::State.new(current_node: questions.first.name)
+        @state ||= Smartdown::Model::State.new(current_node: coversheet.name)
       end
 
       def process(responses)
@@ -24,7 +24,7 @@ module Smartdown
       end
 
       def node(node_name)
-        @questions.find {|q| q.name.to_s == node_name.to_s } || raise("Unable to find #{node_name}")
+        @nodes.find {|n| n.name.to_s == node_name.to_s } || raise("Unable to find #{node_name}")
       end
     end
   end
