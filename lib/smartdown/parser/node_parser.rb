@@ -1,6 +1,5 @@
 require 'parslet'
 require 'smart_answer/node'
-require 'smart_answer/question/base'
 require 'smart_answer/question/multiple_choice'
 
 module Smartdown
