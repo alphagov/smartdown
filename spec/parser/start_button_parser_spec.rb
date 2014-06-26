@@ -6,6 +6,7 @@ describe Smartdown::Parser::Element::StartButton do
 
   it "should parse a start indicator with a question identifier" do
     should parse("[start: first_question?]").as({start_button: "first_question?"})
+    should parse("[start: first_question?]\n").as({start_button: "first_question?"})
   end
 
   it "should require a question identifier" do

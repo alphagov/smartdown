@@ -3,7 +3,6 @@ require 'parslet'
 module Smartdown
   module Parser
     class Base < Parslet::Parser
-
       rule(:eof) { any.absent? }
       rule(:ws_char) { match('\s') }
       rule(:space_char) { str(" ") }
