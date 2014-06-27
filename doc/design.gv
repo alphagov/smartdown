@@ -1,0 +1,66 @@
+digraph SmartDown {
+    node [shape=record];
+
+
+    subgraph cluster_frontend {
+      style = dashed;
+      label = "Frontend";
+      smartdown_frontend [label="{Smartdown Frontend | { - recieve http inputs and convert to InputList\nrender html from SmartdownState| <c> -} }"]
+    }
+
+    subgraph cluster_smartdown_gem {
+      label = "Smartdown Gem";
+      style = dashed;
+
+
+      subgraph cluster_external_api {
+        label="External API";
+        api [label="{ API | { <r> Given (FlowRepository, flow_name, InputList)\ncompute (SmartdownState) | <c> FlowRepository\nInputList\nParser\nEngine\nSmartdownState} }"];
+        smartdown_state [label="{ SmartdownState | { <r> Frontend-consumable representation of state including:\n- list of previous nodes\n- current node | <c> -} }"];
+        api -> smartdown_state;
+        flow_repository [label="{ FlowRepository | { get a 'SmartdownFilePackage' by name | <c> file system }}"];
+        flow_repository -> smartdown_file_package;
+        input_list [label="{ InputList | \
+          { <r> Ordered list of inputs | <c> - } }"];
+        input [label="{ Input | { <r> The user inputs of a single interaction\nHash of question name =\> response | <c> - } }"];
+      }
+
+      subgraph cluster_model {
+        label = "Model";
+        model_flow [label="{ FlowModel | { <r> responsibilities | <c> NodeModel} }"];
+        model_node [label="{ NodeModel | { <r>represents a single user interaction | <c> QuestionModel\nCopyBlockModel\nStartButtonModel\nNextNodeRulesModel } }"];
+        model_copy_block [label="{ CopyBlockModel | { formatted copy | } }"];
+        model_question [label="{QuestionModel | { know permitted answers | <c> ValidationModel } }"];
+        model_next_node_rules [label="{NextNodeRulesModel | { record of rules for computing next node for a given node | <c> Predicate } }"];
+        model_start_button [label="{StartButtonModel | { record start node name | <c>  } }"];
+        model_country_question [label="{CountryQuestionModel | { know the list of countries | <c>  } }"];
+        model_validation [label="{ValidationModel | { additional validation rules for a question | <c> - } }"]
+      }
+
+      parser [label="{ Parser | { Given a SmartdownFilePackage build a FlowModel | <c> SmartdownFilePackage\nFlowModel} }"]
+
+      smartdown_file_package [label="{SmartdownFilePackage | { * Hash of nodename =\> smartdown source code\n* name of start node | <c> } }"]
+      engine [label="{Engine | { Given (FlowModel, InputList)\ncompute (ProcessorState) | <c> -} }"]
+      processor_state [label="{ ProcessorState | { Hash(key=\>value)\nincluding:\ncurrent_node, \nvariables,\nlazy computations,\ninput list,\npath (list of node names) | <c> - } }"]
+    }
+
+    smartdown_frontend -> input_list;
+    smartdown_frontend -> api;
+    input_list -> input;
+
+    model_flow -> model_node;
+    model_node -> model_copy_block;
+    model_node -> model_question;
+    model_node -> model_next_node_rules;
+    model_node -> model_start_button;
+    model_node -> model_country_question;
+    model_question -> model_validation;
+
+    api -> parser;
+    api -> engine;
+    api -> flow_repository;
+
+    parser -> model_flow;
+    engine -> processor_state;
+    engine -> model_flow;
+}
