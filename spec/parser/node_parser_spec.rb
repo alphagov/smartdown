@@ -13,41 +13,6 @@ describe "parsing multiple choice nodes" do
 
   subject { parse_and_rescue(source) }
 
-  describe "ws" do
-    subject { parser.ws }
-    it { should parse("\n") }
-    it { should parse(" ") }
-  end
-
-  describe "front matter only" do
-    let(:source) {
-      <<-SOURCE.gsub(/^ */, '')
-        name: What country are you from?
-        country_exclusions: england ireland scotland wales
-        colour: red
-      SOURCE
-    }
-
-    it "extracts it" do
-      should eq({
-        front_matter: [
-          {
-            name: 'name',
-            value: 'What country are you from?'
-          },
-          {
-            name: 'country_exclusions',
-            value: 'england ireland scotland wales'
-          },
-          {
-            name: 'colour',
-            value: 'red'
-          }
-        ]
-      })
-    end
-  end
-
   describe "body only" do
     let(:source) {
 <<SOURCE
