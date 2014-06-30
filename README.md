@@ -12,7 +12,10 @@ text.
 
 ## Overview
 
-A single smartdown flow has a set of questions, logical rules and outcomes.
+A single smartdown flow has a cover sheet, a set of questions, a set of
+outcomes and a set of test scenarios. Cover sheets, questions and outcomes are
+all types of node. A node represents a single user interaction (normally a web
+page, but in other media may be presented differently).
 
 Each question and outcome is held in a separate file. The name of the files
 are used to identify each question. Here's an example of the check-uk-visa
@@ -32,14 +35,15 @@ flow:
    |   |-- 1.test
    |   |-- 2.test
    |   `-- 3.test
-   |-- check-uk-visa.txt
-   |-- planning_to_leave_airport.txt
-   |-- purpose_of_visit.txt
-   |-- staying_for_how_long.txt
-   `-- what_passport_do_you_have.txt
+   |-- questions
+   |   |-- planning_to_leave_airport.txt
+   |   |-- purpose_of_visit.txt
+   |   |-- staying_for_how_long.txt
+   |   |-- what_passport_do_you_have.txt
+   `-- check-uk-visa.txt
 ```
 
-## General file syntax
+## General node file syntax
 
 Each file has three parts: front-matter, a model definition, rules/logic. Only the model definition is required.
 
@@ -47,7 +51,7 @@ Each file has three parts: front-matter, a model definition, rules/logic. Only t
 * the **model definition** is a markdown-like block which defines a flow, question or outcome.
 * **rules/logic** defines 'next node' transition rules or other logic/predicate definitions
 
-## Cover sheet
+## Cover sheet node
 
 The cover sheet starts the flow off, its filename should match the flow name, e.g. 'check-uk-visa.txt'.
 
@@ -65,7 +69,7 @@ start_with: what_passport_do_you_have
 You may need a visa to come to the UK to visit, study or work.
 ```
 
-## Questions
+## Question nodes
 
 A question model definition has optional front matter, followed by a title and
 question type.
