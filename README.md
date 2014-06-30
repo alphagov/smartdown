@@ -192,3 +192,9 @@ Named predicates
 A plugin API will be provided to allow more complex calculations to be defined
 in an external ruby class.
 
+## Software design
+
+The software design can be seen in this diagram:
+
+![Software design](https://raw.githubusercontent.com/alphagov/smartdown/master/doc/design.png)
+
