@@ -1,6 +1,6 @@
 require 'smartdown/parser/element/start_button'
 require 'smartdown/parser/node_parser'
-require 'smartdown/parser/node_transform'
+require 'smartdown/parser/node_interpreter'
 
 describe Smartdown::Parser::Element::MultipleChoiceQuestion do
   subject(:parser) { described_class.new }
@@ -20,16 +20,12 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
     )
   end
 
-  describe "transforming" do
-    let(:transform) { Smartdown::Parser::NodeTransform.new }
+  describe "transformed" do
     let(:node_name) { "my_node" }
-
     subject(:transformed) {
-      transform.apply(parser.parse(source), node_name: node_name)
+      Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
     }
 
-    it "should build a model" do
-      expect(transformed).to eq(Smartdown::Model::Question::MultipleChoice.new(node_name, {"yes"=>"Yes", "no"=>"No"}))
-    end
+    it { should eq(Smartdown::Model::Question::MultipleChoice.new(node_name, {"yes"=>"Yes", "no"=>"No"})) }
   end
 end

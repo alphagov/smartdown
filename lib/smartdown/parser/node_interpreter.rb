@@ -7,27 +7,23 @@ require 'smartdown/parser/node_transform'
 module Smartdown
   module Parser
     class NodeInterpreter
-      attr_reader :name, :data
+      attr_reader :name, :source
 
-      def initialize(name, data)
+      def initialize(name, source, options = {})
         @name = name
-        @data = data
+        @source = source
+        @parser = options.fetch(:parser, Smartdown::Parser::NodeParser.new)
+        @transform = options.fetch(:transform, Smartdown::Parser::NodeTransform.new)
       end
 
       def interpret
-        transform.apply(parser.parse(data),
+        transform.apply(parser.parse(source),
           node_name: name
         )
       end
 
     private
-      def parser
-        Smartdown::Parser::NodeParser.new
-      end
-
-      def transform
-        Smartdown::Parser::NodeTransform.new
-      end
+      attr_reader :parser, :transform
     end
   end
 end
