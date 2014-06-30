@@ -1,4 +1,5 @@
 require 'parslet/transform'
+require 'smartdown/model/node'
 require 'smartdown/model/front_matter'
 require 'smartdown/model/question/multiple_choice'
 require 'smartdown/model/element/start_button'
@@ -7,7 +8,7 @@ module Smartdown
   module Parser
     class NodeTransform < Parslet::Transform
       rule(body: subtree(:body)) {
-        page_class.new(
+        Smartdown::Model::Node.new(
           node_name, body, Smartdown::Model::FrontMatter.new({})
         )
       }
@@ -16,7 +17,7 @@ module Smartdown
       }
 
       rule(:front_matter => subtree(:attrs), body: subtree(:body)) {
-        page_class.new(
+        Smartdown::Model::Node.new(
           node_name, body, Smartdown::Model::FrontMatter.new(Hash[attrs])
         )
       }

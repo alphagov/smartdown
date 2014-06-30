@@ -16,7 +16,6 @@ module Smartdown
 
       def interpret
         transform.apply(parser.parse(data),
-          page_class: Smartdown::Model::Node,
           node_name: name
         )
       end
