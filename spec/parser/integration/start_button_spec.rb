@@ -1,7 +1,7 @@
 require 'smartdown/parser/node_interpreter'
 require 'smartdown/model/element/start_button'
 
-describe "interpreting a cover sheet" do
+describe "interpreting a cover sheet containing a start button" do
   let(:source) { <<-SOURCE
 meta_description: My coversheet
 
