@@ -29,6 +29,10 @@ module Smartdown
           end
         end
 
+        def ==(other)
+          other.is_a?(self.class) && other.name == self.name && other.choices == self.choices
+        end
+
       private
         def name_as_state_variable
           name.gsub('?', '')
