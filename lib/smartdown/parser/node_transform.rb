@@ -1,6 +1,7 @@
 require 'parslet/transform'
 require 'smartdown/model/node'
 require 'smartdown/model/front_matter'
+require 'smartdown/model/rule'
 require 'smartdown/model/question/multiple_choice'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/predicate/equality'
@@ -54,6 +55,9 @@ module Smartdown
         Smartdown::Model::Predicate::Named.new(name)
       }
 
+      rule(:rule => {predicate: subtree(:predicate), outcome: simple(:outcome_name) } ) {
+        Smartdown::Model::Rule.new(predicate, outcome_name)
+      }
     end
   end
 end
