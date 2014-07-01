@@ -11,6 +11,7 @@ module Smartdown
       rule(:line_ending) { eof | newline }
 
       rule(:optional_space) { space_char.repeat }
+      rule(:some_space) { space_char.repeat(1) }
       rule(:ws) { ws_char.repeat }
       rule(:non_ws) { non_ws.repeat }
 
