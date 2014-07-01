@@ -43,5 +43,23 @@ describe Smartdown::Parser::Predicates do
       it { should eq(Smartdown::Model::Predicate::SetMembership.new("varname", ["a", "b", "c"])) }
     end
   end
+
+  describe "named predicate" do
+    subject(:parser) { described_class.new }
+
+    it { should parse("my_pred").as(named_predicate: "my_pred") }
+    it { should parse("my_pred?").as(named_predicate: "my_pred?") }
+    it { should_not parse("my pred") }
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      let(:source) { "my_pred" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Predicate::Named.new("my_pred")) }
+    end
+  end
 end
 

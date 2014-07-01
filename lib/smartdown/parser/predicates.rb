@@ -23,8 +23,11 @@ module Smartdown
           str("{") >> optional_space >> set_values.maybe.as(:values) >> optional_space >> str("}")
       }
 
+      rule(:named_predicate) {
+        question_identifier.as(:named_predicate)
+      }
       rule(:predicates) {
-        equality_predicate.as(:equality_predicate) | set_membership_predicate.as(:set_membership_predicate)
+        equality_predicate.as(:equality_predicate) | set_membership_predicate.as(:set_membership_predicate) | named_predicate
       }
 
       root(:predicates)

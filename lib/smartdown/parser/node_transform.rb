@@ -5,6 +5,7 @@ require 'smartdown/model/question/multiple_choice'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
+require 'smartdown/model/predicate/named'
 
 module Smartdown
   module Parser
@@ -47,6 +48,10 @@ module Smartdown
       rule(:set_value => simple(:value)) { value }
       rule(:set_membership_predicate => { varname: simple(:varname), values: subtree(:values) }) {
         Smartdown::Model::Predicate::SetMembership.new(varname, values)
+      }
+
+      rule(:named_predicate => simple(:name) ) {
+        Smartdown::Model::Predicate::Named.new(name)
       }
 
     end

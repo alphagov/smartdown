@@ -22,6 +22,10 @@ module Smartdown
       rule(:identifier) {
         match('[a-zA-Z_0-9-]').repeat(1)
       }
+
+      rule(:question_identifier) {
+        identifier >> str('?').maybe
+      }
     end
   end
 end
