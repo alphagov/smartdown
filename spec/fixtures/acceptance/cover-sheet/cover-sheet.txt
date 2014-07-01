@@ -1,0 +1,14 @@
+satisfies_need: 1234
+meta_description: Blah blah
+
+# My coversheet
+
+This is the body markdown.
+
+It has many paragraphs
+of text.
+
+* it
+* can
+* have
+* lists
