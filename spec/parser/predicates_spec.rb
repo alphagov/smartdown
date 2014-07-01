@@ -8,6 +8,10 @@ describe Smartdown::Parser::Predicates do
     let(:source) { "varname is 'expected_value'" }
 
     it { should parse(source).as(equality_predicate: {varname: "varname", expected_value: "expected_value"}) }
+    it { should_not parse("v is value") }
+    it { should_not parse("v is 'a thing's thing'") }
+    it { should_not parse("v is 'a thing\\'s thing'") }
+    it { should_not parse(%q{v is "a thing"}) }
 
     describe "transformed" do
       let(:node_name) { "my_node" }
