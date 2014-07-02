@@ -38,7 +38,7 @@ module Smartdown
       end
 
       rule(:rules) {
-        condition_with_children_or_rule(0).repeat
+        condition_with_children_or_rule(0).repeat(1)
       }
 
       root(:rules)

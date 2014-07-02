@@ -2,13 +2,9 @@ require 'smartdown/model/front_matter'
 
 module Smartdown
   module Model
-    class Node
-      attr_accessor :name, :front_matter, :elements
-
+    Node = Struct.new(:name, :elements, :front_matter) do
       def initialize(name, elements, front_matter = nil)
-        @name = name
-        @elements = elements
-        @front_matter = front_matter || Smartdown::Model::FrontMatter.new
+        super(name, elements, front_matter || Smartdown::Model::FrontMatter.new)
       end
 
       def next_node_rules
@@ -33,6 +29,7 @@ module Smartdown
       def body
         markdown_blocks[1..-1].map { |block| block.values.first }.compact.join("\n")
       end
+
     end
   end
 end

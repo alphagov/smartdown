@@ -1,17 +1,8 @@
 require 'smartdown/parser/node_parser'
+require 'smartdown/parser/node_interpreter'
 
-describe "parsing multiple choice nodes" do
-  let(:parser) { Smartdown::Parser::NodeParser.new }
-
-  def parse_and_rescue(source)
-    begin
-      parser.parse(source)
-    rescue Parslet::ParseFailed => error
-      raise error.cause.ascii_tree
-    end
-  end
-
-  subject { parse_and_rescue(source) }
+describe Smartdown::Parser::NodeParser do
+  subject(:parser) { described_class.new }
 
   describe "body only" do
     let(:source) {
@@ -25,15 +16,15 @@ Another paragraph of text
 SOURCE
      }
 
-    it "extracts it" do
-      should eq({
+    it {
+      should parse(source).as({
         body: [
           {h1: "This is my title\n"},
           {p: "This is a paragraph of text with stuff\nthat flows along\n"},
           {p: "Another paragraph of text\n"}
         ]
       })
-    end
+    }
   end
 
   describe "front matter and body" do
@@ -47,8 +38,8 @@ A paragraph
 SOURCE
      }
 
-    it "extracts it" do
-      should eq({
+    it do
+      should parse(source).as({
         front_matter: [
           {name: "name", value: "My node"}
         ],
@@ -70,8 +61,8 @@ SOURCE
 SOURCE
      }
 
-    it "extracts it" do
-      should eq({
+    it do
+      should parse(source).as({
         body: [
           {h1: "This is my title\n"},
           {multiple_choice: [
@@ -80,6 +71,59 @@ SOURCE
           ]}
         ]
       })
+    end
+  end
+
+  describe "body and next_node rules" do
+    let(:source) {
+<<SOURCE
+# This is my title
+
+* yes: Yes
+* no: No
+
+# Next node rules
+
+* pred1? => outcome
+SOURCE
+     }
+
+    it {
+      should parse(source).as({
+        body: [
+          {h1: "This is my title\n"},
+          {multiple_choice: [
+            {value: "yes", label: "Yes"},
+            {value: "no", label: "No"}
+          ]},
+          {h1: "Next node rules\n"},
+          {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}
+        ]
+      })
+    }
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      let(:expected_elements) {
+        [
+          {:h1=>"This is my title\n"},
+          Smartdown::Model::Question::MultipleChoice.new(node_name, "yes"=>"Yes", "no"=>"No"),
+          {:h1=>"Next node rules\n"},
+          Smartdown::Model::NextNodeRules.new([
+            Smartdown::Model::Rule.new(Smartdown::Model::Predicate::Named.new("pred1?"), "outcome")
+          ])
+        ]
+      }
+
+      let(:expected_node_model) {
+        Smartdown::Model::Node.new(node_name, expected_elements)
+      }
+
+      it { should eq(expected_node_model) }
     end
   end
 end

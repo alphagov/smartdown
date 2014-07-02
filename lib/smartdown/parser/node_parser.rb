@@ -1,4 +1,5 @@
 require 'smartdown/parser/base'
+require 'smartdown/parser/rules'
 require 'smartdown/parser/element/front_matter'
 require 'smartdown/parser/element/start_button'
 require 'smartdown/parser/element/multiple_choice_question'
@@ -18,6 +19,7 @@ module Smartdown
       rule(:markdown_block) {
         Element::MarkdownHeading.new |
           Element::MultipleChoiceQuestion.new |
+          Rules.new.as(:next_node_rules) |
           Element::StartButton.new |
           markdown_paragraph
       }

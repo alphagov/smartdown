@@ -3,6 +3,7 @@ require 'smartdown/model/node'
 require 'smartdown/model/front_matter'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
+require 'smartdown/model/next_node_rules'
 require 'smartdown/model/question/multiple_choice'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/predicate/equality'
@@ -61,6 +62,9 @@ module Smartdown
       }
       rule(:nested_rule => {predicate: subtree(:predicate), child_rules: subtree(:child_rules) } ) {
         Smartdown::Model::NestedRule.new(predicate, child_rules)
+      }
+      rule(:next_node_rules => subtree(:rules)) {
+        Smartdown::Model::NextNodeRules.new(rules)
       }
     end
   end
