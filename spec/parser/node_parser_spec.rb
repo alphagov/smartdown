@@ -111,7 +111,7 @@ SOURCE
       let(:expected_elements) {
         [
           {:h1=>"This is my title\n"},
-          Smartdown::Model::Question::MultipleChoice.new(node_name, "yes"=>"Yes", "no"=>"No"),
+          Smartdown::Model::Element::MultipleChoice.new(node_name, "yes"=>"Yes", "no"=>"No"),
           {:h1=>"Next node rules\n"},
           Smartdown::Model::NextNodeRules.new([
             Smartdown::Model::Rule.new(Smartdown::Model::Predicate::Named.new("pred1?"), "outcome")

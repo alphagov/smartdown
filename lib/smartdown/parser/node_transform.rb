@@ -4,7 +4,7 @@ require 'smartdown/model/front_matter'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
-require 'smartdown/model/question/multiple_choice'
+require 'smartdown/model/element/multiple_choice'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
@@ -39,7 +39,7 @@ module Smartdown
       }
 
       rule(:multiple_choice => subtree(:choices)) {
-        Smartdown::Model::Question::MultipleChoice.new(
+        Smartdown::Model::Element::MultipleChoice.new(
           node_name, Hash[choices]
         )
       }

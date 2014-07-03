@@ -11,7 +11,7 @@ module Smartdown
       end
 
       def questions
-        elements.select { |b| b.is_a?(Smartdown::Model::Question::MultipleChoice) }
+        elements.select { |b| b.is_a?(Smartdown::Model::Element::MultipleChoice) }
       end
 
       def title
