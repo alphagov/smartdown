@@ -12,7 +12,7 @@ module Smartdown
       rule(:markdown_block) {
         Element::MarkdownHeading.new |
           Element::MultipleChoiceQuestion.new |
-          Rules.new.as(:next_node_rules) |
+          Rules.new |
           Element::StartButton.new |
           Element::MarkdownParagraph.new
       }
