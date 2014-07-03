@@ -3,8 +3,7 @@ module Smartdown
     class Flow
       extend Forwardable
 
-      attr_reader :nodes
-      attr_reader :coversheet
+      attr_reader :nodes, :coversheet
 
       def initialize(coversheet, nodes = [])
         @coversheet = coversheet
