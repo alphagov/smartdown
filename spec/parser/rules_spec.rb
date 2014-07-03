@@ -221,7 +221,12 @@ describe Smartdown::Parser::Rules do
         }
       end
     end
-  end
 
+    describe "missing inner rule" do
+      let(:source) { "* pred1?" }
+
+      it { should_not parse(source) }
+    end
+  end
 end
 

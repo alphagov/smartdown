@@ -15,7 +15,7 @@ module Smartdown
       def children
         dynamic do |s,c|
           current_indent = c.captures[:indent].size
-          condition_with_children_or_rule(current_indent + 1).repeat(0)
+          condition_with_children_or_rule(current_indent + 1).repeat(1)
         end.as(:child_rules)
       end
 
