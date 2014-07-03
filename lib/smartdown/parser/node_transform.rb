@@ -7,6 +7,7 @@ require 'smartdown/model/next_node_rules'
 require 'smartdown/model/element/multiple_choice'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
+require 'smartdown/model/element/markdown_paragraph'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
@@ -22,6 +23,10 @@ module Smartdown
 
       rule(h1: simple(:content)) {
         Smartdown::Model::Element::MarkdownHeading.new(content)
+      }
+
+      rule(p: simple(:content)) {
+        Smartdown::Model::Element::MarkdownParagraph.new(content)
       }
 
       rule(:start_button => simple(:start_node)) {

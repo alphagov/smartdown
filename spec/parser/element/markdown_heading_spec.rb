@@ -1,4 +1,4 @@
-require 'smartdown/parser/element/front_matter'
+require 'smartdown/parser/element/markdown_heading'
 require 'smartdown/parser/node_interpreter'
 
 describe Smartdown::Parser::Element::MarkdownHeading do
