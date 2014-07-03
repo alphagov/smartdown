@@ -19,7 +19,7 @@ SOURCE
     it {
       should parse(source).as({
         body: [
-          {h1: "This is my title\n"},
+          {h1: "This is my title"},
           {p: "This is a paragraph of text with stuff\nthat flows along\n"},
           {p: "Another paragraph of text\n"}
         ]
@@ -44,7 +44,7 @@ SOURCE
           {name: "name", value: "My node"}
         ],
         body: [
-          {h1: "This is my title\n"},
+          {h1: "This is my title"},
           {p: "A paragraph\n"}
         ]
       })
@@ -64,7 +64,7 @@ SOURCE
     it do
       should parse(source).as({
         body: [
-          {h1: "This is my title\n"},
+          {h1: "This is my title"},
           {multiple_choice: [
             {value: "yes", label: "Yes"},
             {value: "no", label: "No"}
@@ -91,12 +91,12 @@ SOURCE
     it {
       should parse(source).as({
         body: [
-          {h1: "This is my title\n"},
+          {h1: "This is my title"},
           {multiple_choice: [
             {value: "yes", label: "Yes"},
             {value: "no", label: "No"}
           ]},
-          {h1: "Next node rules\n"},
+          {h1: "Next node rules"},
           {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}
         ]
       })
@@ -110,9 +110,9 @@ SOURCE
 
       let(:expected_elements) {
         [
-          {:h1=>"This is my title\n"},
+          Smartdown::Model::Element::MarkdownHeading.new("This is my title"),
           Smartdown::Model::Element::MultipleChoice.new(node_name, "yes"=>"Yes", "no"=>"No"),
-          {:h1=>"Next node rules\n"},
+          Smartdown::Model::Element::MarkdownHeading.new("Next node rules"),
           Smartdown::Model::NextNodeRules.new([
             Smartdown::Model::Rule.new(Smartdown::Model::Predicate::Named.new("pred1?"), "outcome")
           ])
