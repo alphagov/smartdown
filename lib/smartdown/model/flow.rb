@@ -13,16 +13,6 @@ module Smartdown
 
       def_delegator :coversheet, :name
 
-      def start_state
-        @state ||= Smartdown::Model::State.new(current_node: coversheet.name)
-      end
-
-      def process(responses)
-        responses.inject(start_state) do |state, input|
-          node(state.get(:current_node)).transition(state, input)
-        end
-      end
-
       def node(node_name)
         @nodes.find {|n| n.name.to_s == node_name.to_s } || raise("Unable to find #{node_name}")
       end
