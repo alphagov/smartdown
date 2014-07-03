@@ -64,15 +64,15 @@ describe Smartdown::Parser::Rules do
     end
 
     describe "two rules nested" do
-      let(:child_rule) { "* pred2? => outcome"}
       let(:source) {
         [
           "* pred1?",
-          "  " + child_rule,
-          "  " + child_rule
+          "  * pred2? => outcome1",
+          "  * pred3? => outcome2"
         ].join("\n")
       }
-      let(:parsed_child_rule) { parser.parse(child_rule) }
+      let(:parsed_child1) { parser.parse("* pred2? => outcome1") }
+      let(:parsed_child2) { parser.parse("* pred3? => outcome2") }
 
       it {
         should parse(source, trace: true).as(
@@ -80,7 +80,7 @@ describe Smartdown::Parser::Rules do
             {
               nested_rule: {
                 predicate: { named_predicate: "pred1?" },
-                child_rules: parsed_child_rule + parsed_child_rule
+                child_rules: parsed_child1 + parsed_child2
               }
             }
           ]
@@ -100,11 +100,11 @@ describe Smartdown::Parser::Rules do
                 [
                   Smartdown::Model::Rule.new(
                     Smartdown::Model::Predicate::Named.new("pred2?"),
-                    "outcome"
+                    "outcome1"
                   ),
                   Smartdown::Model::Rule.new(
-                    Smartdown::Model::Predicate::Named.new("pred2?"),
-                    "outcome"
+                    Smartdown::Model::Predicate::Named.new("pred3?"),
+                    "outcome2"
                   )
                 ]
               )
