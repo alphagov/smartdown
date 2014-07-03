@@ -60,7 +60,7 @@ of text.
 EXPECTED
       end
 
-      it "should have next node rules derived from the start_question" do
+      xit "should have next node rules derived from the start_question" do
       end
     end
   end
