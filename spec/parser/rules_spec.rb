@@ -26,9 +26,8 @@ describe Smartdown::Parser::Rules do
     end
   end
 
-  describe "nested rule" do
-    describe "one rule nested" do
-      subject(:parser) { described_class.new }
+  describe "nested rules" do
+    describe "one inner rule" do
       let(:child_rule) { "* pred2? => outcome"}
       let(:source) {
         [
@@ -63,7 +62,7 @@ describe Smartdown::Parser::Rules do
       end
     end
 
-    describe "two rules nested" do
+    describe "two inner rules" do
       let(:source) {
         [
           "* pred1?",
@@ -114,7 +113,7 @@ describe Smartdown::Parser::Rules do
       end
     end
 
-    describe "nesting and de-nesting" do
+    describe "combination of nested and non-nested rules" do
       let(:child_rule) { "* pred2? => outcome"}
       let(:source) {
         [
@@ -167,7 +166,7 @@ describe Smartdown::Parser::Rules do
       end
     end
 
-    describe "double nesting" do
+    describe "nested rule in a nested rule" do
       let(:child_rule) { "* pred2? => outcome"}
       let(:source) {
         [
