@@ -17,12 +17,12 @@ module Smartdown
           Element::MarkdownParagraph.new
       }
 
-      rule(:markdown_paragraphs) {
+      rule(:markdown_blocks) {
         markdown_block >> (newline >> markdown_block).repeat
       }
 
       rule(:body) {
-        markdown_paragraphs.as(:body)
+        markdown_blocks.as(:body)
       }
 
       rule(:flow) {
