@@ -1,8 +1,9 @@
-require 'smartdown/model/undefined_value'
 require 'smartdown/util/hash'
 
 module Smartdown
-  module Model
+  class Engine
+    class UndefinedValue < StandardError; end
+
     class State
       include Smartdown::Util::Hash
 
