@@ -42,18 +42,5 @@ describe Smartdown::Model::Flow do
         expect { subject.node("undefined node") }.to raise_error
       end
     end
-
-    xdescribe "#process" do
-      it "processes the given list of responses using the next_node_rules" do
-        new_state = instance_double("Smartdown::Model::State")
-        expect(next_node_rules).to receive(:transition).with(subject.start_state, "yes").and_return(new_state)
-        expect(subject.process(["yes"])).to eq new_state
-      end
-
-      it "processes the given list of responses using the question" do
-        subject.process(["maybe"])
-      end
-
-    end
   end
 end

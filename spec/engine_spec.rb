@@ -1,7 +1,19 @@
-require 'smartdown/model/next_node_rules'
-require 'smartdown/model/state'
+require 'smartdown/engine'
 
-describe Smartdown::Model::NextNodeRules do
+xdescribe Smartdown::Engine do
+
+  describe "#process" do
+    it "processes the given list of responses using the next_node_rules" do
+      new_state = instance_double("Smartdown::Model::State")
+      expect(next_node_rules).to receive(:transition).with(subject.start_state, "yes").and_return(new_state)
+      expect(subject.process(["yes"])).to eq new_state
+    end
+
+    it "processes the given list of responses using the question" do
+      subject.process(["maybe"])
+    end
+  end
+
   describe "#transition" do
     let(:current_node_name) { "a_or_b?" }
     let(:state) { Smartdown::Model::State.new(current_node: current_node_name) }

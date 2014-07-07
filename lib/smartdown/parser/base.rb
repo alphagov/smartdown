@@ -26,6 +26,10 @@ module Smartdown
       rule(:question_identifier) {
         identifier >> str('?').maybe
       }
+
+      rule(:bullet) {
+        match('[*-]')
+      }
     end
   end
 end
