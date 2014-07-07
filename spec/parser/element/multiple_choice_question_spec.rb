@@ -26,6 +26,6 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
       Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
     }
 
-    it { should eq(Smartdown::Model::Question::MultipleChoice.new(node_name, {"yes"=>"Yes", "no"=>"No"})) }
+    it { should eq(Smartdown::Model::Element::MultipleChoice.new(node_name, {"yes"=>"Yes", "no"=>"No"})) }
   end
 end

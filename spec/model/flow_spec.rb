@@ -2,7 +2,6 @@ require 'smartdown/model/flow'
 require 'smartdown/model/state'
 require 'smartdown/model/node'
 require 'smartdown/model/next_node_rules'
-require 'smartdown/model/question/multiple_choice'
 
 describe Smartdown::Model::Flow do
   let(:coversheet) { instance_double("Smartdown::Model::Node", name: "my_name") }

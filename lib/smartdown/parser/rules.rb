@@ -37,8 +37,12 @@ module Smartdown
         condition_with_children(depth).as(:nested_rule) | rule(depth)
       end
 
+      rule(:one_top_level_rule) {
+        condition_with_children_or_rule(0)
+      }
+
       rule(:rules) {
-        condition_with_children_or_rule(0).repeat(1)
+        one_top_level_rule.repeat(1).as(:next_node_rules)
       }
 
       root(:rules)

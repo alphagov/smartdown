@@ -90,7 +90,7 @@ EXPECTED
       end
 
       it "should have a multiple choice question" do
-        expect(question_node.questions).to match([instance_of(Smartdown::Model::Question::MultipleChoice)])
+        expect(question_node.questions).to match([instance_of(Smartdown::Model::Element::MultipleChoice)])
       end
     end
   end

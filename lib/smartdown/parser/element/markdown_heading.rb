@@ -5,7 +5,7 @@ module Smartdown
     module Element
       class MarkdownHeading < Base
         rule(:markdown_heading) {
-          str('# ') >> (whitespace_terminated_string >> optional_space >> line_ending).as(:h1)
+          str('# ') >> (whitespace_terminated_string).as(:h1) >> optional_space >> line_ending
         }
         root(:markdown_heading)
       end

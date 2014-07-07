@@ -4,8 +4,10 @@ require 'smartdown/model/front_matter'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
-require 'smartdown/model/question/multiple_choice'
+require 'smartdown/model/element/multiple_choice'
 require 'smartdown/model/element/start_button'
+require 'smartdown/model/element/markdown_heading'
+require 'smartdown/model/element/markdown_paragraph'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
@@ -18,6 +20,15 @@ module Smartdown
           node_name, body, Smartdown::Model::FrontMatter.new({})
         )
       }
+
+      rule(h1: simple(:content)) {
+        Smartdown::Model::Element::MarkdownHeading.new(content)
+      }
+
+      rule(p: simple(:content)) {
+        Smartdown::Model::Element::MarkdownParagraph.new(content)
+      }
+
       rule(:start_button => simple(:start_node)) {
         Smartdown::Model::Element::StartButton.new(start_node)
       }
@@ -39,7 +50,7 @@ module Smartdown
       }
 
       rule(:multiple_choice => subtree(:choices)) {
-        Smartdown::Model::Question::MultipleChoice.new(
+        Smartdown::Model::Element::MultipleChoice.new(
           node_name, Hash[choices]
         )
       }

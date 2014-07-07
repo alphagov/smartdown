@@ -4,32 +4,25 @@ require 'smartdown/parser/element/front_matter'
 require 'smartdown/parser/element/start_button'
 require 'smartdown/parser/element/multiple_choice_question'
 require 'smartdown/parser/element/markdown_heading'
+require 'smartdown/parser/element/markdown_paragraph'
 
 module Smartdown
   module Parser
     class NodeParser < Base
-      rule(:markdown_line) {
-        optional_space >> whitespace_terminated_string >> optional_space
-      }
-
-      rule(:markdown_paragraph) {
-        (markdown_line >> line_ending).repeat(1).as(:p)
-      }
-
       rule(:markdown_block) {
         Element::MarkdownHeading.new |
           Element::MultipleChoiceQuestion.new |
-          Rules.new.as(:next_node_rules) |
+          Rules.new |
           Element::StartButton.new |
-          markdown_paragraph
+          Element::MarkdownParagraph.new
       }
 
-      rule(:markdown_paragraphs) {
+      rule(:markdown_blocks) {
         markdown_block >> (newline >> markdown_block).repeat
       }
 
       rule(:body) {
-        markdown_paragraphs.as(:body)
+        markdown_blocks.as(:body)
       }
 
       rule(:flow) {

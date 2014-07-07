@@ -11,25 +11,40 @@ module Smartdown
       end
 
       def questions
-        elements.select { |b| b.is_a?(Smartdown::Model::Question::MultipleChoice) }
+        elements_of_kind(Smartdown::Model::Element::MultipleChoice)
       end
 
       def title
-        h1s.first.to_s.strip
+        h1s.first ? h1s.first.content : ""
       end
 
       def markdown_blocks
-        elements.select { |b| b.is_a?(Hash) }
+        elements_of_kind(Smartdown::Model::Element::MarkdownHeading, Smartdown::Model::Element::MarkdownParagraph)
       end
 
       def h1s
-        markdown_blocks.select {|b| b.has_key?(:h1) }.map { |b| b.fetch(:h1) }
+        elements_of_kind(Smartdown::Model::Element::MarkdownHeading)
       end
 
       def body
-        markdown_blocks[1..-1].map { |block| block.values.first }.compact.join("\n")
+        markdown_blocks[1..-1].map { |block| as_markdown(block) }.compact.join("\n")
       end
 
+    private
+      def elements_of_kind(*kinds)
+        elements.select {|e| kinds.any? {|k| e.is_a?(k)} }
+      end
+
+      def as_markdown(block)
+        case block
+        when Smartdown::Model::Element::MarkdownHeading
+          "# #{block.content}\n"
+        when Smartdown::Model::Element::MarkdownParagraph
+          block.content
+        else
+          raise "Unknown markdown block type '#{block.class.to_s}'"
+        end
+      end
     end
   end
 end

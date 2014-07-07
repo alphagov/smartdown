@@ -8,7 +8,7 @@ describe Smartdown::Parser::Rules do
   describe "simple rule" do
     let(:source) { "* my_pred? => outcome" }
 
-    it { should parse(source).as([{rule: {predicate: {named_predicate: "my_pred?"}, outcome: "outcome"}}]) }
+    it { should parse(source).as({next_node_rules: [{rule: {predicate: {named_predicate: "my_pred?"}, outcome: "outcome"}}]}) }
 
     describe "transformed" do
       subject(:transformed) {
@@ -16,12 +16,14 @@ describe Smartdown::Parser::Rules do
       }
 
       it { should eq(
-        [
-          Smartdown::Model::Rule.new(
-            Smartdown::Model::Predicate::Named.new("my_pred?"),
-            "outcome"
-          )
-        ]
+        Smartdown::Model::NextNodeRules.new(
+          [
+            Smartdown::Model::Rule.new(
+              Smartdown::Model::Predicate::Named.new("my_pred?"),
+              "outcome"
+            )
+          ]
+        )
       ) }
     end
   end
@@ -35,9 +37,9 @@ describe Smartdown::Parser::Rules do
           "  " + child_rule
         ].join("\n")
       }
-      let(:parsed_child_rule) { parser.parse(child_rule) }
+      let(:parsed_child_rule) { parser.one_top_level_rule.parse(child_rule) }
 
-      it { should parse(source).as([{nested_rule: {predicate: {named_predicate: "pred1?"}, child_rules: parsed_child_rule}}]) }
+      it { should parse(source).as(next_node_rules: [{nested_rule: {predicate: {named_predicate: "pred1?"}, child_rules: [parsed_child_rule]}}]) }
 
       describe "transformed" do
         subject(:transformed) {
@@ -46,17 +48,19 @@ describe Smartdown::Parser::Rules do
 
         it {
           should eq(
-            [
-              Smartdown::Model::NestedRule.new(
-                Smartdown::Model::Predicate::Named.new("pred1?"),
-                [
-                  Smartdown::Model::Rule.new(
-                    Smartdown::Model::Predicate::Named.new("pred2?"),
-                    "outcome"
-                  )
-                ]
-              )
-            ]
+            Smartdown::Model::NextNodeRules.new(
+              [
+                Smartdown::Model::NestedRule.new(
+                  Smartdown::Model::Predicate::Named.new("pred1?"),
+                  [
+                    Smartdown::Model::Rule.new(
+                      Smartdown::Model::Predicate::Named.new("pred2?"),
+                      "outcome"
+                    )
+                  ]
+                )
+              ]
+            )
           )
         }
       end
@@ -70,16 +74,16 @@ describe Smartdown::Parser::Rules do
           "  * pred3? => outcome2"
         ].join("\n")
       }
-      let(:parsed_child1) { parser.parse("* pred2? => outcome1") }
-      let(:parsed_child2) { parser.parse("* pred3? => outcome2") }
+      let(:parsed_child1) { parser.one_top_level_rule.parse("* pred2? => outcome1") }
+      let(:parsed_child2) { parser.one_top_level_rule.parse("* pred3? => outcome2") }
 
       it {
-        should parse(source, trace: true).as(
-          [
+        should parse(source).as(
+          next_node_rules: [
             {
               nested_rule: {
                 predicate: { named_predicate: "pred1?" },
-                child_rules: parsed_child1 + parsed_child2
+                child_rules: [parsed_child1, parsed_child2]
               }
             }
           ]
@@ -93,21 +97,23 @@ describe Smartdown::Parser::Rules do
 
         it {
           should eq(
-            [
-              Smartdown::Model::NestedRule.new(
-                Smartdown::Model::Predicate::Named.new("pred1?"),
-                [
-                  Smartdown::Model::Rule.new(
-                    Smartdown::Model::Predicate::Named.new("pred2?"),
-                    "outcome1"
-                  ),
-                  Smartdown::Model::Rule.new(
-                    Smartdown::Model::Predicate::Named.new("pred3?"),
-                    "outcome2"
-                  )
-                ]
-              )
-            ]
+            Smartdown::Model::NextNodeRules.new(
+              [
+                Smartdown::Model::NestedRule.new(
+                  Smartdown::Model::Predicate::Named.new("pred1?"),
+                  [
+                    Smartdown::Model::Rule.new(
+                      Smartdown::Model::Predicate::Named.new("pred2?"),
+                      "outcome1"
+                    ),
+                    Smartdown::Model::Rule.new(
+                      Smartdown::Model::Predicate::Named.new("pred3?"),
+                      "outcome2"
+                    )
+                  ]
+                )
+              ]
+            )
           )
         }
       end
@@ -122,16 +128,16 @@ describe Smartdown::Parser::Rules do
           "* pred3? => outcome3"
         ].join("\n")
       }
-      let(:parsed_child_1) { parser.parse("* pred2? => outcome1_2") }
-      let(:parsed_child_2) { parser.parse("* pred3? => outcome3").first }
+      let(:parsed_child_1) { parser.one_top_level_rule.parse("* pred2? => outcome1_2") }
+      let(:parsed_child_2) { parser.one_top_level_rule.parse("* pred3? => outcome3") }
 
       it {
         should parse(source).as(
-          [
+          next_node_rules: [
             {
               nested_rule: {
                 predicate: { named_predicate: "pred1?" },
-                child_rules: parsed_child_1
+                child_rules: [parsed_child_1]
               }
             },
             parsed_child_2
@@ -146,21 +152,23 @@ describe Smartdown::Parser::Rules do
 
         it {
           should eq(
-            [
-              Smartdown::Model::NestedRule.new(
-                Smartdown::Model::Predicate::Named.new("pred1?"),
-                [
-                  Smartdown::Model::Rule.new(
-                    Smartdown::Model::Predicate::Named.new("pred2?"),
-                    "outcome1_2"
-                  )
-                ]
-              ),
-              Smartdown::Model::Rule.new(
-                Smartdown::Model::Predicate::Named.new("pred3?"),
-                "outcome3"
-              )
-            ]
+            Smartdown::Model::NextNodeRules.new(
+              [
+                Smartdown::Model::NestedRule.new(
+                  Smartdown::Model::Predicate::Named.new("pred1?"),
+                  [
+                    Smartdown::Model::Rule.new(
+                      Smartdown::Model::Predicate::Named.new("pred2?"),
+                      "outcome1_2"
+                    )
+                  ]
+                ),
+                Smartdown::Model::Rule.new(
+                  Smartdown::Model::Predicate::Named.new("pred3?"),
+                  "outcome3"
+                )
+              ]
+            )
           )
         }
       end
@@ -175,22 +183,24 @@ describe Smartdown::Parser::Rules do
           "    " + child_rule
         ].join("\n")
       }
-      let(:parsed_child_rule) { parser.parse(child_rule) }
+      let(:parsed_child_rule) { parser.one_top_level_rule.parse(child_rule) }
 
       it {
-        should parse(source, trace: true).as([
-          {
-            nested_rule: {
-              predicate: {named_predicate: "pred1?"},
-              child_rules: [
-                nested_rule: {
-                  predicate: {named_predicate: "pred2?"},
-                  child_rules: parsed_child_rule
-                }
-              ]
+        should parse(source, trace: true).as(
+          next_node_rules: [
+            {
+              nested_rule: {
+                predicate: {named_predicate: "pred1?"},
+                child_rules: [
+                  nested_rule: {
+                    predicate: {named_predicate: "pred2?"},
+                    child_rules: [parsed_child_rule]
+                  }
+                ]
+              }
             }
-          }
-        ])
+          ]
+        )
       }
 
       describe "transformed" do
@@ -200,22 +210,24 @@ describe Smartdown::Parser::Rules do
 
         it {
           should eq(
-            [
-              Smartdown::Model::NestedRule.new(
-                Smartdown::Model::Predicate::Named.new("pred1?"),
-                [
-                  Smartdown::Model::NestedRule.new(
-                    Smartdown::Model::Predicate::Named.new("pred2?"),
-                    [
-                      Smartdown::Model::Rule.new(
-                        Smartdown::Model::Predicate::Named.new("pred2?"),
-                        "outcome"
-                      )
-                    ]
-                  )
-                ]
-              )
-            ]
+            Smartdown::Model::NextNodeRules.new(
+              [
+                Smartdown::Model::NestedRule.new(
+                  Smartdown::Model::Predicate::Named.new("pred1?"),
+                  [
+                    Smartdown::Model::NestedRule.new(
+                      Smartdown::Model::Predicate::Named.new("pred2?"),
+                      [
+                        Smartdown::Model::Rule.new(
+                          Smartdown::Model::Predicate::Named.new("pred2?"),
+                          "outcome"
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
           )
         }
       end
