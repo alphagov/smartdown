@@ -2,6 +2,8 @@ require 'smartdown/errors'
 require 'smartdown/engine/transition'
 require 'smartdown/engine/state'
 require 'smartdown/model'
+require 'smartdown/model/rule'
+require 'smartdown/model/nested_rule'
 
 describe Smartdown::Engine::Transition do
   let(:current_node_name) { "q1" }
@@ -9,6 +11,9 @@ describe Smartdown::Engine::Transition do
   let(:input) { "yes" }
   subject(:transition) { described_class.new(start_state, current_node, input, predicate_evaluator: predicate_evaluator) }
   let(:predicate_evaluator) { instance_double("Smartdown::Engine::PredicateEvaluator") }
+  let(:state_including_input) {
+    start_state.put(current_node.name, input)
+  }
 
   context "no next node rules" do
     let(:current_node) {
@@ -44,10 +49,6 @@ describe Smartdown::Engine::Transition do
           )
         ]
       )
-    }
-
-    let(:state_including_input) {
-      start_state.put(current_node.name, input)
     }
 
     describe "#next_node" do
@@ -88,4 +89,64 @@ describe Smartdown::Engine::Transition do
       end
     end
   end
+
+  context "next node rules defined with nested rule" do
+    let(:predicate1) { double("predicate1") }
+    let(:predicate2) { double("predicate2") }
+    let(:predicate3) { double("predicate3") }
+    let(:outcome_name1) { "o1" }
+    let(:outcome_name2) { "o2" }
+
+    let(:current_node) {
+      Smartdown::Model::Node.new(
+        current_node_name,
+        [
+          Smartdown::Model::NextNodeRules.new(
+            [
+              Smartdown::Model::NestedRule.new(
+                predicate1, [
+                  Smartdown::Model::Rule.new(
+                    predicate2, outcome_name1
+                  ),
+                  Smartdown::Model::Rule.new(
+                    predicate3, outcome_name2
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
+    }
+
+    describe "#next_node" do
+      context "p1 false" do
+        it "invokes the predicate evaluator with each predicate in turn" do
+          expect(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(false)
+
+          expect { transition.next_node }.to raise_error(Smartdown::IndeterminateNextNode)
+        end
+      end
+
+      context "p1 and p2 true" do
+        it "invokes the predicate evaluator with each predicate in turn" do
+          allow(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(true)
+          expect(predicate_evaluator).to receive(:evaluate).with(predicate2, state_including_input).and_return(true)
+
+          expect(transition.next_node).to eq(outcome_name1)
+        end
+      end
+
+      context "p1 true, p2 false, p3 true" do
+        it "invokes the predicate evaluator with each predicate in turn" do
+          allow(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(true)
+          allow(predicate_evaluator).to receive(:evaluate).with(predicate2, state_including_input).and_return(false)
+          expect(predicate_evaluator).to receive(:evaluate).with(predicate3, state_including_input).and_return(true)
+
+          expect(transition.next_node).to eq(outcome_name2)
+        end
+      end
+    end
+  end
+
 end
