@@ -12,6 +12,8 @@ module Smartdown
           ->(state) { state.get(predicate.varname) == predicate.expected_value }
         when Smartdown::Model::Predicate::SetMembership
           ->(state) { predicate.values.include?(state.get(predicate.varname)) }
+        when Smartdown::Model::Predicate::Named
+          ->(state) { state.get(predicate.name) }
         else
           raise "Unknown predicate type #{predicate.class}"
         end

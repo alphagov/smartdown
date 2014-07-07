@@ -1,6 +1,7 @@
 require 'smartdown/engine/predicate_evaluator'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
+require 'smartdown/model/predicate/named'
 require 'smartdown/engine/state'
 
 describe Smartdown::Engine::PredicateEvaluator do
@@ -68,4 +69,28 @@ describe Smartdown::Engine::PredicateEvaluator do
       end
     end
   end
+
+  context "named predicate" do
+    let(:predicate_name) { "my_pred?" }
+    let(:predicate) { Smartdown::Model::Predicate::Named.new(predicate_name) }
+
+    describe "#evaluate" do
+      context "state missing predicate definition" do
+        let(:state) { Smartdown::Engine::State.new(current_node: "n") }
+
+        it "raises an UndefinedValue error" do
+          expect { evalutator.evaluate(predicate, state) }.to raise_error(Smartdown::Engine::UndefinedValue)
+        end
+      end
+
+      context "state has predicate definition" do
+        let(:state) { Smartdown::Engine::State.new("current_node" => "n", "my_pred?" => true) }
+
+        it "fetches the predicate value from the state" do
+          expect(evalutator.evaluate(predicate, state)).to eq(true)
+        end
+      end
+    end
+  end
+
 end
