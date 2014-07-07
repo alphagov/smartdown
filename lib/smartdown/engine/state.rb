@@ -1,4 +1,5 @@
 require 'smartdown/util/hash'
+require 'set'
 
 module Smartdown
   class Engine
@@ -25,6 +26,14 @@ module Smartdown
 
       def put(name, value)
         State.new(@data.merge(name.to_s => value))
+      end
+
+      def keys
+        Set.new(@data.keys)
+      end
+
+      def ==(other)
+        other.is_a?(self.class) && other.keys == self.keys && @data.all? { |k, v| other.get(k) == v }
       end
     end
   end
