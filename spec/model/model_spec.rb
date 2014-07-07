@@ -1,4 +1,5 @@
 require 'smartdown/model'
+require 'smartdown/model/builder'
 
 describe Smartdown::Model do
   describe ".build" do
@@ -53,6 +54,25 @@ describe Smartdown::Model do
       end
 
       expect(model).to eq(expected)
+    end
+
+    it "builds a node" do
+      expect(Smartdown::Model.build { node("foo") }).to be_a(Smartdown::Model::Node)
+    end
+  end
+
+  describe Smartdown::Model::Builder do
+    subject(:builder) { described_class.new }
+    let(:predicate) { Smartdown::Model::Predicate::Named.new("my_pred") }
+
+    describe "#rule" do
+      it "builds a rule using predicate and outcome" do
+        expect(builder.rule(predicate, "my_next_node")).to eq(Smartdown::Model::Rule.new(predicate, "my_next_node"))
+      end
+
+      it "builds a rule using dsl block" do
+        expect(builder.rule { named_predicate("my_pred"); outcome("my_next_node") }).to eq(Smartdown::Model::Rule.new(predicate, "my_next_node"))
+      end
     end
   end
 end

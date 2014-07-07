@@ -22,56 +22,67 @@ module Smartdown
       end
 
       def flow(name, &block)
-        @stack << {nodes: []}
-        yield
-        data = @stack.pop
-        Flow.new(name, data[:nodes])
+        @nodes = []
+        instance_eval(&block) if block_given?
+        Flow.new(name, @nodes)
       end
 
       def node(name, &block)
-        @stack << {elements: [], front_matter: nil}
-        yield
-        data = @stack.pop
-        @stack.last[:nodes] << Node.new(name, data[:elements], data[:front_matter])
+        @nodes ||= []
+        @elements = []
+        @front_matter = nil
+        instance_eval(&block) if block_given?
+        @nodes << Node.new(name, @elements, @front_matter)
+        @nodes.last
       end
 
       def heading(content)
-        @stack.last[:elements] << Element::MarkdownHeading.new(content)
+        @elements ||= []
+        @elements << Element::MarkdownHeading.new(content)
+        @elements.last
       end
 
       def paragraph(content)
-        @stack.last[:elements] << Element::MarkdownParagraph.new(content)
+        @elements ||= []
+        @elements << Element::MarkdownParagraph.new(content)
+        @elements.last
       end
 
       def start_button(content)
-        @stack.last[:elements] << Element::StartButton.new(content)
+        @elements ||= []
+        @elements << Element::StartButton.new(content)
+        @elements.last
       end
 
       def multiple_choice(options)
+        @elements ||= []
         options_with_string_keys = ::Hash[options.map {|k,v| [k.to_s, v]}]
-        @stack.last[:elements] << Element::MultipleChoice.new(nil, options_with_string_keys)
+        @elements << Element::MultipleChoice.new(nil, options_with_string_keys)
+        @elements.last
       end
 
       def next_node_rules(&block)
-        @stack << {rules: []}
-        yield
-        data = @stack.pop
-        @stack.last[:elements] << NextNodeRules.new(data[:rules])
+        @rules = []
+        instance_eval(&block) if block_given?
+        @elements << NextNodeRules.new(@rules)
+        @elements.last
       end
 
-      def rule(&block)
-        @stack << {predicate: nil, outcome: nil}
-        yield
-        data = @stack.pop
-        @stack.last[:rules] << Rule.new(data[:predicate], data[:outcome])
+      def rule(predicate = nil, outcome = nil, &block)
+        @predicate = predicate
+        @outcome = outcome
+        @rules ||= []
+        instance_eval(&block) if block_given?
+        @rules << Rule.new(@predicate, @outcome)
+        @rules.last
       end
 
       def named_predicate(name)
-        @stack.last[:predicate] = Predicate::Named.new(name)
+        @predicate = Predicate::Named.new(name)
       end
 
       def outcome(name)
-        @stack.last[:outcome] = name
+        @outcome = name
       end
     end
   end
