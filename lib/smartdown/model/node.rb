@@ -7,9 +7,6 @@ module Smartdown
         super(name, elements, front_matter || Smartdown::Model::FrontMatter.new)
       end
 
-      def next_node_rules
-      end
-
       def questions
         elements_of_kind(Smartdown::Model::Element::MultipleChoice)
       end

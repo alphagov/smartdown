@@ -1,6 +1,5 @@
 require 'smartdown/model/flow'
 require 'smartdown/model/node'
-require 'smartdown/model/next_node_rules'
 
 describe Smartdown::Model::Flow do
   let(:flow_name) { "my_name" }
@@ -19,9 +18,8 @@ describe Smartdown::Model::Flow do
 
   context "one node" do
     let(:node_name) { "chocolate?" }
-    let(:next_node_rules) { instance_double("Smartdown::Model::NextNodeRules") }
     let(:node) {
-      instance_double("Smartdown::Model::Node", name: node_name, next_node_rules: next_node_rules)
+      instance_double("Smartdown::Model::Node", name: node_name)
     }
     let(:nodes) { [node] }
 
