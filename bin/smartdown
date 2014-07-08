@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib/", File.dirname(__FILE__))
+
+require 'smartdown/parser/directory_input'
+require 'smartdown/parser/flow_interpreter'
+require 'smartdown/engine'
+require 'pp'
+
+def usage
+  $stderr.puts "USAGE: <coversheet path> [responses...]"
+end
+
+if ARGV.size == 0
+  usage
+  exit(1)
+else
+  coversheet_path, *responses = ARGV
+  begin
+    input = Smartdown::Parser::DirectoryInput.new(coversheet_path)
+    flow = Smartdown::Parser::FlowInterpreter.new(input).interpret
+    engine = Smartdown::Engine.new(flow)
+    start_state = engine.default_start_state
+      .put(:otherwise, ->(state) {true})
+    end_state = engine.process(responses, start_state)
+
+    puts "RESPONSES: " + end_state.get(:responses).join(" / ")
+    puts "PATH: " + (end_state.get(:path) + [end_state.get(:current_node)]).join(" -> ")
+    node = flow.node(end_state.get(:current_node))
+    puts "# #{node.title}\n\n"
+    if node.questions.any?
+      node.questions.each do |q|
+        pp q.choices
+      end
+    end
+
+    puts node.body
+  rescue Smartdown::Parser::ParseError => error
+    $stderr.puts error
+    exit(1)
+  rescue Smartdown::Engine::IndeterminateNextNode => error
+    $stderr.puts error.message
+    exit(1)
+  end
+end
