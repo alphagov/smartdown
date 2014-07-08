@@ -7,10 +7,10 @@
 
 # Next node
 
-* response(longer_than_six_months)
+* staying_for_how_long is 'longer_than_six_months'
   * visiting_for_study => outcome_study_y
   * visiting_for_work => outcome_work_y
-* response(six_months_or_less)
+* staying_for_how_long is 'six_months_or_less'
   * visiting_for_study
     * passport_country in {oman qatar united-arab-emirates} => outcome_visit_waiver_oman_qatar_uae
     * passport_country is 'taiwan' => outcome_taiwan_exception
@@ -19,10 +19,3 @@
   * visiting_for_work
     * country_group_datv or country_group_visa_national => outcome_work_m
     * country_group_ukot or country_group_non_visa_national => outcome_work_n
-
-# Definitions
-
-activity_whilst_staying
-* purpose_of_visit is 'study' => "study"
-* purpose_of_visit is 'work' => "work"
-
