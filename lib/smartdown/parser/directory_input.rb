@@ -23,13 +23,21 @@ module Smartdown
         read_dir("scenarios")
       end
 
+      def filenames_hash
+        {
+          coversheet: coversheet.to_s,
+          questions: questions.map(&:to_s),
+          outcomes: outcomes.map(&:to_s),
+          scenarios: scenarios.map(&:to_s)
+        }
+      end
+
     private
       def read_dir(dir)
         Dir[@coversheet_path.dirname + dir + "*.txt"].map do |filename|
           InputFile.new(filename)
         end
       end
-
     end
 
     class InputFile
@@ -43,6 +51,10 @@ module Smartdown
 
       def read
         File.read(@path)
+      end
+
+      def to_s
+        @path.to_s
       end
     end
   end
