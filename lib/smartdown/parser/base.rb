@@ -16,7 +16,7 @@ module Smartdown
       rule(:non_ws) { non_ws.repeat }
 
       rule(:whitespace_terminated_string) {
-        non_ws_char >> (non_ws_char | space_char >> non_ws_char).repeat
+        non_ws_char >> (non_ws_char | space_char.repeat(1) >> non_ws_char).repeat
       }
 
       rule(:identifier) {

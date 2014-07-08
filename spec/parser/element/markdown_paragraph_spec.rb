@@ -14,6 +14,8 @@ describe Smartdown::Parser::Element::MarkdownParagraph do
   it { should parse(" My para\nsecond line   \n").as(p: " My para\nsecond line   \n") }
   it { should_not parse("Para1\n\nPara2") }
 
+  it { should parse("a   b") }
+
   describe "transformed" do
     let(:content) { "My para" }
     subject(:transformed) {
