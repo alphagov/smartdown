@@ -11,7 +11,7 @@ module Smartdown
       end
 
       def interpret
-        Smartdown::Model::Flow.new(coversheet.name, [coversheet] + questions)
+        Smartdown::Model::Flow.new(coversheet.name, [coversheet] + questions + outcomes)
       end
 
     private
@@ -21,6 +21,10 @@ module Smartdown
 
       def questions
         flow_input.questions.map { |i| interpret_node(i) }
+      end
+
+      def outcomes
+        flow_input.outcomes.map { |i| interpret_node(i) }
       end
 
       def interpret_node(input_data)
