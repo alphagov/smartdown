@@ -1,5 +1,4 @@
 require 'smartdown/model/flow'
-require 'smartdown/model/state'
 require 'smartdown/model/node'
 require 'smartdown/model/next_node_rules'
 
