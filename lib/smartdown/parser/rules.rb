@@ -28,7 +28,7 @@ module Smartdown
           indent(depth) >> bullet >> optional_space >>
           Smartdown::Parser::Predicates.new.as(:predicate) >> optional_space >>
           str("=>") >> optional_space >>
-          identifier.as(:outcome) >>
+          question_identifier.as(:outcome) >>
           optional_space >> line_ending
         ).as(:rule)
       end
