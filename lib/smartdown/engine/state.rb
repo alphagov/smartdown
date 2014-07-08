@@ -1,4 +1,3 @@
-require 'smartdown/util/hash'
 require 'set'
 
 module Smartdown
@@ -6,8 +5,6 @@ module Smartdown
     class UndefinedValue < StandardError; end
 
     class State
-      include Smartdown::Util::Hash
-
       def initialize(data = {})
         @data = duplicate_and_normalize_hash(data)
         @data["path"] ||= []
@@ -34,6 +31,11 @@ module Smartdown
 
       def ==(other)
         other.is_a?(self.class) && other.keys == self.keys && @data.all? { |k, v| other.get(k) == v }
+      end
+
+    private
+      def duplicate_and_normalize_hash(hash)
+        ::Hash[hash.map { |key, value| [key.to_s, value] }]
       end
     end
   end
