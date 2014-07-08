@@ -75,7 +75,7 @@ describe Smartdown::Engine do
       let(:responses) { %w{yes usa} }
 
       it "raises IndeterminateNextNode error" do
-        expect { subject }.to raise_error(Smartdown::IndeterminateNextNode)
+        expect { subject }.to raise_error(Smartdown::Engine::IndeterminateNextNode)
       end
     end
   end

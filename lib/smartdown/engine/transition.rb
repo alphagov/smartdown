@@ -1,5 +1,5 @@
 require 'smartdown/engine/predicate_evaluator'
-require 'smartdown/errors'
+require 'smartdown/engine/errors'
 
 module Smartdown
   class Engine
@@ -29,7 +29,7 @@ module Smartdown
       attr_reader :predicate_evaluator
 
       def next_node_rules
-        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) } or raise Smartdown::IndeterminateNextNode
+        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) } or raise Smartdown::Engine::IndeterminateNextNode
       end
 
       def first_matching_rule(rules)
@@ -53,7 +53,7 @@ module Smartdown
             raise "Unknown rule type"
           end
         end
-        raise Smartdown::IndeterminateNextNode
+        raise Smartdown::Engine::IndeterminateNextNode
       end
 
       def state_with_input
