@@ -11,7 +11,7 @@ module Smartdown
       end
 
       def interpret
-        Smartdown::Model::Flow.new(coversheet, questions)
+        Smartdown::Model::Flow.new(coversheet.name, [coversheet] + questions)
       end
 
     private

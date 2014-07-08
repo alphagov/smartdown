@@ -17,16 +17,16 @@ describe "Smartdown.parse" do
       expect(flow.name).to eq("cover-sheet")
     end
 
-    it "should have a coversheet" do
-      expect(flow.coversheet).to be_a(Smartdown::Model::Node)
+    it "should have a single coversheet node" do
+      expect(flow.nodes).to match([instance_of(Smartdown::Model::Node)])
     end
 
-    it "should have no nodes" do
-      expect(flow.nodes).to eq([])
-    end
-
-    describe "coversheet" do
+    describe "#coversheet" do
       subject(:coversheet) { flow.coversheet }
+
+      it "should return the coversheet node" do
+        expect(flow.coversheet).to be_a(Smartdown::Model::Node)
+      end
 
       it "should have front matter" do
         expect(coversheet.front_matter).to be_a(Smartdown::Model::FrontMatter)
@@ -68,13 +68,14 @@ EXPECTED
   context "flow with a cover-sheet and a question" do
     subject(:flow) { Smartdown.parse(fixture("one-question")) }
 
-    it "should have one question node" do
-      expect(flow.nodes.size).to eq(1)
-      expect(flow.nodes.first).to be_a(Smartdown::Model::Node)
+    it "should have two nodes" do
+      expect(flow.nodes.size).to eq(2)
+      expect(flow.nodes[0]).to eq(flow.coversheet)
+      expect(flow.nodes[1]).to be_a(Smartdown::Model::Node)
     end
 
     describe "the question node" do
-      subject(:question_node) { flow.nodes.first }
+      subject(:question_node) { flow.nodes[1] }
 
       it "should have title" do
         expect(question_node.title).to eq("Question one")

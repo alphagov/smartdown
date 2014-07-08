@@ -3,21 +3,23 @@ module Smartdown
     class Flow
       extend Forwardable
 
-      attr_reader :nodes, :coversheet
+      attr_reader :name, :nodes
 
-      def initialize(coversheet, nodes = [])
-        @coversheet = coversheet
+      def initialize(name, nodes = [])
+        @name = name
         @nodes = nodes
       end
 
-      def_delegator :coversheet, :name
+      def coversheet
+        node(name)
+      end
 
       def node(node_name)
         @nodes.find {|n| n.name.to_s == node_name.to_s } || raise("Unable to find #{node_name}")
       end
 
       def ==(other)
-        other.is_a?(self.class) && other.nodes == self.nodes && other.coversheet == self.coversheet
+        other.is_a?(self.class) && other.nodes == self.nodes && other.name == self.name
       end
     end
   end
