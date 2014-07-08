@@ -3,6 +3,19 @@ require 'smartdown/parser/node_interpreter'
 
 module Smartdown
   module Parser
+    class ParseError < StandardError
+      attr_reader :filename, :parse_error
+
+      def initialize(filename, parse_error)
+        @filename = filename
+        @parse_error = parse_error
+      end
+
+      def to_s(full = true)
+        "Parse error in '#{filename}':\n\n" + @parse_error.cause.ascii_tree
+      end
+    end
+
     class FlowInterpreter
       attr_reader :flow_input
 
@@ -29,6 +42,8 @@ module Smartdown
 
       def interpret_node(input_data)
         Smartdown::Parser::NodeInterpreter.new(input_data.name, input_data.read).interpret
+      rescue Parslet::ParseFailed => error
+        raise ParseError.new(input_data.to_s, error)
       end
     end
   end
