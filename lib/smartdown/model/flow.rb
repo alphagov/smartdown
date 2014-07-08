@@ -1,8 +1,6 @@
 module Smartdown
   module Model
     class Flow
-      extend Forwardable
-
       attr_reader :name, :nodes
 
       def initialize(name, nodes = [])
