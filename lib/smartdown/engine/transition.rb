@@ -1,4 +1,5 @@
 require 'smartdown/engine/predicate_evaluator'
+require 'smartdown/errors'
 
 module Smartdown
   class Engine
