@@ -92,6 +92,18 @@ EXPECTED
       end
     end
   end
+
+  context "flow coversheet, question and outcome" do
+    subject(:flow) { Smartdown.parse(fixture("question-and-outcome")) }
+
+    it "should have three nodes" do
+      expect(flow.nodes.size).to eq(3)
+    end
+
+    it "should have node names" do
+      expect(flow.nodes.map(&:name)).to eq(["question-and-outcome", "q1", "o1"])
+    end
+  end
 end
 
 
