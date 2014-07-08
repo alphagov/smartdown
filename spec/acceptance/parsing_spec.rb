@@ -59,9 +59,6 @@ of text.
 * lists
 EXPECTED
       end
-
-      xit "should have next node rules derived from the start_question" do
-      end
     end
   end
 
