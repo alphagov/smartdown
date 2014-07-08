@@ -9,6 +9,7 @@ describe Smartdown::Parser::Rules do
     let(:source) { "* my_pred? => outcome" }
 
     it { should parse(source).as({next_node_rules: [{rule: {predicate: {named_predicate: "my_pred?"}, outcome: "outcome"}}]}) }
+    it { should parse("* p? => q?").as({next_node_rules: [{rule: {predicate: {named_predicate: "p?"}, outcome: "q?"}}]}) }
 
     describe "transformed" do
       subject(:transformed) {
