@@ -72,3 +72,11 @@ end
   - rubocop
 - panopticon + routing TBC -- content store?
 
+## More stuff we could do
+
+- validations
+- logical composition of predicates (ie. `p1? | p2?`, `p1 & p2`)
+- interpolation of values into outcomes
+- defining named predicates
+- multiple questions per node
+- load test?
