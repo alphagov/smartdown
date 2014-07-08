@@ -9,16 +9,25 @@ module Smartdown
         @data = duplicate_and_normalize_hash(data)
         @data["path"] ||= []
         @data["responses"] ||= []
+        @cached = {}
         raise ArgumentError, "must specify current_node" unless has_key?("current_node")
       end
 
-      def has_key?(name)
-        @data.has_key?(name.to_s)
+      def has_key?(key)
+        @data.has_key?(key.to_s)
       end
 
-      def get(name)
-        raise UndefinedValue unless has_key?(name)
-        @data[name.to_s]
+      def has_value?(key, expected_value)
+        has_key?(key) && fetch(key) == expected_value
+      end
+
+      def get(key)
+        value = fetch(key)
+        if value.respond_to?(:call)
+          evaluate(value)
+        else
+          value
+        end
       end
 
       def put(name, value)
@@ -30,12 +39,24 @@ module Smartdown
       end
 
       def ==(other)
-        other.is_a?(self.class) && other.keys == self.keys && @data.all? { |k, v| other.get(k) == v }
+        other.is_a?(self.class) && other.keys == self.keys && @data.all? { |k, v| other.has_value?(k, v) }
       end
 
     private
       def duplicate_and_normalize_hash(hash)
         ::Hash[hash.map { |key, value| [key.to_s, value] }]
+      end
+
+      def fetch(key)
+        if has_key?(key)
+          @data.fetch(key.to_s)
+        else
+          raise UndefinedValue
+        end
+      end
+
+      def evaluate(callable)
+        @cached[callable] ||= callable.call(self)
       end
     end
   end

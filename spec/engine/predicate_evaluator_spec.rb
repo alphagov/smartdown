@@ -84,7 +84,9 @@ describe Smartdown::Engine::PredicateEvaluator do
       end
 
       context "state has predicate definition" do
-        let(:state) { Smartdown::Engine::State.new("current_node" => "n", "my_pred?" => true) }
+        let(:state) {
+          Smartdown::Engine::State.new("current_node" => "n", "my_pred?" => true )
+        }
 
         it "fetches the predicate value from the state" do
           expect(evalutator.evaluate(predicate, state)).to eq(true)
