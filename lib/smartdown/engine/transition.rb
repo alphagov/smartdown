@@ -29,7 +29,8 @@ module Smartdown
       attr_reader :predicate_evaluator
 
       def next_node_rules
-        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) } or raise Smartdown::Engine::IndeterminateNextNode
+        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) } or \
+          raise Smartdown::Engine::IndeterminateNextNode, "No next node rules defined for '#{node.name}'"
       end
 
       def first_matching_rule(rules)
