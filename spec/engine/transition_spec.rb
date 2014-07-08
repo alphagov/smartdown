@@ -1,4 +1,3 @@
-require 'smartdown/errors'
 require 'smartdown/engine/transition'
 require 'smartdown/engine/state'
 require 'smartdown/model'
@@ -22,7 +21,7 @@ describe Smartdown::Engine::Transition do
 
     describe "#next_node" do
       it "raises IndeterminateNextNode" do
-        expect { transition.next_node }.to raise_error(Smartdown::IndeterminateNextNode)
+        expect { transition.next_node }.to raise_error(Smartdown::Engine::IndeterminateNextNode)
       end
     end
   end
@@ -124,7 +123,7 @@ describe Smartdown::Engine::Transition do
         it "invokes the predicate evaluator with each predicate in turn" do
           expect(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(false)
 
-          expect { transition.next_node }.to raise_error(Smartdown::IndeterminateNextNode)
+          expect { transition.next_node }.to raise_error(Smartdown::Engine::IndeterminateNextNode)
         end
       end
 
