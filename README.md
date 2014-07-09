@@ -1,4 +1,4 @@
-# Smartdown
+# Smartdown [![Build Status](https://travis-ci.org/alphagov/smartdown.svg?branch=master)](https://travis-ci.org/alphagov/smartdown)
 
 Smartdown is an [external
 DSL](http://www.martinfowler.com/bliki/DomainSpecificLanguage.html) for
