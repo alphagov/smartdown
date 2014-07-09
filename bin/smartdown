@@ -28,10 +28,8 @@ else
     puts "PATH: " + (end_state.get(:path) + [end_state.get(:current_node)]).join(" -> ")
     node = flow.node(end_state.get(:current_node))
     puts "# #{node.title}\n\n"
-    if node.questions.any?
-      node.questions.each do |q|
-        pp q.choices
-      end
+    node.questions.each do |q|
+      pp q.choices
     end
 
     puts node.body
