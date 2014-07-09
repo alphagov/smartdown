@@ -1,34 +1,31 @@
 require 'smartdown/engine'
-require 'smartdown/model'
 
 describe Smartdown::Engine do
   let(:flow) {
-    Smartdown::Model.build do
-      flow("check-uk-visa") do
-        node("check-uk-visa") do
-          heading("Check uk visa")
-          paragraph("This is the paragraph")
-          start_button("what_passport_do_you_have?")
-          next_node_rules do
-            rule do
-              named_predicate("otherwise")
-              outcome("what_passport_do_you_have?")
-            end
+    build_flow("check-uk-visa") do
+      node("check-uk-visa") do
+        heading("Check uk visa")
+        paragraph("This is the paragraph")
+        start_button("what_passport_do_you_have?")
+        next_node_rules do
+          rule do
+            named_predicate("otherwise")
+            outcome("what_passport_do_you_have?")
           end
         end
+      end
 
-        node("what_passport_do_you_have?") do
-          heading("What passport do you have?")
-          multiple_choice(
-            greek: "Greek",
-            british: "British",
-            usa: "USA"
-          )
-          next_node_rules do
-            rule do
-              named_predicate("eea_passport?")
-              outcome("outcome_no_visa_needed")
-            end
+      node("what_passport_do_you_have?") do
+        heading("What passport do you have?")
+        multiple_choice(
+          greek: "Greek",
+          british: "British",
+          usa: "USA"
+        )
+        next_node_rules do
+          rule do
+            named_predicate("eea_passport?")
+            outcome("outcome_no_visa_needed")
           end
         end
       end

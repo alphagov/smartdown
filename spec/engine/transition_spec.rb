@@ -1,6 +1,5 @@
 require 'smartdown/engine/transition'
 require 'smartdown/engine/state'
-require 'smartdown/model'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 
