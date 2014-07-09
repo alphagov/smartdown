@@ -20,9 +20,7 @@ else
     input = Smartdown::Parser::DirectoryInput.new(coversheet_path)
     flow = Smartdown::Parser::FlowInterpreter.new(input).interpret
     engine = Smartdown::Engine.new(flow)
-    start_state = engine.default_start_state
-      .put(:otherwise, ->(state) {true})
-    end_state = engine.process(responses, start_state)
+    end_state = engine.process(responses)
 
     puts "RESPONSES: " + end_state.get(:responses).join(" / ")
     puts "PATH: " + (end_state.get(:path) + [end_state.get(:current_node)]).join(" -> ")
