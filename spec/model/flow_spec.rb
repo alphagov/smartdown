@@ -11,7 +11,7 @@ describe Smartdown::Model::Flow do
   end
 
   context "no nodes" do
-    it "should have no nodes" do
+    it "has no nodes" do
       expect(flow.nodes).to eq([])
     end
   end

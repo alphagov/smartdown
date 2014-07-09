@@ -26,7 +26,7 @@ SOURCE
       })
     }
 
-    it "should parse markdown blocks separated by multiple newlines" do
+    it "parses markdown blocks separated by multiple newlines" do
       expect(parser).to parse("a\n\n\nb\n")
     end
   end
