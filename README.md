@@ -10,6 +10,8 @@ The language is designed to look like
 to allow expression of logical rules, questions and conditional blocks of
 text.
 
+It's a work-in-progress so some of the features described in this readme haven't been implemented yet. These are indicated with (tbd).
+
 ## Overview
 
 A single smartdown flow has a cover sheet, a set of questions, a set of
@@ -89,7 +91,7 @@ to your outbound flight.
 * no: No
 ```
 
-### Country
+### Country (tbd)
 
 ```markdown
 # What passport do you have?
@@ -108,7 +110,7 @@ include_countries: {country3: "Country 3", country4: "Country 4"}
 [country]
 ```
 
-### Date
+### Date (tbd)
 
 ```markdown
 # What is the baby’s due date?
@@ -118,7 +120,7 @@ include_countries: {country3: "Country 3", country4: "Country 4"}
 
 Asks for a specific date in the given range. Ranges can be expressed as a relative number of years or absolute dates in YYYY-MM-DD format.
 
-### Value
+### Value (tbd)
 
 ```markdown
 [value]
@@ -126,7 +128,7 @@ Asks for a specific date in the given range. Ranges can be expressed as a relati
 
 Asks for an arbitrary text input.
 
-### Money
+### Money (tbd)
 
 ```markdown
 [money]
@@ -134,7 +136,7 @@ Asks for an arbitrary text input.
 
 Asks for a numerical input which can have decimals and optional thousand-separating commas.
 
-### Salary
+### Salary (tbd)
 
 ```markdown
 [salary]
@@ -142,7 +144,7 @@ Asks for a numerical input which can have decimals and optional thousand-separat
 
 Asks for salary which can be expressed as either a weekly or monthly money amount. The user chooses between weekly/monthly
 
-### Checkbox
+### Checkbox (tbd)
 
 ```markdown
 # Will you pass through UK Border Control?
@@ -179,19 +181,20 @@ defines nested rules.
 
 ```
 variable_name is 'string'
+variable_name in {this that the-other}
 ```
 
-## Conditional blocks in outcomes
+## Conditional blocks in outcomes (tbd)
 
 ## Processing model
 
 Each response to a question is assigned to a variable which corresponds to the question name (as determined by the filename).
 
-## Named predicates
+## Named predicates (tbd)
 
 Named predicates
 
-## Plugin API
+## Plugin API (tbd)
 
 A plugin API will be provided to allow more complex calculations to be defined
 in an external ruby class.
