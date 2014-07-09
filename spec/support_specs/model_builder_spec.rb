@@ -1,8 +1,9 @@
-require 'smartdown/model'
-require 'smartdown/model/builder'
+require 'support/model_builder'
 
-describe Smartdown::Model do
-  describe ".build" do
+describe ModelBuilder do
+  subject(:builder) { described_class.new }
+
+  describe "#flow" do
     let(:node1) {
       Smartdown::Model::Node.new("check-uk-visa", [
         Smartdown::Model::Element::MarkdownHeading.new("Check uk visa"),
@@ -29,25 +30,23 @@ describe Smartdown::Model do
     }
 
     it "builds a flow using a dsl" do
-      model = Smartdown::Model.build do
-        flow("check-uk-visa") do
-          node("check-uk-visa") do
-            heading("Check uk visa")
-            paragraph("This is the paragraph")
-            start_button("what_passport_do_you_have?")
-          end
+      model = builder.flow("check-uk-visa") do
+        node("check-uk-visa") do
+          heading("Check uk visa")
+          paragraph("This is the paragraph")
+          start_button("what_passport_do_you_have?")
+        end
 
-          node("what_passport_do_you_have?") do
-            heading("What passport do you have?")
-            multiple_choice(
-              greek: "Greek",
-              british: "British"
-            )
-            next_node_rules do
-              rule do
-                named_predicate("eea_passport?")
-                outcome("outcome_no_visa_needed")
-              end
+        node("what_passport_do_you_have?") do
+          heading("What passport do you have?")
+          multiple_choice(
+            greek: "Greek",
+            british: "British"
+          )
+          next_node_rules do
+            rule do
+              named_predicate("eea_passport?")
+              outcome("outcome_no_visa_needed")
             end
           end
         end
@@ -55,24 +54,37 @@ describe Smartdown::Model do
 
       expect(model).to eq(expected)
     end
+  end
 
+  describe "#node" do
     it "builds a node" do
-      expect(Smartdown::Model.build { node("foo") }).to be_a(Smartdown::Model::Node)
+      expect(builder.node("foo")).to be_a(Smartdown::Model::Node)
     end
   end
 
-  describe Smartdown::Model::Builder do
-    subject(:builder) { described_class.new }
+  describe "#rule" do
     let(:predicate) { Smartdown::Model::Predicate::Named.new("my_pred") }
 
-    describe "#rule" do
-      it "builds a rule using predicate and outcome" do
-        expect(builder.rule(predicate, "my_next_node")).to eq(Smartdown::Model::Rule.new(predicate, "my_next_node"))
+    it "builds a rule using predicate and outcome" do
+      expect(builder.rule(predicate, "my_next_node")).to eq(Smartdown::Model::Rule.new(predicate, "my_next_node"))
+    end
+
+    it "builds a rule using dsl block" do
+      expect(builder.rule { named_predicate("my_pred"); outcome("my_next_node") }).to eq(Smartdown::Model::Rule.new(predicate, "my_next_node"))
+    end
+  end
+
+  describe ModelBuilder::DSL do
+    it "exposes a #build_flow method" do
+      my_class = Class.new do
+        include ModelBuilder::DSL
+      end
+      instance = my_class.new
+      flow = instance.build_flow("name") do
+        node("check-uk-visa") {}
       end
 
-      it "builds a rule using dsl block" do
-        expect(builder.rule { named_predicate("my_pred"); outcome("my_next_node") }).to eq(Smartdown::Model::Rule.new(predicate, "my_next_node"))
-      end
+      expect(flow).to be_a(Smartdown::Model::Flow)
     end
   end
 end
