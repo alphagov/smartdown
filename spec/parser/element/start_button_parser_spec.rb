@@ -5,16 +5,16 @@ require 'smartdown/parser/node_interpreter'
 describe Smartdown::Parser::Element::StartButton do
   subject(:parser) { described_class.new }
 
-  it "should parse a start indicator with a question identifier" do
+  it "parses a start indicator with a question identifier" do
     should parse("[start: first_question?]").as({start_button: "first_question?"})
     should parse("[start: first_question?]\n").as({start_button: "first_question?"})
   end
 
-  it "should require a question identifier" do
+  it "requires a question identifier" do
     should_not parse("[start]")
   end
 
-  it "should not allow question identifier to contain spaces" do
+  it "does not allow spaces in question identifier" do
     should_not parse("[start: first question]")
   end
 
