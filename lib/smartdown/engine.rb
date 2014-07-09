@@ -10,7 +10,17 @@ module Smartdown
     end
 
     def default_start_state
-      Smartdown::Engine::State.new(current_node: flow.name)
+      Smartdown::Engine::State.new(
+        default_predicates.merge(
+          current_node: flow.name
+        )
+      )
+    end
+
+    def default_predicates
+      {
+        otherwise: ->(_) { true }
+      }
     end
 
     def process(responses, start_state = nil)
