@@ -10,80 +10,74 @@ require 'smartdown/model/predicate/named'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 
-module Smartdown
-  module Model
-    class Builder
-      def initialize
-        @stack = []
-      end
+class ModelBuilder
+  def flow(name, &block)
+    @nodes = []
+    instance_eval(&block) if block_given?
+    Smartdown::Model::Flow.new(name, @nodes)
+  end
 
-      def build(&block)
-        instance_eval(&block)
-      end
+  def node(name, &block)
+    @nodes ||= []
+    @elements = []
+    @front_matter = nil
+    instance_eval(&block) if block_given?
+    @nodes << Smartdown::Model::Node.new(name, @elements, @front_matter)
+    @nodes.last
+  end
 
-      def flow(name, &block)
-        @nodes = []
-        instance_eval(&block) if block_given?
-        Flow.new(name, @nodes)
-      end
+  def heading(content)
+    @elements ||= []
+    @elements << Smartdown::Model::Element::MarkdownHeading.new(content)
+    @elements.last
+  end
 
-      def node(name, &block)
-        @nodes ||= []
-        @elements = []
-        @front_matter = nil
-        instance_eval(&block) if block_given?
-        @nodes << Node.new(name, @elements, @front_matter)
-        @nodes.last
-      end
+  def paragraph(content)
+    @elements ||= []
+    @elements << Smartdown::Model::Element::MarkdownParagraph.new(content)
+    @elements.last
+  end
 
-      def heading(content)
-        @elements ||= []
-        @elements << Element::MarkdownHeading.new(content)
-        @elements.last
-      end
+  def start_button(content)
+    @elements ||= []
+    @elements << Smartdown::Model::Element::StartButton.new(content)
+    @elements.last
+  end
 
-      def paragraph(content)
-        @elements ||= []
-        @elements << Element::MarkdownParagraph.new(content)
-        @elements.last
-      end
+  def multiple_choice(options)
+    @elements ||= []
+    options_with_string_keys = ::Hash[options.map {|k,v| [k.to_s, v]}]
+    @elements << Smartdown::Model::Element::MultipleChoice.new(nil, options_with_string_keys)
+    @elements.last
+  end
 
-      def start_button(content)
-        @elements ||= []
-        @elements << Element::StartButton.new(content)
-        @elements.last
-      end
+  def next_node_rules(&block)
+    @rules = []
+    instance_eval(&block) if block_given?
+    @elements << Smartdown::Model::NextNodeRules.new(@rules)
+    @elements.last
+  end
 
-      def multiple_choice(options)
-        @elements ||= []
-        options_with_string_keys = ::Hash[options.map {|k,v| [k.to_s, v]}]
-        @elements << Element::MultipleChoice.new(nil, options_with_string_keys)
-        @elements.last
-      end
+  def rule(predicate = nil, outcome = nil, &block)
+    @predicate = predicate
+    @outcome = outcome
+    @rules ||= []
+    instance_eval(&block) if block_given?
+    @rules << Smartdown::Model::Rule.new(@predicate, @outcome)
+    @rules.last
+  end
 
-      def next_node_rules(&block)
-        @rules = []
-        instance_eval(&block) if block_given?
-        @elements << NextNodeRules.new(@rules)
-        @elements.last
-      end
+  def named_predicate(name)
+    @predicate = Smartdown::Model::Predicate::Named.new(name)
+  end
 
-      def rule(predicate = nil, outcome = nil, &block)
-        @predicate = predicate
-        @outcome = outcome
-        @rules ||= []
-        instance_eval(&block) if block_given?
-        @rules << Rule.new(@predicate, @outcome)
-        @rules.last
-      end
+  def outcome(name)
+    @outcome = name
+  end
 
-      def named_predicate(name)
-        @predicate = Predicate::Named.new(name)
-      end
-
-      def outcome(name)
-        @outcome = name
-      end
+  module DSL
+    def build_flow(name, &block)
+      ModelBuilder.new.flow(name, &block)
     end
   end
 end
