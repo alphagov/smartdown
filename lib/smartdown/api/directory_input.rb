@@ -1,7 +1,7 @@
 require 'pathname'
 
 module Smartdown
-  module Parser
+  module Api
     class DirectoryInput
       def initialize(coversheet_path)
         @coversheet_path = Pathname.new(coversheet_path.to_s)

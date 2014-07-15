@@ -1,4 +1,4 @@
-require 'smartdown/parser/directory_input'
+require 'smartdown/api/directory_input'
 
 shared_examples "flow input interface" do
   it { should respond_to(:coversheet) }
@@ -7,7 +7,7 @@ shared_examples "flow input interface" do
   it { should respond_to(:scenarios) }
 end
 
-describe Smartdown::Parser::DirectoryInput do
+describe Smartdown::Api::DirectoryInput do
   it_should_behave_like "flow input interface"
 
   let(:coversheet_file) {
@@ -19,7 +19,7 @@ describe Smartdown::Parser::DirectoryInput do
   describe "#coversheet" do
     subject { input.coversheet }
 
-    it { should be_a(Smartdown::Parser::InputFile) }
+    it { should be_a(Smartdown::Api::InputFile) }
 
     it "has name" do
       expect(input.coversheet.name).to eq("cover-sheet")
@@ -32,7 +32,7 @@ describe Smartdown::Parser::DirectoryInput do
 
   describe "#questions" do
     it "returns an InputFile for every file in the questions folder" do
-      expect(input.questions).to match([instance_of(Smartdown::Parser::InputFile)])
+      expect(input.questions).to match([instance_of(Smartdown::Api::InputFile)])
       expect(input.questions.first.name).to eq("q1")
       expect(input.questions.first.read).to eq("question one\n")
     end
@@ -40,7 +40,7 @@ describe Smartdown::Parser::DirectoryInput do
 
   describe "#outcomes" do
     it "returns an InputFile for every file in the outcomes folder" do
-      expect(input.outcomes).to match([instance_of(Smartdown::Parser::InputFile)])
+      expect(input.outcomes).to match([instance_of(Smartdown::Api::InputFile)])
       expect(input.outcomes.first.name).to eq("o1")
       expect(input.outcomes.first.read).to eq("outcome one\n")
     end
@@ -48,7 +48,7 @@ describe Smartdown::Parser::DirectoryInput do
 
   describe "#scenarios" do
     it "returns an InputFile for every file in the scenarios folder" do
-      expect(input.scenarios).to match([instance_of(Smartdown::Parser::InputFile)])
+      expect(input.scenarios).to match([instance_of(Smartdown::Api::InputFile)])
       expect(input.scenarios.first.name).to eq("s1")
       expect(input.scenarios.first.read).to eq("scenario one\n")
     end
