@@ -25,6 +25,10 @@ SOURCE
         ]
       })
     }
+
+    it "parses markdown blocks separated by multiple newlines" do
+      expect(parser).to parse("a\n\n\nb\n")
+    end
   end
 
   describe "front matter and body" do

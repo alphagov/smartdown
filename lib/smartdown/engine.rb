@@ -1,3 +1,6 @@
+require 'smartdown/engine/transition'
+require 'smartdown/engine/state'
+
 module Smartdown
   class Engine
     attr_reader :flow
@@ -6,28 +9,25 @@ module Smartdown
       @flow = flow
     end
 
-    def start_state
-      Smartdown::Model::State.new(current_node: flow.coversheet.name)
+    def default_start_state
+      Smartdown::Engine::State.new(
+        default_predicates.merge(
+          current_node: flow.name
+        )
+      )
     end
 
-    def process(input_list)
-      input_list.inject(start_state) do |input, state|
+    def default_predicates
+      {
+        otherwise: ->(_) { true }
+      }
+    end
+
+    def process(responses, start_state = nil)
+      responses.inject(start_state || default_start_state) do |state, input|
         current_node = flow.node(state.get(:current_node))
-        transition(current_node, state, input)
+        Transition.new(state, current_node, input).next_state
       end
-    end
-
-    def transition(current_node, state, input)
-      next_node = compute_next_node(current_node, input)
-      raise Smartdown::IndeterminateNextNode unless next_node
-      state
-        .put(:path, state.get(:path) + [current_node.name])
-        .put(:responses, state.get(:responses) + [input])
-        .put(name_as_state_variable(current_node.name), input)
-        .put(:current_node, next_node)
-    end
-
-    def compute_next_node
     end
   end
 end

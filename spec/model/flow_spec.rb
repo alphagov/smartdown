@@ -1,28 +1,25 @@
 require 'smartdown/model/flow'
-require 'smartdown/model/state'
 require 'smartdown/model/node'
-require 'smartdown/model/next_node_rules'
 
 describe Smartdown::Model::Flow do
-  let(:coversheet) { instance_double("Smartdown::Model::Node", name: "my_name") }
+  let(:flow_name) { "my_name" }
   let(:nodes) { [] }
-  subject(:flow) { Smartdown::Model::Flow.new(coversheet, nodes) }
+  subject(:flow) { Smartdown::Model::Flow.new(flow_name, nodes) }
 
   it "has a name" do
-    expect(subject.name).to eq "my_name"
+    expect(subject.name).to eq(flow_name)
   end
 
   context "no nodes" do
-    it "should have no nodes" do
+    it "has no nodes" do
       expect(flow.nodes).to eq([])
     end
   end
 
   context "one node" do
     let(:node_name) { "chocolate?" }
-    let(:next_node_rules) { instance_double("Smartdown::Model::NextNodeRules") }
     let(:node) {
-      instance_double("Smartdown::Model::Node", name: node_name, next_node_rules: next_node_rules)
+      instance_double("Smartdown::Model::Node", name: node_name)
     }
     let(:nodes) { [node] }
 

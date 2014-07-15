@@ -15,7 +15,7 @@ SOURCE
   let(:interpreter) { Smartdown::Parser::NodeInterpreter.new("my_node", source) }
   subject(:node) { interpreter.interpret }
 
-  it "should have front_matter" do
+  it "has front_matter" do
     expect(node.front_matter.meta_description).to eq("My coversheet")
   end
 
@@ -23,7 +23,7 @@ SOURCE
     Smartdown::Model::Element::StartButton.new("first_question?")
   end
 
-  it "should have start button element" do
+  it "has start button element" do
     expect(node.elements).to include(start_button_element)
   end
 

@@ -2,6 +2,7 @@ $LOAD_PATH << File.expand_path("../lib", File.dirname(__FILE__))
 
 require 'pathname'
 require 'parslet/rig/rspec'
+require 'support/model_builder'
 
 RSpec.configure do |config|
   if config.files_to_run.one?
@@ -21,4 +22,6 @@ RSpec.configure do |config|
     mocks.syntax = :expect
     mocks.verify_partial_doubles = true
   end
+
+  config.include ModelBuilder::DSL
 end
