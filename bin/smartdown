@@ -17,7 +17,6 @@ if ARGV.size == 0
 else
   coversheet_path, *responses = ARGV
   begin
-    #TODO: use same object as smartdown-frontend will be using here
     input = Smartdown::Parser::DirectoryInput.new(coversheet_path)
     flow = Smartdown::Parser::FlowInterpreter.new(input).interpret
     engine = Smartdown::Engine.new(flow)
