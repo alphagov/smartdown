@@ -1,13 +1,12 @@
 module Smartdown
-  module API
+  module Api
     class Processor
-      def initialize(coversheet_path)
-        @coversheet_path = coversheet_path
+      def initialize(directory_input)
+        @directory_input = directory_input
       end
 
       def call(responses)
-        input = Smartdown::Parser::DirectoryInput.new(coversheet_path)
-        flow = Smartdown::Parser::FlowInterpreter.new(input).interpret
+        flow = Smartdown::Parser::FlowInterpreter.new(directory_input).interpret
         engine = Smartdown::Engine.new(flow)
         end_state = engine.process(responses)
         State.new(flow, end_state)
@@ -15,7 +14,7 @@ module Smartdown
 
     private
 
-      attr_reader :coversheet_path
+      attr_reader :directory_input
 
     end
   end

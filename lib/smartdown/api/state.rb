@@ -1,5 +1,5 @@
 module Smartdown
-  module API
+  module Api
     class State
       def initialize(flow, engine_state)
         @flow = flow

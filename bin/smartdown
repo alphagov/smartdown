@@ -2,7 +2,7 @@
 
 $LOAD_PATH << File.expand_path("../lib/", File.dirname(__FILE__))
 
-require 'smartdown/parser/directory_input'
+require 'smartdown/api/directory_input'
 require 'smartdown/parser/flow_interpreter'
 require 'smartdown/engine'
 require 'pp'
