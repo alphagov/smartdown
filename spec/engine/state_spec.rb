@@ -19,7 +19,7 @@ describe Smartdown::Engine::State do
       expect { subject.get(:a) }.to raise_error(Smartdown::Engine::UndefinedValue)
     end
 
-    it "by string or symbol" do
+    it "is indifferent to symbols and strings" do
       expect(subject.get(:current_node)).to eq(:start_state)
       expect(subject.get("current_node")).to eq(:start_state)
     end
@@ -38,7 +38,7 @@ describe Smartdown::Engine::State do
       expect(new_state.get(:a)).to eq 1
     end
 
-    it "by string or symbol" do
+    it "is indifferent to symbols and strings" do
       s2 = subject.put(:b, 1)
       expect(s2.get(:b)).to eq(1)
       expect(s2.get("b")).to eq(1)
