@@ -78,15 +78,16 @@ question type.
 
 The next sections define the various question types
 
-### Multiple choice
+### Radio buttons
 
 ```markdown
-# Will you pass through UK Border Control?
+## Will you pass through UK Border Control?
 
 You might pass through UK Border Control even if you don't leave the airport -
 eg your bags aren't checked through and you need to collect them before transferring
 to your outbound flight.
 
+[choice: uk_border_control]
 * yes: Yes
 * no: No
 ```
@@ -94,28 +95,33 @@ to your outbound flight.
 ### Country (tbd)
 
 ```markdown
-# What passport do you have?
+## What passport do you have?
 
-[country]
+[country: passport_country]
 ```
 
 Presents a drop-down list of countries from the built-in list.
 
 Use front matter to exclude/include countries
 
-```
-exclude_countries: country1, country2
-include_countries: {country3: "Country 3", country4: "Country 4"}
+```markdown
+---
+passport_country: 
+  exclude_countries: country1, country2
+  include_countries: {country3: "Country 3", country4: "Country 4"}
+---
 
-[country]
+## What passport do you have?
+
+[country: passport_country]
 ```
 
 ### Date (tbd)
 
 ```markdown
-# What is the baby’s due date?
+## What is the baby’s due date?
 
-[d/m/y: -1...+1]
+[date: baby_due_date]
 ```
 
 Asks for a specific date in the given range. Ranges can be expressed as a relative number of years or absolute dates in YYYY-MM-DD format.
@@ -139,7 +145,7 @@ Asks for a numerical input which can have decimals and optional thousand-separat
 ### Salary (tbd)
 
 ```markdown
-[salary]
+[salary: salary_value]
 ```
 
 Asks for salary which can be expressed as either a weekly or monthly money amount. The user chooses between weekly/monthly
@@ -147,8 +153,9 @@ Asks for salary which can be expressed as either a weekly or monthly money amoun
 ### Checkbox (tbd)
 
 ```markdown
-# Will you pass through UK Border Control?
+## Will you pass through UK Border Control?
 
+[checkbox: uk_border_control]
 * [ ] yes: Yes
 * [ ] no: No
 ```
@@ -182,6 +189,13 @@ defines nested rules.
 ```
 variable_name is 'string'
 variable_name in {this that the-other}
+```
+
+### Date comparison predicates
+
+```
+date_variable_name >= '14/07/2014'
+date_variable_name < '14/07/2014'
 ```
 
 ## Conditional blocks in outcomes (tbd)
