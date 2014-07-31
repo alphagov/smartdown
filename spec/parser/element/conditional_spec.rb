@@ -28,12 +28,19 @@ SOURCE
         )
       }
 
-      xdescribe "transformed" do
+      describe "transformed" do
         subject(:transformed) {
           Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
         }
 
-        it { should eq(Smartdown::Model::Element::MarkdownParagraph.new(content)) }
+        it {
+          should eq(
+            Smartdown::Model::Element::Conditional.new(
+              Smartdown::Model::Predicate::Named.new("pred1?"),
+              [Smartdown::Model::Element::MarkdownParagraph.new(true_body + "\n")]
+            )
+          )
+        }
       end
 
     end
@@ -50,6 +57,24 @@ SOURCE
           }
         )
       }
+
+      describe "transformed" do
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it {
+          should eq(
+            Smartdown::Model::Element::Conditional.new(
+              Smartdown::Model::Predicate::Named.new("pred1?"),
+              [
+                Smartdown::Model::Element::MarkdownParagraph.new(one_line + "\n"),
+                Smartdown::Model::Element::MarkdownParagraph.new(one_line + "\n")
+              ]
+            )
+          )
+        }
+      end
     end
 
     context "with empty true case case" do
@@ -62,6 +87,20 @@ SOURCE
           }
         )
       }
+
+      describe "transformed" do
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it {
+          should eq(
+            Smartdown::Model::Element::Conditional.new(
+              Smartdown::Model::Predicate::Named.new("pred1?")
+            )
+          )
+        }
+      end
     end
   end
 
@@ -92,6 +131,22 @@ SOURCE
           }
         )
       }
+
+      describe "transformed" do
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it {
+          should eq(
+            Smartdown::Model::Element::Conditional.new(
+              Smartdown::Model::Predicate::Named.new("pred1?"),
+              [Smartdown::Model::Element::MarkdownParagraph.new(true_body + "\n")],
+              [Smartdown::Model::Element::MarkdownParagraph.new(false_body + "\n")]
+            )
+          )
+        }
+      end
     end
   end
 
