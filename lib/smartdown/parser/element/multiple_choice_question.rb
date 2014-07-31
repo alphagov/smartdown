@@ -4,6 +4,16 @@ module Smartdown
   module Parser
     module Element
       class MultipleChoiceQuestion < Base
+        rule(:multiple_choice_question_tag) {
+          str("[choice:") >>
+            optional_space >>
+            question_identifier.as(:identifier) >>
+            optional_space >>
+            str("]") >>
+            optional_space >>
+            line_ending
+        }
+
         rule(:option_definition_line) {
           bullet >>
             optional_space >>
@@ -15,7 +25,10 @@ module Smartdown
         }
 
         rule(:multiple_choice_question) {
-          (option_definition_line >> line_ending).repeat(1).as(:multiple_choice)
+          (
+            multiple_choice_question_tag.maybe >>
+            (option_definition_line >> line_ending).repeat(1).as(:options)
+          ).as(:multiple_choice)
         }
         root(:multiple_choice_question)
       end

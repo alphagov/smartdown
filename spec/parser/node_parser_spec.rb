@@ -69,10 +69,12 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {multiple_choice: [
-            {value: "yes", label: "Yes"},
-            {value: "no", label: "No"}
-          ]}
+          {multiple_choice: {
+            options: [
+              {value: "yes", label: "Yes"},
+              {value: "no", label: "No"}
+            ]}
+          }
         ]
       })
     end
@@ -96,10 +98,12 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {multiple_choice: [
-            {value: "yes", label: "Yes"},
-            {value: "no", label: "No"}
-          ]},
+          {multiple_choice: {
+            options: [
+              {value: "yes", label: "Yes"},
+              {value: "no", label: "No"}
+            ]}
+          },
           {h1: "Next node rules"},
           {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}
         ]
