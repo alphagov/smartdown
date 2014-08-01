@@ -29,6 +29,18 @@ describe Smartdown::Engine do
           end
         end
       end
+
+      node("outcome_no_visa_needed") do
+        conditional do
+          named_predicate "pred?"
+          true_case do
+            paragraph("True case")
+          end
+          false_case do
+            paragraph("False case")
+          end
+        end
+      end
     end
   }
 
@@ -47,11 +59,13 @@ describe Smartdown::Engine do
     context "start button response only" do
       let(:responses) { %w{yes} }
 
-      it "is on what_passport_do_you_have?" do
+      it { should be_a(Smartdown::Engine::State) }
+
+      it "current_node of 'what_passport_do_you_have?'" do
         expect(subject.get(:current_node)).to eq("what_passport_do_you_have?")
       end
 
-      it "has recorded input" do
+      it "input recorded in state variable corresponding to node name" do
         expect(subject.get("check-uk-visa")).to eq("yes")
       end
     end
@@ -59,7 +73,7 @@ describe Smartdown::Engine do
     context "greek passport" do
       let(:responses) { %w{yes greek} }
 
-      it "is on what_passport_do_you_have?" do
+      it "is on outcome_no_visa_needed" do
         expect(subject.get(:current_node)).to eq("outcome_no_visa_needed")
       end
 
@@ -76,4 +90,23 @@ describe Smartdown::Engine do
       end
     end
   end
+
+  describe "#evaluate_node" do
+    let(:current_state) {
+      start_state
+        .put(:current_node, "outcome_no_visa_needed")
+        .put(:pred?, true)
+    }
+
+    let(:expected_node_after_conditional_resolution) {
+      model_builder.node("outcome_no_visa_needed") do
+        paragraph("True case")
+      end
+    }
+
+    it "evaluates the current node of the given state, resolving any conditionals" do
+      expect(engine.evaluate_node(current_state)).to eq(expected_node_after_conditional_resolution)
+    end
+  end
+
 end

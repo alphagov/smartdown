@@ -105,8 +105,12 @@ class ModelBuilder
   end
 
   module DSL
+    def model_builder
+      ModelBuilder.new
+    end
+
     def build_flow(name, &block)
-      ModelBuilder.new.flow(name, &block)
+      model_builder.flow(name, &block)
     end
   end
 end
