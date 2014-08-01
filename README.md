@@ -198,7 +198,44 @@ date_variable_name >= '14/07/2014'
 date_variable_name < '14/07/2014'
 ```
 
-## Conditional blocks in outcomes (tbd)
+## Conditional blocks in outcomes
+
+The syntax is:
+
+```markdown
+
+$IF pred?
+
+Text if true
+
+more text if you like
+
+$ENDIF
+```
+
+You can also have an else clause:
+
+```markdown
+
+$IF pred?
+
+Text if true
+
+$ELSE
+
+Text if false
+
+$ENDIF
+```
+
+It's required to have a blank line between each if statement and the next paragraph of text, in other words this would be **invalid**:
+
+```markdown
+
+$IF pred?
+Text if true
+$ENDIF
+```
 
 ## Processing model
 
