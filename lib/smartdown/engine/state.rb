@@ -51,7 +51,7 @@ module Smartdown
         if has_key?(key)
           @data.fetch(key.to_s)
         else
-          raise UndefinedValue
+          raise UndefinedValue, "variable '#{key}' not defined", caller
         end
       end
 
