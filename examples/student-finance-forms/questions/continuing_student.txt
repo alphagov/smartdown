@@ -1,5 +1,6 @@
 # Are you a continuing student?
 
+[choice: continuing_student]
 * continuing-student: Yes
 * new-student: No
 

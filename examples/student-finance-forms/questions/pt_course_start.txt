@@ -1,5 +1,6 @@
 # Did your part-time course start before 1 September 2012?
 
+[choice: pt_course_start]
 * course-start-before-01092012: Yes
 * course-start-after-01092012: No
 
