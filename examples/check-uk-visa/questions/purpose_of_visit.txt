@@ -1,5 +1,6 @@
 # What are you coming to the UK to do?
 
+[choice: purpose_of_visit]
 * study: Study
 * work: Work or business
 * tourism: Tourism, including visiting friends or family

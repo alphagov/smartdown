@@ -4,6 +4,7 @@ You might pass through UK Border Control even if you don't leave the airport -
 eg your bags aren't checked through and you need to collect them before transferring
 to your outbound flight.
 
+[choice: planning_to_leave_airport]
 * yes => "Yes"
 * no => "No"
 

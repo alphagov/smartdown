@@ -1,6 +1,6 @@
 # What passport do you have?
 
-[country v]
+[country: what_passport_do_you_have]
 
 -------
 
