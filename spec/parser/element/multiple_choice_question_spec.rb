@@ -44,24 +44,8 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
       ].join("\n")
     }
 
-    it "parses" do
-      should parse(source).as(
-        multiple_choice: {
-          options: [
-            {value: "yes", label: "Yes"},
-            {value: "no", label: "No"}
-          ]
-        }
-      )
-    end
-
-    describe "transformed" do
-      let(:node_name) { "my_node" }
-      subject(:transformed) {
-        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
-      }
-
-      it { should eq(Smartdown::Model::Element::MultipleChoice.new(node_name, {"yes"=>"Yes", "no"=>"No"})) }
+    it "is not parsable" do
+      should_not parse(source)
     end
   end
 end

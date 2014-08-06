@@ -26,7 +26,7 @@ module Smartdown
 
         rule(:multiple_choice_question) {
           (
-            multiple_choice_question_tag.maybe >>
+            multiple_choice_question_tag >>
             (option_definition_line >> line_ending).repeat(1).as(:options)
           ).as(:multiple_choice)
         }
