@@ -41,6 +41,10 @@ describe Smartdown::Engine do
           end
         end
       end
+
+      node("outcome_with_interpolation") do
+        paragraph("The answer is %{interpolated_variable}")
+      end
     end
   }
 
@@ -92,20 +96,40 @@ describe Smartdown::Engine do
   end
 
   describe "#evaluate_node" do
-    let(:current_state) {
-      start_state
-        .put(:current_node, "outcome_no_visa_needed")
-        .put(:pred?, true)
-    }
+    context "conditional resolution" do
+      let(:current_state) {
+        start_state
+          .put(:current_node, "outcome_no_visa_needed")
+          .put(:pred?, true)
+      }
 
-    let(:expected_node_after_conditional_resolution) {
-      model_builder.node("outcome_no_visa_needed") do
-        paragraph("True case")
+      let(:expected_node_after_conditional_resolution) {
+        model_builder.node("outcome_no_visa_needed") do
+          paragraph("True case")
+        end
+      }
+
+      it "evaluates the current node of the given state, resolving any conditionals" do
+        expect(engine.evaluate_node(current_state)).to eq(expected_node_after_conditional_resolution)
       end
-    }
+    end
 
-    it "evaluates the current node of the given state, resolving any conditionals" do
-      expect(engine.evaluate_node(current_state)).to eq(expected_node_after_conditional_resolution)
+    context "interpolation" do
+      let(:current_state) {
+        start_state
+          .put(:current_node, "outcome_with_interpolation")
+          .put(:interpolated_variable, "42")
+      }
+
+      let(:expected_node_after_conditional_resolution) {
+        model_builder.node("outcome_with_interpolation") do
+          paragraph("The answer is 42")
+        end
+      }
+
+      it "evaluates the current node of the given state, resolving any conditionals" do
+        expect(engine.evaluate_node(current_state)).to eq(expected_node_after_conditional_resolution)
+      end
     end
   end
 
