@@ -5,12 +5,14 @@ require 'smartdown/parser/element/start_button'
 require 'smartdown/parser/element/multiple_choice_question'
 require 'smartdown/parser/element/markdown_heading'
 require 'smartdown/parser/element/markdown_paragraph'
+require 'smartdown/parser/element/conditional'
 
 module Smartdown
   module Parser
     class NodeParser < Base
       rule(:markdown_block) {
-        Element::MarkdownHeading.new |
+        Element::Conditional.new |
+          Element::MarkdownHeading.new |
           Element::MultipleChoiceQuestion.new |
           Rules.new |
           Element::StartButton.new |
@@ -18,7 +20,7 @@ module Smartdown
       }
 
       rule(:markdown_blocks) {
-        markdown_block >> (newline.repeat(1) >> markdown_block).repeat
+        markdown_block.repeat(1, 1) >> (newline.repeat(1) >> markdown_block).repeat
       }
 
       rule(:body) {

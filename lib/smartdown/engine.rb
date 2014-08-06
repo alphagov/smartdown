@@ -1,5 +1,6 @@
 require 'smartdown/engine/transition'
 require 'smartdown/engine/state'
+require 'smartdown/engine/node_presenter'
 
 module Smartdown
   class Engine
@@ -28,6 +29,11 @@ module Smartdown
         current_node = flow.node(state.get(:current_node))
         Transition.new(state, current_node, input).next_state
       end
+    end
+
+    def evaluate_node(state)
+      current_node = flow.node(state.get(:current_node))
+      NodePresenter.new.present(current_node, state)
     end
   end
 end

@@ -8,6 +8,7 @@ require 'smartdown/model/element/multiple_choice'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_paragraph'
+require 'smartdown/model/element/conditional'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
@@ -53,6 +54,28 @@ module Smartdown
         Smartdown::Model::Element::MultipleChoice.new(
           node_name, Hash[choices]
         )
+      }
+
+      # Conditional with no content in true-case
+      rule(:conditional => {:predicate => subtree(:predicate)}) {
+        Smartdown::Model::Element::Conditional.new(predicate)
+      }
+
+      # Conditional with content in true-case
+      rule(:conditional => {
+             :predicate => subtree(:predicate),
+             :true_case => subtree(:true_case)
+           }) {
+        Smartdown::Model::Element::Conditional.new(predicate, true_case)
+      }
+
+      # Conditional with content in both true-case and false-case
+      rule(:conditional => {
+             :predicate => subtree(:predicate),
+             :true_case => subtree(:true_case),
+             :false_case => subtree(:false_case)
+           }) {
+        Smartdown::Model::Element::Conditional.new(predicate, true_case, false_case)
       }
 
       rule(:equality_predicate => { varname: simple(:varname), expected_value: simple(:expected_value) }) {

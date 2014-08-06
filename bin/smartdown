@@ -25,7 +25,7 @@ else
 
     puts "RESPONSES: " + end_state.get(:responses).join(" / ")
     puts "PATH: " + (end_state.get(:path) + [end_state.get(:current_node)]).join(" -> ")
-    node = flow.node(end_state.get(:current_node))
+    node = engine.evaluate_node(end_state)
     puts "# #{node.title}\n\n"
     node.questions.each do |q|
       pp q.choices

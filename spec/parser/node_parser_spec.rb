@@ -130,4 +130,32 @@ SOURCE
       it { should eq(expected_node_model) }
     end
   end
+
+  describe "body with conditional" do
+    let(:source) {
+<<SOURCE
+$IF pred1?
+
+Text when true
+
+$ELSE
+
+Text when false
+
+$ENDIF
+SOURCE
+     }
+
+    it {
+      should parse(source).as({
+        body: [
+          {conditional: {
+            predicate: {named_predicate: "pred1?"},
+            true_case: [{p: "Text when true\n"}],
+            false_case: [{p: "Text when false\n"}]
+          }}
+        ]
+      })
+    }
+  end
 end
