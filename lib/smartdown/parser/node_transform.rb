@@ -50,9 +50,9 @@ module Smartdown
         [value.to_s, label.to_s]
       }
 
-      rule(:multiple_choice => subtree(:choices)) {
+      rule(:multiple_choice => {identifier: simple(:identifier), options: subtree(:choices)}) {
         Smartdown::Model::Element::MultipleChoice.new(
-          node_name, Hash[choices]
+          identifier, Hash[choices]
         )
       }
 

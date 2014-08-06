@@ -1,5 +1,6 @@
 # What academic year do you want funding for?
 
+[choice: what_year]
 * year-1314: 2013 to 2014
 * year-1415: 2014 to 2015
 

@@ -1,5 +1,6 @@
 # How long are you planning to %{activity_whilst_staying} in the UK for?"
 
+[choice: staying_for_how_long]
 * six_months_or_less: "6 months or less"
 * longer_than_six_months: "longer than 6 months"
 
