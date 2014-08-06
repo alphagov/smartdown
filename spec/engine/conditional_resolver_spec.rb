@@ -1,8 +1,8 @@
-require 'smartdown/engine/node_presenter'
+require 'smartdown/engine/conditional_resolver'
 require 'smartdown/engine/state'
 
-describe Smartdown::Engine::NodePresenter do
-  subject(:node_presenter) { described_class.new }
+describe Smartdown::Engine::ConditionalResolver do
+  subject(:conditional_resolver) { described_class.new }
 
   context "a node with a conditional" do
     let(:node) {
@@ -34,7 +34,7 @@ describe Smartdown::Engine::NodePresenter do
       }
 
       it "should resolve the conditional and preserve the 'True case' paragraph block" do
-        expect(node_presenter.present(node, state)).to eq(expected_node_after_presentation)
+        expect(conditional_resolver.present(node, state)).to eq(expected_node_after_presentation)
       end
     end
 
@@ -53,7 +53,7 @@ describe Smartdown::Engine::NodePresenter do
       }
 
       it "should resolve the conditional and preserve the 'False case' paragraph block" do
-        expect(node_presenter.present(node, state)).to eq(expected_node_after_presentation)
+        expect(conditional_resolver.present(node, state)).to eq(expected_node_after_presentation)
       end
     end
   end
