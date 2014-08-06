@@ -34,7 +34,7 @@ describe Smartdown::Engine::ConditionalResolver do
       }
 
       it "should resolve the conditional and preserve the 'True case' paragraph block" do
-        expect(conditional_resolver.present(node, state)).to eq(expected_node_after_presentation)
+        expect(conditional_resolver.call(node, state)).to eq(expected_node_after_presentation)
       end
     end
 
@@ -53,7 +53,7 @@ describe Smartdown::Engine::ConditionalResolver do
       }
 
       it "should resolve the conditional and preserve the 'False case' paragraph block" do
-        expect(conditional_resolver.present(node, state)).to eq(expected_node_after_presentation)
+        expect(conditional_resolver.call(node, state)).to eq(expected_node_after_presentation)
       end
     end
   end

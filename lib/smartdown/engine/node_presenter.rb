@@ -1,3 +1,11 @@
 require 'smartdown/engine/conditional_resolver'
 
-Smartdown::Engine::NodePresenter = Smartdown::Engine::ConditionalResolver
+module Smartdown
+  class Engine
+    class NodePresenter
+      def present(node, state)
+        Smartdown::Engine::ConditionalResolver.new.call(node, state)
+      end
+    end
+  end
+end

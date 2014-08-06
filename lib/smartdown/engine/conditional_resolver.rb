@@ -7,7 +7,7 @@ module Smartdown
         @predicate_evaluator = predicate_evaluator || PredicateEvaluator.new
       end
 
-      def present(node, state)
+      def call(node, state)
         node.dup.tap do |new_node|
           new_node.elements = resolve_conditionals(node.elements, state)
         end
