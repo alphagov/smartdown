@@ -106,7 +106,7 @@ Use front matter to exclude/include countries
 
 ```markdown
 ---
-passport_country: 
+passport_country:
   exclude_countries: country1, country2
   include_countries: {country3: "Country 3", country4: "Country 4"}
 ---
@@ -191,18 +191,69 @@ variable_name is 'string'
 variable_name in {this that the-other}
 ```
 
-### Date comparison predicates
+### Date comparison predicates (tbd)
 
 ```
 date_variable_name >= '14/07/2014'
 date_variable_name < '14/07/2014'
 ```
 
-## Conditional blocks in outcomes (tbd)
-
 ## Processing model
 
-Each response to a question is assigned to a variable which corresponds to the question name (as determined by the filename).
+Each response to a question is assigned to a variable which corresponds to the
+question name (as determined by the filename).
+
+## Conditional blocks in outcomes
+
+The syntax is:
+
+```markdown
+
+$IF pred?
+
+Text if true
+
+more text if you like
+
+$ENDIF
+```
+
+You can also have an else clause:
+
+```markdown
+
+$IF pred?
+
+Text if true
+
+$ELSE
+
+Text if false
+
+$ENDIF
+```
+
+It's required to have a blank line between each if statement and the next paragraph of text, in other words this would be **invalid**:
+
+```markdown
+
+$IF pred?
+Text if true
+$ENDIF
+```
+
+## Interpolation
+
+It's possible to interpolate values from calculations, responses to questions, plugins etc.
+
+Interpolations are currently supported into headings and paragraphs using the following syntax:
+
+```markdown
+
+# State pension age calculation for %{name}
+
+Your state pension age is %{state_pension_age}.
+```
 
 ## Named predicates (tbd)
 

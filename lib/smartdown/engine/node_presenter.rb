@@ -1,37 +1,18 @@
-require 'smartdown/engine/predicate_evaluator'
+require 'smartdown/engine/conditional_resolver'
+require 'smartdown/engine/interpolator'
 
 module Smartdown
   class Engine
     class NodePresenter
-      def initialize(predicate_evaluator = nil)
-        @predicate_evaluator = predicate_evaluator || PredicateEvaluator.new
-      end
+      PRESENTERS = [
+        Smartdown::Engine::ConditionalResolver.new,
+        Smartdown::Engine::Interpolator.new
+      ]
 
-      def present(node, state)
-        node.dup.tap do |new_node|
-          new_node.elements = resolve_conditionals(node.elements, state)
+      def present(unpresented_node, state)
+        PRESENTERS.inject(unpresented_node) do |node, presenter_class|
+          presenter_class.call(node, state)
         end
-      end
-
-    private
-      attr_accessor :predicate_evaluator
-
-      def evaluate(conditional, state)
-        if predicate_evaluator.evaluate(conditional.predicate, state)
-          conditional.true_case
-        else
-          conditional.false_case
-        end
-      end
-
-      def resolve_conditionals(elements, state)
-        elements.map do |element|
-          if element.is_a?(Smartdown::Model::Element::Conditional)
-            evaluate(element, state)
-          else
-            element
-          end
-        end.flatten
       end
     end
   end
