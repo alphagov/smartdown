@@ -39,7 +39,7 @@ module Smartdown
 
       private
         def interpolate(text, state)
-          text.gsub(/%{([^}]+)}/) { |_| state.get($1) }
+          text.to_s.gsub(/%{([^}]+)}/) { |_| state.get($1) }
         end
       end
 

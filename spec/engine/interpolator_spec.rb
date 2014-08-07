@@ -1,5 +1,6 @@
 require 'smartdown/engine/interpolator'
 require 'smartdown/engine/state'
+require 'parslet'
 
 describe Smartdown::Engine::Interpolator do
   subject(:interpolator) { described_class.new }
@@ -63,6 +64,17 @@ describe Smartdown::Engine::Interpolator do
     let(:elements) { [Smartdown::Model::Element::MarkdownHeading.new('Hello %{name}')] }
 
     it "interpolates the name into the paragraph content" do
+      expect(interpolated_node.elements.first.content).to eq("Hello #{example_name}")
+    end
+  end
+
+  context "a paragraph containing a parslet slice" do
+    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new(Parslet::Slice.new(0, 'Hello %{name}'))] }
+
+    it "interpolates without raising an error about gsub missing" do
+      # Note: the parser actually produces parslet 'slices' rather than strings.
+      # A parslet slice behaves like a string but doesn't have all of the methods of string.
+      # This test is to document that fact and catch any regressions.
       expect(interpolated_node.elements.first.content).to eq("Hello #{example_name}")
     end
   end
