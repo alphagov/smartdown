@@ -8,7 +8,7 @@ describe Smartdown::Engine::Transition do
   let(:start_state) { Smartdown::Engine::State.new(current_node: current_node_name) }
   let(:input) { "yes" }
   subject(:transition) { described_class.new(start_state, current_node, input, predicate_evaluator: predicate_evaluator) }
-  let(:predicate_evaluator) { instance_double("Smartdown::Engine::PredicateEvaluator") }
+  let(:predicate_evaluator) { instance_double("Smartdown::Engine::PredicateEvaluator", evaluate: true) }
   let(:state_including_input) {
     start_state.put(current_node.name, input)
   }
@@ -86,10 +86,6 @@ describe Smartdown::Engine::Transition do
     end
 
     describe "#next_state" do
-      before(:each) do
-        allow(predicate_evaluator).to receive(:evaluate).and_return(true)
-      end
-
       it "returns a state including a record of responses, path, and new current_node" do
         expected_state = start_state
           .put(:responses, [input])
@@ -159,6 +155,29 @@ describe Smartdown::Engine::Transition do
         end
       end
     end
+  end
+
+  context "next node rules and a named question" do
+    let(:question_name) { "my_question" }
+
+    let(:current_node) {
+      Smartdown::Model::Node.new(
+        current_node_name,
+        [
+          Smartdown::Model::Element::MultipleChoice.new(question_name, {"a" => "Apple"}),
+          Smartdown::Model::NextNodeRules.new(
+            [Smartdown::Model::Rule.new(double("predicate1"), "o1")]
+          )
+        ]
+      )
+    }
+
+    describe "#next_state" do
+      it "assigns the input value to a variable matching the question name" do
+        expect(transition.next_state.get(question_name)).to eq(input)
+      end
+    end
+
   end
 
 end
