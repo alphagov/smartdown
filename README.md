@@ -49,9 +49,12 @@ flow:
 
 Each file has three parts: front-matter, a model definition, rules/logic. Only the model definition is required.
 
-* **front-matter** defines metadata in the form `property: value`
-* the **model definition** is a markdown-like block which defines a flow, question or outcome.
-* **rules/logic** defines 'next node' transition rules or other logic/predicate definitions
+* **front-matter** defines metadata in the form `property: value`. Note: this
+  does not support full YAML syntax.
+* the **model definition* is a markdown-like block which defines a flow,
+  question or outcome.
+* **rules/logic** defines 'next node' transition rules or other
+  logic/predicate definitions
 
 ## Cover sheet node
 
@@ -77,12 +80,21 @@ You may need a visa to come to the UK to visit, study or work.
 
 ## Question nodes
 
-A question model definition has optional front matter, followed by a title and
-question type.
+Question nodes follow the same standard structure outlined above.
 
-The next sections define the various question types
+Smartdown currently allows multiple questions to be defined per node, but this
+feature is in development and the behaviour may change.
 
-### Radio buttons
+The next sections define the various question types available.
+
+Note that at present only the 'choice' question type has been implemented.
+Unimplemented question types are marked with **(tbd)** in the heading. For
+these question types, consider this documentation to be a proposal of how they
+might work.
+
+### "Choice" questions (aka. radio buttons)
+
+A choice question allows the user to select a single option from a list of choices.
 
 ```markdown
 ## Will you pass through UK Border Control?
@@ -181,14 +193,21 @@ defines a conditional transition
 ```
 # Next node
 
-* predicate1
-  * predicate2 => outcome1
-  * predicate3 => outcome2
+* reddish?
+  * yellowish? => orange
+  * blueish? => purple
 ```
 
 defines nested rules.
 
+In the example above the node `orange` would be selected if both `reddish?` and `yellowish?` were true.
+
 ## Predicates
+
+As well as 'named' predicates which might be defined by a plugin or other
+mechanism, there's also a basic expression language for predicates.
+
+The currently supported operations are:
 
 ```
 variable_name is 'string'
