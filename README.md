@@ -55,20 +55,24 @@ Each file has three parts: front-matter, a model definition, rules/logic. Only t
 
 ## Cover sheet node
 
-The cover sheet starts the flow off, its filename should match the flow name, e.g. 'check-uk-visa.txt'.
+The cover sheet starts the flow off, its filename should match the flow name,
+e.g. 'check-uk-visa.txt'.
 
-It has initial 'front matter' which defines metadata for the flow, including
-the first question. It then defines the copy for the cover sheet in markdown
-format. The h1 title is compulsory and used as the title for the smart answer.
+It has initial 'front matter' which defines metadata for the flow. It then
+defines the copy for the cover sheet in markdown format. The h1 title is
+compulsory and used as the title for the smart answer.
+
+A start button determines which question node is presented first.
 
 ```
 meta_description: You may need a visa to come to the UK to visit, study or work.
 satisfies_need: 100982
-start_with: what_passport_do_you_have
 
 # Check if you need a UK visa
 
 You may need a visa to come to the UK to visit, study or work.
+
+[start_button: what_passport_do_you_have]
 ```
 
 ## Question nodes
