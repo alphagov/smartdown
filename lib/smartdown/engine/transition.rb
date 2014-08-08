@@ -14,7 +14,9 @@ module Smartdown
       end
 
       def next_node
-        first_matching_rule(next_node_rules.rules).outcome
+        next_node_from_next_node_rules ||
+          next_node_from_start_button ||
+          raise(Smartdown::Engine::IndeterminateNextNode, "No next node rules defined for '#{node.name}'", caller)
       end
 
       def next_state
@@ -28,9 +30,20 @@ module Smartdown
     private
       attr_reader :predicate_evaluator
 
+      def next_node_from_next_node_rules
+        next_node_rules && first_matching_rule(next_node_rules.rules).outcome
+      end
+
+      def next_node_from_start_button
+        start_button && start_button.start_node
+      end
+
       def next_node_rules
-        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) } or \
-          raise Smartdown::Engine::IndeterminateNextNode, "No next node rules defined for '#{node.name}'"
+        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) }
+      end
+
+      def start_button
+        node.elements.find { |e| e.is_a?(Smartdown::Model::Element::StartButton) }
       end
 
       def first_matching_rule(rules)

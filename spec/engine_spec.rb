@@ -7,12 +7,6 @@ describe Smartdown::Engine do
         heading("Check uk visa")
         paragraph("This is the paragraph")
         start_button("what_passport_do_you_have?")
-        next_node_rules do
-          rule do
-            named_predicate("otherwise")
-            outcome("what_passport_do_you_have?")
-          end
-        end
       end
 
       node("what_passport_do_you_have?") do

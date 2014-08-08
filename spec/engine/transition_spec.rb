@@ -25,6 +25,20 @@ describe Smartdown::Engine::Transition do
     end
   end
 
+  context "no next node rules, but start button" do
+    let(:current_node) {
+      Smartdown::Model::Node.new(current_node_name, [
+        Smartdown::Model::Element::StartButton.new("first_question")
+      ])
+    }
+
+    describe "#next_node" do
+      it "take the next node from the start button" do
+        expect(transition.next_node).to eq("first_question")
+      end
+    end
+  end
+
   context "next node rules defined with a simple rule" do
     let(:predicate1) { double("predicate1") }
     let(:outcome_name1) { "o1" }
