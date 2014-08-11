@@ -6,17 +6,19 @@ require 'smartdown/parser/element/multiple_choice_question'
 require 'smartdown/parser/element/markdown_heading'
 require 'smartdown/parser/element/markdown_paragraph'
 require 'smartdown/parser/element/conditional'
+require 'smartdown/parser/element/next_steps'
 
 module Smartdown
   module Parser
     class NodeParser < Base
       rule(:markdown_block) {
         Element::Conditional.new |
-          Element::MarkdownHeading.new |
-          Element::MultipleChoiceQuestion.new |
-          Rules.new |
-          Element::StartButton.new |
-          Element::MarkdownParagraph.new
+        Element::MarkdownHeading.new |
+        Element::MultipleChoiceQuestion.new |
+        Rules.new |
+        Element::StartButton.new |
+        Element::NextSteps.new |
+        Element::MarkdownParagraph.new
       }
 
       rule(:markdown_blocks) {
@@ -29,8 +31,8 @@ module Smartdown
 
       rule(:flow) {
         Element::FrontMatter.new >> newline.repeat(1) >> body |
-          Element::FrontMatter.new |
-          ws >> body
+        Element::FrontMatter.new |
+        ws >> body
       }
 
       root(:flow)

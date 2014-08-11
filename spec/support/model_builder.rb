@@ -52,6 +52,13 @@ class ModelBuilder
     @elements.last
   end
 
+  def next_steps(urls)
+    @elements ||= []
+    urls_with_string_keys = ::Hash[urls.map {|k,v| [k.to_s, v]}]
+    @elements << Smartdown::Model::Element::NextSteps.new(urls_with_string_keys)
+    @elements.last
+  end
+
   def next_node_rules(&block)
     @rules = []
     instance_eval(&block) if block_given?

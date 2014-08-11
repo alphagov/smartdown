@@ -160,6 +160,16 @@ Asks for salary which can be expressed as either a weekly or monthly money amoun
 * [ ] no: No
 ```
 
+## Next steps
+
+List of URLs to be listed as part of an outcome to direct the users to other URLs of potential interest for them.
+
+```markdown
+[next_steps]
+* /some/url/destination: Next Step
+* /other/url/destination: Other Next Step
+```
+
 ## Next node rules
 
 Logical rules for transitioning to the next node are defined in 'Next node' section. This is declared using a markdown h1 'Next node'.

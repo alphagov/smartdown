@@ -9,6 +9,7 @@ require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_paragraph'
 require 'smartdown/model/element/conditional'
+require 'smartdown/model/element/next_steps'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
@@ -50,10 +51,18 @@ module Smartdown
         [value.to_s, label.to_s]
       }
 
+      rule(:url => simple(:url), :label => simple(:label)) {
+        [url.to_s, label.to_s]
+      }
+
       rule(:multiple_choice => {identifier: simple(:identifier), options: subtree(:choices)}) {
         Smartdown::Model::Element::MultipleChoice.new(
           identifier, Hash[choices]
         )
+      }
+
+      rule(:next_steps => { urls: subtree(:urls) }) {
+        Smartdown::Model::Element::NextSteps.new(Hash[urls])
       }
 
       # Conditional with no content in true-case
