@@ -162,12 +162,13 @@ Asks for salary which can be expressed as either a weekly or monthly money amoun
 
 ## Next steps
 
-List of URLs to be listed as part of an outcome to direct the users to other URLs of potential interest for them.
+Markdown to be displayed as part of an outcome to direct the users to other information of potential interest to them.
 
 ```markdown
 [next_steps]
-* /some/url/destination: Next Step
-* /other/url/destination: Other Next Step
+* Any kind of markdown
+[A link](https://gov.uk/somewhere)
+[end_next_steps]
 ```
 
 ## Next node rules

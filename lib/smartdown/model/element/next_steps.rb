@@ -1,7 +1,7 @@
 module Smartdown
   module Model
     module Element
-      NextSteps = Struct.new(:urls)
+      NextSteps = Struct.new(:content)
     end
   end
 end

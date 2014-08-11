@@ -61,8 +61,8 @@ module Smartdown
         )
       }
 
-      rule(:next_steps => { urls: subtree(:urls) }) {
-        Smartdown::Model::Element::NextSteps.new(Hash[urls])
+      rule(:next_steps => { content: simple(:content) }) {
+        Smartdown::Model::Element::NextSteps.new(content.to_s)
       }
 
       # Conditional with no content in true-case
