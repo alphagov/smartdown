@@ -24,9 +24,14 @@ module Smartdown
             optional_space
         }
 
+        rule(:optional_hint) {
+          str('[hint: ') >> (str("]").absnt? >> any).repeat.as(:hint) >> str(']') >> line_ending
+        }
+
         rule(:multiple_choice_question) {
           (
             multiple_choice_question_tag >>
+            optional_hint.maybe >>
             (option_definition_line >> line_ending).repeat(1).as(:options)
           ).as(:multiple_choice)
         }

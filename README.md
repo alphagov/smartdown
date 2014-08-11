@@ -160,6 +160,17 @@ Asks for salary which can be expressed as either a weekly or monthly money amoun
 * [ ] no: No
 ```
 
+### Hint
+
+Markdown to be displayed as a hint for a question.
+
+```markdown
+[choice: uk_border_control]
+[hint: Insert your hint text here]
+* yes: Yes
+* no: No
+```
+
 ## Next steps
 
 Markdown to be displayed as part of an outcome to direct the users to other information of potential interest to them.
