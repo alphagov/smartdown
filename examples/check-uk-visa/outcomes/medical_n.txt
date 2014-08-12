@@ -1,6 +1,0 @@
-
-outcome_medical_n:
-  title: You won’t need a visa to visit the UK
-  body:
-    However, you should bring the [same documents](/government/publications/visitor-visa-guide-to-supporting-documents) you’d need to apply for a Private Medical Treatment Visitor visa, to show to officers at the UK border.
-

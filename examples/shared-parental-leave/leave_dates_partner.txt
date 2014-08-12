@@ -1,7 +1,0 @@
-# Leave dates
-
-## How much leave will the partner take? {#partner_leave_amount}
-!!!free_text!!!
-
-## When will the partner's leave start? (#{partner_leave_range}) {#partner_start_leave}
-!!!date!!!

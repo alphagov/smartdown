@@ -1,5 +1,0 @@
-
-outcome_medical_y:
-  title: You’ll need a visa to visit the UK
-  body:
-    You should apply for the [private medical treatment visa](/private-medical-treatment-visa).
