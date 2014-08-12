@@ -61,6 +61,12 @@ module Smartdown
         )
       }
 
+      rule(:multiple_choice => {identifier: simple(:identifier), options: subtree(:choices), hint: simple(:hint)}) {
+        Smartdown::Model::Element::MultipleChoice.new(
+          identifier, Hash[choices], hint
+        )
+      }
+
       rule(:next_steps => { content: simple(:content) }) {
         Smartdown::Model::Element::NextSteps.new(content.to_s)
       }

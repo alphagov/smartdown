@@ -36,6 +36,43 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
     end
   end
 
+  context "with a hint" do
+    let(:source) {
+      [
+        "[choice: yes_or_no]",
+        "[hint: Hint sentence.]",
+        "* yes: Yes",
+        "* no: No"
+      ].join("\n")
+    }
+
+    it "parses" do
+      should parse(source).as(
+                 multiple_choice: {
+                     identifier: "yes_or_no",
+                     hint: "Hint sentence.",
+                     options: [
+                         {value: "yes", label: "Yes"},
+                         {value: "no", label: "No"}
+                     ]
+                 }
+             )
+    end
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Element::MultipleChoice.new(
+        "yes_or_no",
+        {"yes"=>"Yes", "no"=>"No"},
+        "Hint sentence."
+      )) }
+    end
+  end
+
   context "without question tag" do
     let(:source) {
       [
