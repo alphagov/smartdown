@@ -23,7 +23,7 @@ module Smartdown
         state_with_input
           .put(:path, state.get(:path) + [node.name])
           .put(:responses, state.get(:responses) + [input])
-          .put(node.name, input)
+          .put(input_variable_name, input)
           .put(:current_node, next_node)
       end
 
@@ -36,6 +36,15 @@ module Smartdown
 
       def next_node_from_start_button
         start_button && start_button.start_node
+      end
+
+      def input_variable_name
+        input_variable_name_from_question || node.name
+      end
+
+      def input_variable_name_from_question
+        question = node.elements.find { |e| e.is_a?(Smartdown::Model::Element::MultipleChoice) }
+        question && question.name
       end
 
       def next_node_rules
