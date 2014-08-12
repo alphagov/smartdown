@@ -1,8 +1,0 @@
-# You won’t need a visa to come to the UK
-
-However, you may need a [registration certificate](/croatian-national) if you want to stay and work.[^1]
-
-However, you should bring documents with you to show at the border. See the relevant [student visa](/browse/visas-immigration/study-visas) guide to see what documents to bring. [^2]
-
-[^1]: if passport_country == 'croatia'
-[^2]: if purpose_of_visit == 'study'
