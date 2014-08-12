@@ -176,6 +176,17 @@ Asks for salary which can be expressed as either a weekly or monthly money amoun
 * [ ] no: No
 ```
 
+## Next steps
+
+Markdown to be displayed as part of an outcome to direct the users to other information of potential interest to them.
+
+```markdown
+[next_steps]
+* Any kind of markdown
+[A link](https://gov.uk/somewhere)
+[end_next_steps]
+```
+
 ## Next node rules
 
 Logical rules for transitioning to the next node are defined in 'Next node' section. This is declared using a markdown h1 'Next node'.
