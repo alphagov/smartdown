@@ -11,6 +11,10 @@ module Smartdown
         elements_of_kind(Smartdown::Model::Element::MultipleChoice)
       end
 
+      #Because question titles and page titles use the same markdown,
+      #there are at least as many or more headings than questions on each page
+      #To get only the question titles, we are assuming that all the headings that
+      #are not question headings come first in the markdown, then question headings
       def question_titles
         h1s.drop(h1s.count - questions.count)
       end
