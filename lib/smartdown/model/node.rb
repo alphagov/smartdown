@@ -15,11 +15,15 @@ module Smartdown
         h1s.drop(h1s.count - questions.count)
       end
 
-      private
-
       def title
         h1s.first ? h1s.first.content : ""
       end
+
+      def body
+        markdown_blocks[1..-1].map { |block| as_markdown(block) }.compact.join("\n")
+      end
+
+      private
 
       def markdown_blocks
         elements_of_kind(Smartdown::Model::Element::MarkdownHeading, Smartdown::Model::Element::MarkdownParagraph)
@@ -27,10 +31,6 @@ module Smartdown
 
       def h1s
         elements_of_kind(Smartdown::Model::Element::MarkdownHeading)
-      end
-
-      def body
-        markdown_blocks[1..-1].map { |block| as_markdown(block) }.compact.join("\n")
       end
 
     private

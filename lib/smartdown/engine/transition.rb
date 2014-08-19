@@ -4,12 +4,12 @@ require 'smartdown/engine/errors'
 module Smartdown
   class Engine
     class Transition
-      attr_reader :state, :node, :input
+      attr_reader :state, :node, :inputs
 
       def initialize(state, node, input_array, options = {})
         @state = state
         @node = node
-        @input = input_array
+        @inputs = input_array
         @predicate_evaluator = options[:predicate_evaluator] || PredicateEvaluator.new
       end
 
@@ -22,7 +22,7 @@ module Smartdown
       def next_state
         state_with_inputs
           .put(:path, state.get(:path) + [node.name])
-          .put(:responses, state.get(:responses) + input)
+          .put(:responses, state.get(:responses) + inputs)
           .put(:current_node, next_node)
       end
 
@@ -75,9 +75,9 @@ module Smartdown
       end
 
       def state_with_inputs
-        result = state.put(node.name, input)
+        result = state.put(node.name, inputs)
         input_variable_names_from_question.each_with_index do |input_variable_name, index|
-          result = result.put(input_variable_name, input[index])
+          result = result.put(input_variable_name, inputs[index])
         end
         result
       end
