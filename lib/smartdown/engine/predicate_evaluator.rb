@@ -14,6 +14,8 @@ module Smartdown
           ->(state) { predicate.values.include?(state.get(predicate.varname)) }
         when Smartdown::Model::Predicate::Named
           ->(state) { state.get(predicate.name) }
+        when Smartdown::Model::Predicate::Comparison::Base
+          ->(state) { predicate.evaluate(state.get(predicate.varname)) }
         else
           raise "Unknown predicate type #{predicate.class}"
         end

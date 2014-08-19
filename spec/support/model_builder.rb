@@ -11,6 +11,10 @@ require 'smartdown/model/rule'
 require 'smartdown/model/predicate/named'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
+require 'smartdown/model/predicate/comparison/greater_or_equal'
+require 'smartdown/model/predicate/comparison/less_or_equal'
+require 'smartdown/model/predicate/comparison/greater'
+require 'smartdown/model/predicate/comparison/less'
 
 class ModelBuilder
   def flow(name, &block)

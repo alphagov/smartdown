@@ -15,6 +15,10 @@ require 'smartdown/model/element/next_steps'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
+require 'smartdown/model/predicate/comparison/greater_or_equal'
+require 'smartdown/model/predicate/comparison/greater'
+require 'smartdown/model/predicate/comparison/less_or_equal'
+require 'smartdown/model/predicate/comparison/less'
 
 module Smartdown
   module Parser
@@ -112,6 +116,24 @@ module Smartdown
 
       rule(:named_predicate => simple(:name) ) {
         Smartdown::Model::Predicate::Named.new(name)
+      }
+
+      rule(:comparison_predicate => { varname: simple(:varname), 
+                                       value: simple(:value),
+                                       operator: simple(:operator)
+                                     }) { 
+        case operator
+        when "<="
+          Smartdown::Model::Predicate::Comparison::LessOrEqual.new(varname, value)
+        when "<"
+          Smartdown::Model::Predicate::Comparison::Less.new(varname, value)
+        when ">="
+          Smartdown::Model::Predicate::Comparison::GreaterOrEqual.new(varname, value)
+        when ">"
+          Smartdown::Model::Predicate::Comparison::Greater.new(varname, value)
+        else
+          raise "Comparison operator not recognised"
+        end
       }
 
       rule(:rule => {predicate: subtree(:predicate), outcome: simple(:outcome_name) } ) {
