@@ -8,7 +8,7 @@ module Smartdown
       end
 
       def questions
-        elements_of_kind(Smartdown::Model::Element::Question)
+        elements.select{|e| e.class.to_s.include?("Smartdown::Model::Element::Question")}
       end
 
       #Because question titles and page titles use the same markdown,

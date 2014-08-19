@@ -22,7 +22,7 @@ describe Smartdown::Parser::Element::DateQuestion do
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Element::Date.new("date_of_birth")) }
+      it { should eq(Smartdown::Model::Element::Question::Date.new("date_of_birth")) }
     end
   end
 end

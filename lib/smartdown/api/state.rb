@@ -38,7 +38,7 @@ module Smartdown
       end
 
       def previous_question_nodes
-        @previous_question_page_nodes.map(&:question)
+        @previous_question_page_nodes.map(&:questions)
       end
 
       def previous_question_title_nodes

@@ -1,6 +1,5 @@
 require 'smartdown/engine/predicate_evaluator'
 require 'smartdown/engine/errors'
-require 'smartdown/model/element/question'
 
 module Smartdown
   class Engine
@@ -39,7 +38,7 @@ module Smartdown
       end
 
       def input_variable_names_from_question
-        questions = node.elements.select { |e| e.is_a?(Smartdown::Model::Element::Question) }
+        questions = node.elements.select { |e| e.class.to_s.include?("Smartdown::Model::Element::Question") }
         questions.map(&:name)
       end
 

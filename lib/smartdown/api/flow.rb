@@ -74,10 +74,10 @@ module Smartdown
         if node.elements.any?{|element| element.is_a? Smartdown::Model::Element::StartButton}
           Smartdown::Api::Coversheet.new(node)
         elsif node.elements.any?{|element| element.is_a? Smartdown::Model::NextNodeRules}
-          if node.elements.any?{|element| element.is_a? Smartdown::Model::Element::Question}
+          if node.elements.any?{|element| element.class.to_s.include?("Smartdown::Model::Element::Question")}
             Smartdown::Api::QuestionPage.new(node)
           else
-            #TODO: support other types of questions
+            raise("Unknown node type: #{node.elements.map(&:class)}")
           end
         else
           Smartdown::Api::Outcome.new(node)
