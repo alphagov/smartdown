@@ -61,5 +61,25 @@ describe Smartdown::Parser::Predicates do
       it { should eq(Smartdown::Model::Predicate::Named.new("my_pred")) }
     end
   end
+
+  describe "comparison predicate" do
+    subject(:parser) { described_class.new }
+    let(:source) { "varname >= 'expected_value'" }
+
+    it { should parse(source).as(equality_predicate: {varname: "varname", expected_value: "expected_value"}) }
+    it { should_not parse("v >= value") }
+    it { should_not parse("v >= 'a thing's thing'") }
+    it { should_not parse("v >= 'a thing\\'s thing'") }
+    it { should_not parse(%q{v >= "a thing"}) }
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Predicate::Equality.new("varname", "expected_value")) }
+    end
+  end
 end
 
