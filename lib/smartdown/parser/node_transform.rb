@@ -61,6 +61,12 @@ module Smartdown
         )
       }
 
+      rule(:date => {identifier: simple(:identifier)}) {
+        Smartdown::Model::Element::DateQuestion.new(
+          identifier
+        )
+      }
+
       rule(:next_steps => { content: simple(:content) }) {
         Smartdown::Model::Element::NextSteps.new(content.to_s)
       }

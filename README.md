@@ -132,15 +132,13 @@ passport_country:
 [country: passport_country]
 ```
 
-### Date (tbd)
+### Date
 
 ```markdown
 ## What is the baby’s due date?
 
 [date: baby_due_date]
 ```
-
-Asks for a specific date in the given range. Ranges can be expressed as a relative number of years or absolute dates in YYYY-MM-DD format.
 
 ### Value (tbd)
 
