@@ -9,6 +9,16 @@ module Smartdown
           str("'") >> match("[^']").repeat.as(:expected_value) >> str("'")
       }
 
+      rule(:comparison_operator) {
+        str('>=') | str('>') | str('<=') | str('<')
+      }
+
+      rule(:comparison_predicate) {
+        identifier.as(:varname) >> some_space >>
+        comparison_operator.as(:operator) >> some_space >>
+        str("'") >> match("[^']").repeat.as(:value) >> str("'")
+      }
+
       rule(:set_value) {
         match('[^\s}]').repeat(1).as(:set_value)
       }
@@ -30,7 +40,8 @@ module Smartdown
       rule(:predicate) {
         equality_predicate.as(:equality_predicate) |
         set_membership_predicate.as(:set_membership_predicate) |
-        named_predicate
+        named_predicate |
+        comparison_predicate.as(:comparison_predicate)
       }
 
       rule (:combined_predicate) {
