@@ -123,7 +123,7 @@ SOURCE
       let(:expected_elements) {
         [
           Smartdown::Model::Element::MarkdownHeading.new("This is my title"),
-          Smartdown::Model::Element::MultipleChoice.new("my_question", "yes"=>"Yes", "no"=>"No"),
+          Smartdown::Model::Element::Question::MultipleChoice.new("my_question", "yes"=>"Yes", "no"=>"No"),
           Smartdown::Model::Element::MarkdownHeading.new("Next node rules"),
           Smartdown::Model::NextNodeRules.new([
             Smartdown::Model::Rule.new(Smartdown::Model::Predicate::Named.new("pred1?"), "outcome")

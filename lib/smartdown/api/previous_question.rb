@@ -21,7 +21,7 @@ module Smartdown
       end
 
       def response_label(value=response)
-        @question_element.choices.fetch(value)
+        @question_element.response_label(value)
       end
 
     end

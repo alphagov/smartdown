@@ -1,3 +1,9 @@
+## 0.1.2
+
+### Date question, salary question
+
+Parses [date: identifier] and [salary: identifier].
+
 ## 0.1.1
 
 ### Smartdown Adapter into gem under Api module
