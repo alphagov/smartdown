@@ -6,24 +6,27 @@ module Smartdown
     class Transition
       attr_reader :state, :node, :input
 
-      def initialize(state, node, input, options = {})
+      def initialize(state, node, input_array, options = {})
+        p "TRANSITIONING! "
+        p "#{state}"
+        p "#{node}"
+        p "#{input_array}"
         @state = state
         @node = node
-        @input = input
+        @input = input_array
         @predicate_evaluator = options[:predicate_evaluator] || PredicateEvaluator.new
       end
 
       def next_node
         next_node_from_next_node_rules ||
-          next_node_from_start_button ||
-          raise(Smartdown::Engine::IndeterminateNextNode, "No next node rules defined for '#{node.name}'", caller)
+        next_node_from_start_button ||
+        raise(Smartdown::Engine::IndeterminateNextNode, "No next node rules defined for '#{node.name}'", caller)
       end
 
       def next_state
-        state_with_input
+        state_with_inputs
           .put(:path, state.get(:path) + [node.name])
-          .put(:responses, state.get(:responses) + [input])
-          .put(input_variable_name, input)
+          .put(:responses, state.get(:responses) + input)
           .put(:current_node, next_node)
       end
 
@@ -38,13 +41,9 @@ module Smartdown
         start_button && start_button.start_node
       end
 
-      def input_variable_name
-        input_variable_name_from_question || node.name
-      end
-
-      def input_variable_name_from_question
-        question = node.elements.find { |e| e.is_a?(Smartdown::Model::Element::MultipleChoice) }
-        question && question.name
+      def input_variable_names_from_question
+        questions = node.elements.select { |e| e.is_a?(Smartdown::Model::Element::MultipleChoice) }
+        questions.map(&:name)
       end
 
       def next_node_rules
@@ -65,11 +64,11 @@ module Smartdown
         rules.each do |rule|
           case rule
           when Smartdown::Model::Rule
-            if predicate_evaluator.evaluate(rule.predicate, state_with_input)
+            if predicate_evaluator.evaluate(rule.predicate, state_with_inputs)
               throw(:match, rule)
             end
           when Smartdown::Model::NestedRule
-            if predicate_evaluator.evaluate(rule.predicate, state_with_input)
+            if predicate_evaluator.evaluate(rule.predicate, state_with_inputs)
               throw_first_matching_rule_in(rule.children)
             end
           else
@@ -79,8 +78,12 @@ module Smartdown
         raise Smartdown::Engine::IndeterminateNextNode
       end
 
-      def state_with_input
-        state.put(node.name, input)
+      def state_with_inputs
+        result = state.put(node.name, input)
+        input_variable_names_from_question.each_with_index do |input_variable_name, index|
+          result = result.put(input_variable_name, input[index])
+        end
+        result
       end
     end
   end

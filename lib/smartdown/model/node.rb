@@ -11,6 +11,12 @@ module Smartdown
         elements_of_kind(Smartdown::Model::Element::MultipleChoice)
       end
 
+      def question_titles
+        h1s.drop(h1s.count - questions.count)
+      end
+
+      private
+
       def title
         h1s.first ? h1s.first.content : ""
       end

@@ -15,7 +15,7 @@ describe ModelBuilder do
     let(:node2) {
       Smartdown::Model::Node.new("what_passport_do_you_have?", [
         Smartdown::Model::Element::MarkdownHeading.new("What passport do you have?"),
-        Smartdown::Model::Element::MultipleChoice.new(nil, {"greek" => "Greek", "british" => "British"}),
+        Smartdown::Model::Element::MultipleChoice.new("what_passport_do_you_have?", {"greek" => "Greek", "british" => "British"}),
         Smartdown::Model::NextNodeRules.new([
           Smartdown::Model::Rule.new(
             Smartdown::Model::Predicate::Named.new("eea_passport?"),
@@ -40,8 +40,11 @@ describe ModelBuilder do
         node("what_passport_do_you_have?") do
           heading("What passport do you have?")
           multiple_choice(
-            greek: "Greek",
-            british: "British"
+            "what_passport_do_you_have?",
+            {
+              greek: "Greek",
+              british: "British"
+            }
           )
           next_node_rules do
             rule do
