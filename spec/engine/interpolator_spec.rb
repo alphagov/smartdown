@@ -42,7 +42,7 @@ describe Smartdown::Engine::Interpolator do
             paragraph("False case")
           end
         end
-        multiple_choice({})
+        multiple_choice("example", {})
         next_node_rules
       end
     }

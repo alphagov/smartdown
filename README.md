@@ -83,7 +83,7 @@ You may need a visa to come to the UK to visit, study or work.
 Question nodes follow the same standard structure outlined above.
 
 Smartdown currently allows multiple questions to be defined per node, but this
-feature is in development and the behaviour may change.
+feature has only [recently been introduced](CHANGELOG.md#010) and may still change.
 
 The next sections define the various question types available.
 

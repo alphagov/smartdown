@@ -7,10 +7,11 @@ describe Smartdown::Engine::Transition do
   let(:current_node_name) { "q1" }
   let(:start_state) { Smartdown::Engine::State.new(current_node: current_node_name) }
   let(:input) { "yes" }
-  subject(:transition) { described_class.new(start_state, current_node, input, predicate_evaluator: predicate_evaluator) }
+  let(:input_array) { [input] }
+  subject(:transition) { described_class.new(start_state, current_node, input_array, predicate_evaluator: predicate_evaluator) }
   let(:predicate_evaluator) { instance_double("Smartdown::Engine::PredicateEvaluator", evaluate: true) }
   let(:state_including_input) {
-    start_state.put(current_node.name, input)
+    start_state.put(current_node.name, input_array)
   }
 
   context "no next node rules" do
@@ -91,7 +92,7 @@ describe Smartdown::Engine::Transition do
           .put(:responses, [input])
           .put(:path, [current_node_name])
           .put(:current_node, outcome_name1)
-          .put(current_node.name, input)
+          .put(current_node.name, input_array)
 
         expect(transition.next_state).to eq(expected_state)
       end
