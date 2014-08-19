@@ -1,3 +1,14 @@
+## 0.1.0
+
+### Multiple questions per node
+
+This adds support for more than one question to be presented on the same node.
+
+* This doesn't alter the input format, which is still an array of answers - not
+grouped by parent question.
+* Question nodes now contain one or more questions models
+
+
 ## 0.0.4
 
 ### Interpolation
