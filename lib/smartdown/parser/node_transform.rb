@@ -4,7 +4,9 @@ require 'smartdown/model/front_matter'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
-require 'smartdown/model/element/multiple_choice'
+require 'smartdown/model/element/question/multiple_choice'
+require 'smartdown/model/element/question/date'
+require 'smartdown/model/element/question/salary'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_paragraph'
@@ -56,8 +58,20 @@ module Smartdown
       }
 
       rule(:multiple_choice => {identifier: simple(:identifier), options: subtree(:choices)}) {
-        Smartdown::Model::Element::MultipleChoice.new(
-          identifier, Hash[choices]
+        Smartdown::Model::Element::Question::MultipleChoice.new(
+          identifier.to_s, Hash[choices]
+        )
+      }
+
+      rule(:date => {identifier: simple(:identifier)}) {
+        Smartdown::Model::Element::Question::Date.new(
+          identifier.to_s
+        )
+      }
+
+      rule(:salary => {identifier: simple(:identifier)}) {
+        Smartdown::Model::Element::Question::Salary.new(
+          identifier.to_s
         )
       }
 
