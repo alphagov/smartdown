@@ -30,15 +30,18 @@ module Smartdown
       while !unprocessed_responses.empty? do
         nb_questions = 0
         current_node = flow.node(state.get(:current_node))
-        nb_questions_in_node =  current_node.elements.select{|element|
+        nb_questions += current_node.elements.select{|element|
           element.is_a? Smartdown::Model::Element::MultipleChoice
         }.count
-        nb_questions += nb_questions_in_node
+
+        #There is at least one relevant input per transition for now:
+        #Transition from start to first question relies on an input, regardless of its value
         nb_relevant_inputs = [nb_questions, 1].max
         input_array = unprocessed_responses.take(nb_relevant_inputs)
+        unprocessed_responses = unprocessed_responses.drop(nb_relevant_inputs)
+
         transition = Transition.new(state, current_node, input_array)
         state = transition.next_state
-        unprocessed_responses = unprocessed_responses.drop(nb_relevant_inputs)
       end
       state
     end

@@ -7,10 +7,6 @@ module Smartdown
       attr_reader :state, :node, :input
 
       def initialize(state, node, input_array, options = {})
-        p "TRANSITIONING! "
-        p "#{state}"
-        p "#{node}"
-        p "#{input_array}"
         @state = state
         @node = node
         @input = input_array
