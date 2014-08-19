@@ -1,7 +1,9 @@
 module Smartdown
   module Model
     module Element
-      MultipleChoice = Struct.new(:name, :choices)
+      def question?
+        false
+      end
     end
   end
 end
