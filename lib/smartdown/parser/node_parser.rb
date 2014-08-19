@@ -15,6 +15,7 @@ module Smartdown
         Element::Conditional.new |
         Element::MarkdownHeading.new |
         Element::MultipleChoiceQuestion.new |
+        Element::DateQuestion.new |
         Rules.new |
         Element::StartButton.new |
         Element::NextSteps.new |
