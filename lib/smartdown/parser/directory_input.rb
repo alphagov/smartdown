@@ -26,7 +26,7 @@ module Smartdown
       def filenames_hash
         {
           coversheet: coversheet.to_s,
-          question: questions.map(&:to_s),
+          questions: questions.map(&:to_s),
           outcomes: outcomes.map(&:to_s),
           scenarios: scenarios.map(&:to_s)
         }
