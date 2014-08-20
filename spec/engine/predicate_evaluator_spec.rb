@@ -95,4 +95,32 @@ describe Smartdown::Engine::PredicateEvaluator do
     end
   end
 
+  context "comparison predicates" do
+    let(:predicate) { Smartdown::Model::Predicate::Comparison.new("my_var", "5", ">=") }
+    describe "#evaluate" do
+      context "state missing expected variable" do
+        let(:state) { Smartdown::Engine::State.new(current_node: "n") }
+
+        it "raises an UndefinedValue error" do
+          expect { evalutator.evaluate(predicate, state) }.to raise_error(Smartdown::Engine::UndefinedValue)
+        end
+      end
+
+      context "state has expected variable with same value" do
+        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: "6") }
+
+        it "evalutes to true" do
+          expect(evalutator.evaluate(predicate, state)).to eq(true)
+        end
+      end
+
+      context "state has expected variable with a different value" do
+        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: "4") }
+
+        it "evalutes to false" do
+          expect(evalutator.evaluate(predicate, state)).to eq(false)
+        end
+      end
+    end
+  end
 end
