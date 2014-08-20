@@ -165,7 +165,7 @@ describe Smartdown::Engine::Transition do
       Smartdown::Model::Node.new(
         current_node_name,
         [
-          Smartdown::Model::Element::MultipleChoice.new(question_name, {"a" => "Apple"}),
+          Smartdown::Model::Element::Question::MultipleChoice.new(question_name, {"a" => "Apple"}),
           Smartdown::Model::NextNodeRules.new(
             [Smartdown::Model::Rule.new(double("predicate1"), "o1")]
           )
