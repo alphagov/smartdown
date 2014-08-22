@@ -108,6 +108,22 @@ to your outbound flight.
 * no: No
 ```
 
+### Date
+
+```markdown
+## What is the baby’s due date?
+
+[date: baby_due_date]
+```
+
+### Salary
+
+```markdown
+## How much do you earn?
+
+[salary: salary_value]
+```
+
 ### Country (tbd)
 
 ```markdown
@@ -132,16 +148,6 @@ passport_country:
 [country: passport_country]
 ```
 
-### Date (tbd)
-
-```markdown
-## What is the baby’s due date?
-
-[date: baby_due_date]
-```
-
-Asks for a specific date in the given range. Ranges can be expressed as a relative number of years or absolute dates in YYYY-MM-DD format.
-
 ### Value (tbd)
 
 ```markdown
@@ -157,14 +163,6 @@ Asks for an arbitrary text input.
 ```
 
 Asks for a numerical input which can have decimals and optional thousand-separating commas.
-
-### Salary (tbd)
-
-```markdown
-[salary: salary_value]
-```
-
-Asks for salary which can be expressed as either a weekly or monthly money amount. The user chooses between weekly/monthly
 
 ### Checkbox (tbd)
 

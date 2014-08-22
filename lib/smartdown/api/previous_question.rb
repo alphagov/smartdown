@@ -23,7 +23,7 @@ module Smartdown
 
       #TODO: move to presenter, this object API should only expose question_element.choices
       def response_label(value=response)
-        @question_element.choices.fetch(value)
+        @question_element.response_label(value)
       end
 
     end
