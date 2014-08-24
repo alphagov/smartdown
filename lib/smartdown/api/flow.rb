@@ -22,6 +22,10 @@ module Smartdown
         )
       end
 
+      def name
+        @smartdown_flow.name
+      end
+
       def title
         coversheet.title
       end
