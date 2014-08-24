@@ -1,3 +1,25 @@
+## 0.1.1
+
+### Adds `Smartdown:Api` module
+
+This module acts as a more stable, public inteface to Smartdown.
+
+It hides the internal implementation details, so they can be changed without
+introducing backwards incompatible changes so frequently.
+
+Smartdown should now be called by constructing an `input`, and then constructing
+your `flow` object.
+
+```ruby
+    input = Smartdown::Api::DirectoryInput.new(coversheet_path)
+    flow = Smartdown::Api::Flow.new(input)
+```
+
+Where `coversheet_path` is a file system path to the coversheet of a Smartdown
+package of files. Eg, `smartdown-flow-name/smartdown-flow-name.txt`.
+
+More kinds of input (like plain data) will be made available soon.
+
 ## 0.1.0
 
 ### Multiple questions per node
