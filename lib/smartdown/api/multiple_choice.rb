@@ -15,11 +15,6 @@ module Smartdown
         question.name
       end
 
-      #TODO: move to presenters in smart-answer app
-      def partial_template_name
-        "multiple_choice_question"
-      end
-
     end
   end
 end

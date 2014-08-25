@@ -7,7 +7,7 @@ module Smartdown
         elements.slice_before do |element|
           element.is_a? Smartdown::Model::Element::MarkdownHeading
         end.each_with_index.map do |question_element_group, index|
-          Smartdown::Api::MultipleChoice.new(question_element_group, index+1)
+          Smartdown::Api::MultipleChoice.new(question_element_group)
         end
       end
     end

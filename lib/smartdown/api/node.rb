@@ -6,31 +6,24 @@ module Smartdown
 
       def initialize(node)
         node_elements = node.elements.clone
-        headings = node_elements.select {
-            |element| element.is_a? Smartdown::Model::Element::MarkdownHeading
+        headings = node_elements.select { |element|
+          element.is_a? Smartdown::Model::Element::MarkdownHeading
         }
         @title = headings.first.content.to_s if headings.first
-        node_elements.delete(headings.first) #Remove page title
+        nb_questions = node_elements.select{ |element|
+          element.is_a? Smartdown::Model::Element::MultipleChoice
+        }.count
+        if headings.count > nb_questions
+          node_elements.delete(headings.first) #Remove page title
+        end
         @elements = node_elements
         @front_matter = node.front_matter
         @name = node.name
       end
 
-      def has_title?
-        !!title
-      end
-
       def body
         elements_before_smartdown = elements.take_while{|element| !smartdown_element?(element)}
         build_govspeak(elements_before_smartdown)
-      end
-
-      def has_body?
-        !!body
-      end
-
-      def has_devolved_body?
-        !!devolved_body
       end
 
       def devolved_body
