@@ -7,7 +7,7 @@ module Smartdown
       def initialize(node)
         node_elements = node.elements.clone
         headings = node_elements.select {
-            |element| element.is_a? Smartdown::Model::Element::MarkdownHeading
+          |element| element.is_a? Smartdown::Model::Element::MarkdownHeading
         }
         @title = headings.first.content.to_s if headings.first
         node_elements.delete(headings.first) #Remove page title
