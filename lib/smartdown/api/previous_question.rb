@@ -9,7 +9,7 @@ module Smartdown
 
       def initialize(elements, response)
         @response = response
-        if elements.find{|element| element.is_a? Smartdown::Model::Element::MultipleChoice}
+        if elements.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
           @question = MultipleChoice.new(elements)
         end
       end
