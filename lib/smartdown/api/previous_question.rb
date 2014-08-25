@@ -1,29 +1,17 @@
 module Smartdown
   module Api
     class PreviousQuestion
+      extend Forwardable
 
-      attr_reader :response, :title
+      def_delegators :@question, :title, :options
 
-      def initialize(title, question_element, response, modifiable)
-        @title = title
-        @question_element = question_element
+      attr_reader :response
+
+      def initialize(elements, response)
         @response = response
-        @modifiable = modifiable
-      end
-
-      #TODO: remove need for this method by impleemnting modification properly
-      def modifiable?
-        @modifiable
-      end
-
-      #TODO: to be moved to presenter
-      def multiple_responses?
-        false
-      end
-
-      #TODO: move to presenter, this object API should only expose question_element.choices
-      def response_label(value=response)
-        @question_element.choices.fetch(value)
+        if elements.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
+          @question = MultipleChoice.new(elements)
+        end
       end
 
     end

@@ -1,3 +1,10 @@
+## 0.2.0
+
+###Simplify Smartdown API
+
+Remove any logic that should belongs to frontend applications.
+Implement QuestionPage and PreviousQuestionPage.
+
 ## 0.1.1
 
 ### Adds `Smartdown:Api` module

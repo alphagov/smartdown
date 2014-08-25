@@ -2,20 +2,12 @@ module Smartdown
   module Api
     class Question
 
-      attr_reader :number
-
-      def initialize(elements, number=nil)
+      def initialize(elements)
         @elements = elements
-        @number = number
       end
 
-      #TODO: this assumes the title is the first element
       def title
         elements.first.content
-      end
-
-      def has_body?
-        !!body
       end
 
       def body
@@ -23,34 +15,8 @@ module Smartdown
         build_govspeak(elements_before_smartdown)
       end
 
-      def has_hint?
-        !!hint
-      end
-
-      #TODO: confirm we can delete this
-      # Usage TBC, most hints should actually be `body`s, semi-deprecated
-      # As we transition content we should better define it, or remove it
+      #TODO: deprecate
       def hint
-      end
-
-      def prefix
-        "todo prefix"
-      end
-
-      def suffix
-        "todo suffix"
-      end
-
-      def subtitle
-        "todo subtitle"
-      end
-
-      #TODO
-      def error
-      end
-
-      #TODO: should not be needed
-      def responses
       end
 
     private
