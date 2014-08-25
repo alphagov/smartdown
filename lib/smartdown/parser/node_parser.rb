@@ -3,6 +3,7 @@ require 'smartdown/parser/rules'
 require 'smartdown/parser/element/front_matter'
 require 'smartdown/parser/element/start_button'
 require 'smartdown/parser/element/multiple_choice_question'
+require 'smartdown/parser/element/date_question'
 require 'smartdown/parser/element/markdown_heading'
 require 'smartdown/parser/element/markdown_paragraph'
 require 'smartdown/parser/element/conditional'
@@ -15,6 +16,7 @@ module Smartdown
         Element::Conditional.new |
         Element::MarkdownHeading.new |
         Element::MultipleChoiceQuestion.new |
+        Element::DateQuestion.new |
         Rules.new |
         Element::StartButton.new |
         Element::NextSteps.new |

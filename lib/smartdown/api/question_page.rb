@@ -9,6 +9,8 @@ module Smartdown
         end.each_with_index.map do |question_element_group, index|
           if question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
             Smartdown::Api::MultipleChoice.new(question_element_group, index+1)
+          elsif question_element_group.find{ |e| e.is_a? Smartdown::Model::Element::Question::Date}
+            Smartdown::Api::DateQuestion.new(question_element_group, index+1)
           end
         end
       end
