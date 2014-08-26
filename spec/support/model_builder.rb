@@ -4,6 +4,7 @@ require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_paragraph'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/question/multiple_choice'
+require 'smartdown/model/element/question/date'
 require 'smartdown/model/element/conditional'
 require 'smartdown/model/next_node_rules'
 require 'smartdown/model/rule'
@@ -49,6 +50,12 @@ class ModelBuilder
     @elements ||= []
     options_with_string_keys = ::Hash[options.map {|k,v| [k.to_s, v]}]
     @elements << Smartdown::Model::Element::Question::MultipleChoice.new(name, options_with_string_keys)
+    @elements.last
+  end
+
+  def date(name)
+    @elements ||= []
+    @elements << Smartdown::Model::Element::Question::Date.new(name)
     @elements.last
   end
 
