@@ -1,3 +1,21 @@
+## 0.2.1
+
+* date question
+
+```[date: due_date]```
+
+* salary question
+
+```[salary: salary_mother]```
+
+* parse combinations of predicates: ```predicate AND predicate```
+
+* parse predicate comparisons, for dates and integers: ```variable > '5'```, ```variable > '2014-4-23'```
+
+* API changes:
+  - question made public on PreviousQuestion
+  - coversheet made public on Flow
+
 ## 0.2.0
 
 ###Simplify Smartdown API
