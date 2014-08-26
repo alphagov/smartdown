@@ -1,3 +1,14 @@
+## 0.2.0
+
+###Simplify Smartdown API
+
+Remove any logic that should belongs to frontend applications. This has a large number of breaking changes and the best way to see what they are is [this smart-answer pull request](https://github.com/alphagov/smart-answers/pull/1079/files
+):
+* removing a large number of methods from API models (since they are presentation methods)
+* implement PreviousQuestion and PreviousQuestionPage
+* implement QuestionPage
+* no longer assumes that every smartdown page starts with a title: it is considered it has a title if there are more headers than questions, otherwise all headers become question titles
+
 ## 0.1.1
 
 ### Adds `Smartdown:Api` module
