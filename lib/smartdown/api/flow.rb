@@ -69,6 +69,10 @@ module Smartdown
         nodes.select{ |node| node.is_a? Smartdown::Api::Outcome}
       end
 
+      def coversheet
+        @coversheet ||= Smartdown::Api::Coversheet.new(@smartdown_flow.coversheet)
+      end
+
     private
 
       def transform_node(node)
@@ -83,10 +87,6 @@ module Smartdown
         else
           Smartdown::Api::Outcome.new(node)
         end
-      end
-
-      def coversheet
-        @coversheet ||= Smartdown::Api::Coversheet.new(@smartdown_flow.coversheet)
       end
 
       def front_matter
