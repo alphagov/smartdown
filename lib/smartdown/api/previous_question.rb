@@ -5,7 +5,7 @@ module Smartdown
 
       def_delegators :@question, :title, :options
 
-      attr_reader :response
+      attr_reader :response, :question
 
       def initialize(elements, response)
         @response = response
