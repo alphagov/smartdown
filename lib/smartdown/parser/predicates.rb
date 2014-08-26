@@ -40,8 +40,8 @@ module Smartdown
       rule(:predicate) {
         equality_predicate.as(:equality_predicate) |
         set_membership_predicate.as(:set_membership_predicate) |
-        named_predicate |
-        comparison_predicate.as(:comparison_predicate)
+        comparison_predicate.as(:comparison_predicate) |
+        named_predicate
       }
 
       rule (:combined_predicate) {
