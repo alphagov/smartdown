@@ -2,6 +2,7 @@ require 'smartdown/engine/predicate_evaluator'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
+require 'smartdown/model/predicate/combined'
 require 'smartdown/engine/state'
 
 describe Smartdown::Engine::PredicateEvaluator do

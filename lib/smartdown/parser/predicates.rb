@@ -26,8 +26,22 @@ module Smartdown
       rule(:named_predicate) {
         question_identifier.as(:named_predicate)
       }
-      rule(:predicates) {
-        equality_predicate.as(:equality_predicate) | set_membership_predicate.as(:set_membership_predicate) | named_predicate
+
+      rule(:predicate) {
+        equality_predicate.as(:equality_predicate) |
+        set_membership_predicate.as(:set_membership_predicate) |
+        named_predicate
+      }
+
+      rule (:combined_predicate) {
+        predicate.as(:first_predicate) >>
+        (some_space >> str('AND') >> some_space >>
+        predicate).repeat(1).as(:and_predicates)
+      }
+
+      rule (:predicates) {
+        combined_predicate.as(:combined_predicate) |
+        predicate
       }
 
       root(:predicates)
