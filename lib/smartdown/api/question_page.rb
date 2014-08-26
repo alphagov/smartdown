@@ -1,4 +1,5 @@
 require 'smartdown/api/multiple_choice'
+require 'smartdown/api/date_question'
 
 module Smartdown
   module Api
@@ -9,6 +10,8 @@ module Smartdown
         end.map do |question_element_group|
           if question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
             Smartdown::Api::MultipleChoice.new(question_element_group)
+          elsif question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
+            Smartdown::Api::DateQuestion.new(question_element_group)
           end
         end
       end

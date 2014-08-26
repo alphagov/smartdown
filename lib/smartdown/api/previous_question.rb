@@ -11,6 +11,8 @@ module Smartdown
         @response = response
         if elements.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
           @question = MultipleChoice.new(elements)
+        elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
+          @question = DateQuestion.new(elements)
         end
       end
 
