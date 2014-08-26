@@ -31,9 +31,8 @@ module Smartdown
         nb_questions = 0
         current_node = flow.node(state.get(:current_node))
         nb_questions += current_node.elements.select{|element|
-          element.is_a? Smartdown::Model::Element::MultipleChoice
+          element.class.to_s.include?("Smartdown::Model::Element::Question")
         }.count
-
         #There is at least one relevant input per transition for now:
         #Transition from start to first question relies on an input, regardless of its value
         nb_relevant_inputs = [nb_questions, 1].max

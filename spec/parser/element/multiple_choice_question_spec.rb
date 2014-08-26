@@ -32,7 +32,7 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Element::MultipleChoice.new("yes_or_no", {"yes"=>"Yes", "no"=>"No"})) }
+      it { should eq(Smartdown::Model::Element::Question::MultipleChoice.new("yes_or_no", {"yes"=>"Yes", "no"=>"No"})) }
     end
   end
 

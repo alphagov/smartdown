@@ -88,7 +88,7 @@ EXPECTED
       end
 
       it "has a multiple choice question" do
-        expect(question_node.questions).to match([instance_of(Smartdown::Model::Element::MultipleChoice)])
+        expect(question_node.questions).to match([instance_of(Smartdown::Model::Element::Question::MultipleChoice)])
       end
     end
   end
