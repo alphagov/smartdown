@@ -13,6 +13,8 @@ module Smartdown
           @question = MultipleChoice.new(elements)
         elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
           @question = DateQuestion.new(elements)
+        elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Salary}
+          @question = SalaryQuestion.new(elements)
         end
       end
 

@@ -156,13 +156,11 @@ Asks for an arbitrary text input.
 
 Asks for a numerical input which can have decimals and optional thousand-separating commas.
 
-### Salary (tbd)
+### Salary
 
 ```markdown
 [salary: salary_value]
 ```
-
-Asks for salary which can be expressed as either a weekly or monthly money amount. The user chooses between weekly/monthly
 
 ### Checkbox (tbd)
 
