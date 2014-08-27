@@ -11,6 +11,7 @@ require 'smartdown/model/rule'
 require 'smartdown/model/predicate/named'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
+require 'smartdown/model/predicate/combined'
 
 class ModelBuilder
   def flow(name, &block)

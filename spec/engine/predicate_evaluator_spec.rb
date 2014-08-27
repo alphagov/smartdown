@@ -2,6 +2,7 @@ require 'smartdown/engine/predicate_evaluator'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
+require 'smartdown/model/predicate/combined'
 require 'smartdown/engine/state'
 
 describe Smartdown::Engine::PredicateEvaluator do
@@ -93,6 +94,48 @@ describe Smartdown::Engine::PredicateEvaluator do
         end
       end
     end
+  end
+
+  context "combined predicate" do
+    let(:predicate_name) { "my_pred?" }
+    let(:predicate_name_2) { "my_other_pred?" }
+    let(:predicate) { Smartdown::Model::Predicate::Named.new(predicate_name) }
+    let(:predicate_2) { Smartdown::Model::Predicate::Named.new(predicate_name_2) }
+    let(:combined_predicate) { Smartdown::Model::Predicate::Combined.new([predicate, predicate_2])}
+
+    describe "#evaluate" do
+
+      context "both states are true" do
+        let(:state) {
+          Smartdown::Engine::State.new("current_node" => "n", "my_pred?" => true, "my_other_pred?" => true )
+        }
+
+        it "evaluates as true" do
+          expect(evalutator.evaluate(combined_predicate, state)).to eq(true)
+        end
+      end
+
+      context "both states are false" do
+        let(:state) {
+          Smartdown::Engine::State.new("current_node" => "n", "my_pred?" => false, "my_other_pred?" => false )
+        }
+
+        it "evaluates as false" do
+          expect(evalutator.evaluate(combined_predicate, state)).to eq(false)
+        end
+      end
+
+      context "one of the states is false" do
+        let(:state) {
+          Smartdown::Engine::State.new("current_node" => "n", "my_pred?" => true, "my_other_pred?" => false )
+        }
+
+        it "evaluates as false" do
+          expect(evalutator.evaluate(combined_predicate, state)).to eq(false)
+        end
+      end
+    end
+
   end
 
 end

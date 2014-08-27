@@ -14,6 +14,7 @@ require 'smartdown/model/element/next_steps'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
+require 'smartdown/model/predicate/combined'
 
 module Smartdown
   module Parser
@@ -99,12 +100,17 @@ module Smartdown
       }
 
       rule(:set_value => simple(:value)) { value }
+
       rule(:set_membership_predicate => { varname: simple(:varname), values: subtree(:values) }) {
         Smartdown::Model::Predicate::SetMembership.new(varname, values)
       }
 
       rule(:named_predicate => simple(:name) ) {
         Smartdown::Model::Predicate::Named.new(name)
+      }
+
+      rule(:combined_predicate => {first_predicate: subtree(:first_predicate), and_predicates: subtree(:and_predicates) }) {
+        Smartdown::Model::Predicate::Combined.new([first_predicate]+and_predicates)
       }
 
       rule(:rule => {predicate: subtree(:predicate), outcome: simple(:outcome_name) } ) {
