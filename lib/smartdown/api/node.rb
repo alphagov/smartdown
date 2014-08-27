@@ -10,7 +10,7 @@ module Smartdown
           element.is_a? Smartdown::Model::Element::MarkdownHeading
         }
         nb_questions = node_elements.select{ |element|
-          element.is_a? Smartdown::Model::Element::Question::MultipleChoice
+          element.class.to_s.include?("Smartdown::Model::Element::Question")
         }.count
         if headings.count > nb_questions
           node_elements.delete(headings.first) #Remove page title

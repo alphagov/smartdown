@@ -6,6 +6,7 @@ require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
 require 'smartdown/model/element/question/multiple_choice'
 require 'smartdown/model/element/question/date'
+require 'smartdown/model/element/question/salary'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_paragraph'
@@ -69,6 +70,12 @@ module Smartdown
 
       rule(:date => {identifier: simple(:identifier)}) {
         Smartdown::Model::Element::Question::Date.new(
+          identifier.to_s
+        )
+      }
+
+      rule(:salary => {identifier: simple(:identifier)}) {
+        Smartdown::Model::Element::Question::Salary.new(
           identifier.to_s
         )
       }
