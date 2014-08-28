@@ -4,7 +4,7 @@ describe Smartdown::Engine do
 
   subject(:engine) { Smartdown::Engine.new(flow) }
   let(:start_state) {
-    engine.default_start_state
+    engine.build_start_state
       .put(:eea_passport?, ->(state) {
         %w{greek british}.include?(state.get(:what_passport_do_you_have?))
       })
@@ -116,6 +116,20 @@ describe Smartdown::Engine do
       end
     end
   }
+
+  describe "initial_state" do
+    let(:initial_state) { {
+      key_1: 'a_state_object',
+      key_2: ->(state) { 'a_dynamic_state_object' }
+    } }
+    let(:engine) { Smartdown::Engine.new(flow, initial_state) }
+    subject(:state) { engine.process([]) }
+
+    it "should have added initial_state to state" do
+      expect(subject.get(:key_1)).to eql 'a_state_object'
+      expect(subject.get(:key_2)).to eql 'a_dynamic_state_object'
+    end
+  end
 
   describe "#process" do
     subject { engine.process(responses, start_state) }

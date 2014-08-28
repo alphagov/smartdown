@@ -8,10 +8,9 @@ require 'smartdown/api/outcome'
 module Smartdown
   module Api
     class Flow
-
-      def initialize(smartdown_input)
+      def initialize(smartdown_input, initial_state = {})
         @smartdown_flow = Smartdown::Parser::FlowInterpreter.new(smartdown_input).interpret
-        @engine = Smartdown::Engine.new(@smartdown_flow)
+        @engine = Smartdown::Engine.new(@smartdown_flow, initial_state)
       end
 
       def state(started, responses)
