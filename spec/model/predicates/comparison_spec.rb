@@ -73,6 +73,21 @@ describe "comparison predicates" do
         end
       end
     end
+
+    describe "#humanize" do
+      let(:results) { {
+        :greater => "my_var > 5",
+        :greater_or_equal => "my_var >= 5",
+        :less => "my_var < 5",
+        :less_or_equal => "my_var <= 5"
+      } }
+
+      it "has the right human representation" do
+        predicates.each do |predicate_key, predicate|
+          expect(predicate.humanize).to eq(results[predicate_key])
+        end
+      end
+    end
   end
 
   context "comparison predicates with dates" do

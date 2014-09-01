@@ -40,4 +40,8 @@ describe Smartdown::Model::Predicate::Combined do
       end
     end
   end
+
+  describe "#humanize" do
+    it { expect(predicate.humanize).to eq("(my_pred? AND my_other_pred?)") }
+  end
 end
