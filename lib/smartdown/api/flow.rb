@@ -16,7 +16,7 @@ module Smartdown
 
       def state(started, responses)
         state = smartdown_state(started, responses)
-        State.new(transform_node(node_by_name(state.get(:current_node))),
+        State.new(transform_node(evaluate_node(node_by_name(state.get(:current_node)), state)),
                   previous_question_nodes_for(state),
                   responses
         )
@@ -89,6 +89,10 @@ module Smartdown
         end
       end
 
+      def evaluate_node(node, state)
+        Smartdown::Engine::NodePresenter.new.present(node, state)
+      end
+
       def front_matter
         @front_matter ||= coversheet.front_matter
       end
@@ -110,7 +114,7 @@ module Smartdown
         return [] if node_path.empty?
 
         node_path[1..-1].map do |node_name|
-          node_by_name(node_name)
+          evaluate_node(node_by_name(node_name), state)
         end
       end
 
