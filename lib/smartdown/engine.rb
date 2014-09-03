@@ -6,11 +6,12 @@ module Smartdown
   class Engine
     attr_reader :flow
 
-    def initialize(flow)
+    def initialize(flow, initial_state = {})
       @flow = flow
+      @initial_state = initial_state
     end
 
-    def default_start_state
+    def build_start_state
       Smartdown::Engine::State.new(
         default_predicates.merge(
           current_node: flow.name
@@ -21,11 +22,11 @@ module Smartdown
     def default_predicates
       {
         otherwise: ->(_) { true }
-      }
+      }.merge(@initial_state)
     end
 
-    def process(responses, start_state = nil)
-      state = start_state || default_start_state
+    def process(responses, test_start_state = nil)
+      state = test_start_state || build_start_state
       unprocessed_responses = responses
       while !unprocessed_responses.empty? do
         nb_questions = 0
