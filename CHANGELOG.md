@@ -1,3 +1,39 @@
+## 0.3.0
+
+* State values can be inserted into smart down text
+
+Given a state, with the key "question_1" as "frogs", the following smartdown:
+```
+Your pond is full of %{question_1}.
+```
+will render to
+```
+Your pond is full of frogs.
+```
+
+* add support for initial_state
+
+Additional state keys can be added when instantiating a flow. State objects can either be simple objects, or any object which responds to ```call``` taking ```state``` as an argument eg:
+
+```ruby
+initial_state = {
+  the_meaning_of_life: 42,
+  whats_really_important: ->(state) {
+    state.get("the_meaning_of_life") + " rashers of bacon"
+  }
+}
+
+Smartdown::Api::Flow.new(input, initial_state)
+```
+and in smartdown
+
+```
+# Your recommended breakfast
+
+For breakfast, you should have %{whats_really_important}.
+```
+
+
 ## 0.2.1
 
 * date question
