@@ -8,8 +8,7 @@ describe Smartdown::Engine::Transition do
   let(:start_state) { Smartdown::Engine::State.new(current_node: current_node_name) }
   let(:input) { "yes" }
   let(:input_array) { [input] }
-  subject(:transition) { described_class.new(start_state, current_node, input_array, predicate_evaluator: predicate_evaluator) }
-  let(:predicate_evaluator) { instance_double("Smartdown::Engine::PredicateEvaluator", evaluate: true) }
+  subject(:transition) { described_class.new(start_state, current_node, input_array) }
   let(:state_including_input) {
     start_state.put(current_node.name, input_array)
   }
@@ -65,22 +64,22 @@ describe Smartdown::Engine::Transition do
     }
 
     describe "#next_node" do
-      it "invokes the predicate evaluator with the predicate and state including the input value" do
-        expect(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(true)
+      it "evaluates the predicates with state including the input value" do
+        expect(predicate1).to receive(:evaluate).with(state_including_input).and_return(true)
 
         transition.next_node
       end
 
-      it "invokes the predicate evaluator for each rule in turn" do
-        allow(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(false)
-        expect(predicate_evaluator).to receive(:evaluate).with(predicate2, state_including_input).and_return(true)
+      it "evaluates the predicates for each rule in turn" do
+        allow(predicate1).to receive(:evaluate).with(state_including_input).and_return(false)
+        expect(predicate2).to receive(:evaluate).with(state_including_input).and_return(true)
 
         transition.next_node
       end
 
       it "returns the name of the next node" do
-        allow(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(false)
-        allow(predicate_evaluator).to receive(:evaluate).with(predicate2, state_including_input).and_return(true)
+        allow(predicate1).to receive(:evaluate).with(state_including_input).and_return(false)
+        allow(predicate2).to receive(:evaluate).with(state_including_input).and_return(true)
 
         expect(transition.next_node).to eq(outcome_name2)
       end
@@ -93,6 +92,8 @@ describe Smartdown::Engine::Transition do
           .put(:path, [current_node_name])
           .put(:current_node, outcome_name1)
           .put(current_node.name, input_array)
+
+        allow(predicate1).to receive(:evaluate).with(state_including_input).and_return(true)
 
         expect(transition.next_state).to eq(expected_state)
       end
@@ -130,27 +131,27 @@ describe Smartdown::Engine::Transition do
 
     describe "#next_node" do
       context "p1 false" do
-        it "invokes the predicate evaluator with each predicate in turn" do
-          expect(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(false)
+        it "evaluates each predicate in turn" do
+          expect(predicate1).to receive(:evaluate).with(state_including_input).and_return(false)
 
           expect { transition.next_node }.to raise_error(Smartdown::Engine::IndeterminateNextNode)
         end
       end
 
       context "p1 and p2 true" do
-        it "invokes the predicate evaluator with each predicate in turn" do
-          allow(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(true)
-          expect(predicate_evaluator).to receive(:evaluate).with(predicate2, state_including_input).and_return(true)
+        it "evaluates each predicate in turn" do
+          allow(predicate1).to receive(:evaluate).with(state_including_input).and_return(true)
+          expect(predicate2).to receive(:evaluate).with(state_including_input).and_return(true)
 
           expect(transition.next_node).to eq(outcome_name1)
         end
       end
 
       context "p1 true, p2 false, p3 true" do
-        it "invokes the predicate evaluator with each predicate in turn" do
-          allow(predicate_evaluator).to receive(:evaluate).with(predicate1, state_including_input).and_return(true)
-          allow(predicate_evaluator).to receive(:evaluate).with(predicate2, state_including_input).and_return(false)
-          expect(predicate_evaluator).to receive(:evaluate).with(predicate3, state_including_input).and_return(true)
+        it "evaluates each predicate in turn" do
+          allow(predicate1).to receive(:evaluate).with(state_including_input).and_return(true)
+          allow(predicate2).to receive(:evaluate).with(state_including_input).and_return(false)
+          expect(predicate3).to receive(:evaluate).with(state_including_input).and_return(true)
 
           expect(transition.next_node).to eq(outcome_name2)
         end
@@ -160,6 +161,7 @@ describe Smartdown::Engine::Transition do
 
   context "next node rules and a named question" do
     let(:question_name) { "my_question" }
+    let(:predicate1) { double("predicate1") }
 
     let(:current_node) {
       Smartdown::Model::Node.new(
@@ -167,7 +169,7 @@ describe Smartdown::Engine::Transition do
         [
           Smartdown::Model::Element::Question::MultipleChoice.new(question_name, {"a" => "Apple"}),
           Smartdown::Model::NextNodeRules.new(
-            [Smartdown::Model::Rule.new(double("predicate1"), "o1")]
+            [Smartdown::Model::Rule.new(predicate1, "o1")]
           )
         ]
       )
@@ -175,6 +177,8 @@ describe Smartdown::Engine::Transition do
 
     describe "#next_state" do
       it "assigns the input value to a variable matching the question name" do
+        allow(predicate1).to receive(:evaluate).and_return(true)
+
         expect(transition.next_state.get(question_name)).to eq(input)
       end
     end

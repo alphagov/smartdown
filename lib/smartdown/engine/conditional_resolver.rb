@@ -1,12 +1,6 @@
-require 'smartdown/engine/predicate_evaluator'
-
 module Smartdown
   class Engine
     class ConditionalResolver
-      def initialize(predicate_evaluator = nil)
-        @predicate_evaluator = predicate_evaluator || PredicateEvaluator.new
-      end
-
       def call(node, state)
         node.dup.tap do |new_node|
           new_node.elements = resolve_conditionals(node.elements, state)
@@ -14,10 +8,8 @@ module Smartdown
       end
 
     private
-      attr_accessor :predicate_evaluator
-
       def evaluate(conditional, state)
-        if predicate_evaluator.evaluate(conditional.predicate, state)
+        if conditional.predicate.evaluate(state)
           conditional.true_case
         else
           conditional.false_case

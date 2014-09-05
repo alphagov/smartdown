@@ -1,4 +1,3 @@
-require 'smartdown/engine/predicate_evaluator'
 require 'smartdown/engine/errors'
 
 module Smartdown
@@ -10,7 +9,6 @@ module Smartdown
         @state = state
         @node = node
         @inputs = input_array
-        @predicate_evaluator = options[:predicate_evaluator] || PredicateEvaluator.new
       end
 
       def next_node
@@ -27,8 +25,6 @@ module Smartdown
       end
 
     private
-      attr_reader :predicate_evaluator
-
       def next_node_from_next_node_rules
         next_node_rules && first_matching_rule(next_node_rules.rules).outcome
       end
@@ -60,11 +56,11 @@ module Smartdown
         rules.each do |rule|
           case rule
           when Smartdown::Model::Rule
-            if predicate_evaluator.evaluate(rule.predicate, state_with_inputs)
+            if rule.predicate.evaluate(state_with_inputs)
               throw(:match, rule)
             end
           when Smartdown::Model::NestedRule
-            if predicate_evaluator.evaluate(rule.predicate, state_with_inputs)
+            if rule.predicate.evaluate(state_with_inputs)
               throw_first_matching_rule_in(rule.children)
             end
           else
