@@ -39,7 +39,18 @@ module Smartdown
 
       private
         def interpolate(text, state)
-          text.to_s.gsub(/%{([^}]+)}/) { |_| state.get($1) }
+          text.to_s.gsub(/%{([^}]+)}/) do |_|
+            resolve_term($1, state)
+          end
+        end
+
+        def resolve_term(interpolation, state)
+          begin
+              parsed = Smartdown::Parser::Predicates.new.parse(interpolation)
+              Smartdown::Parser::NodeTransform.new.apply(parsed, {}).evaluate(state)
+            rescue Parslet::ParseFailed
+              state.get(interpolation)
+            end
         end
       end
 
