@@ -47,39 +47,39 @@ describe Smartdown::Parser::Predicates do
   describe "named predicate" do
     subject(:parser) { described_class.new }
 
-    it { should parse("my_pred").as(named_predicate: "my_pred") }
     it { should parse("my_pred?").as(named_predicate: "my_pred?") }
+    it { should_not parse("my_pred") }
     it { should_not parse("my pred") }
 
     describe "transformed" do
       let(:node_name) { "my_node" }
-      let(:source) { "my_pred" }
+      let(:source) { "my_pred?" }
       subject(:transformed) {
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Predicate::Named.new("my_pred")) }
+      it { should eq(Smartdown::Model::Predicate::Named.new("my_pred?")) }
     end
   end
 
   describe "predicate AND predicate" do
     subject(:parser) { described_class.new }
 
-    it { should parse("my_pred AND my_other_pred").as(
+    it { should parse("my_pred? AND my_other_pred?").as(
       { combined_predicate: {
-        first_predicate: { named_predicate: "my_pred" },
+        first_predicate: { named_predicate: "my_pred?" },
         and_predicates:
           [
-            {named_predicate: "my_other_pred"},
+            {named_predicate: "my_other_pred?"},
           ]
       } }
     ) }
-    it { should parse("my_pred AND my_other_pred AND varname in {a b c}").as(
+    it { should parse("my_pred? AND my_other_pred? AND varname in {a b c}").as(
       { combined_predicate: {
-        first_predicate: { named_predicate: "my_pred" },
+        first_predicate: { named_predicate: "my_pred?" },
         and_predicates:
           [
-            {named_predicate: "my_other_pred"},
+            {named_predicate: "my_other_pred?"},
             {set_membership_predicate:
               {varname: "varname", values: [{set_value: "a"}, {set_value: "b"}, {set_value: "c"}]}
             }
@@ -90,15 +90,15 @@ describe Smartdown::Parser::Predicates do
 
     describe "transformed" do
       let(:node_name) { "my_node" }
-      let(:source) { "my_pred AND my_other_pred" }
+      let(:source) { "my_pred? AND my_other_pred?" }
       subject(:transformed) {
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
       it { should eq(Smartdown::Model::Predicate::Combined.new(
         [
-          Smartdown::Model::Predicate::Named.new("my_pred"),
-          Smartdown::Model::Predicate::Named.new("my_other_pred")
+          Smartdown::Model::Predicate::Named.new("my_pred?"),
+          Smartdown::Model::Predicate::Named.new("my_other_pred?")
         ]
       )) }
     end

@@ -3,7 +3,7 @@ module Smartdown
     module Predicate
       Named = Struct.new(:name) do
         def evaluate(state)
-          state.get(name)
+          !!state.get(name)
         end
 
         def humanize

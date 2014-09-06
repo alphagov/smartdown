@@ -34,7 +34,7 @@ module Smartdown
       }
 
       rule(:named_predicate) {
-        question_identifier.as(:named_predicate)
+        (identifier >> str('?')).as(:named_predicate)
       }
 
       rule(:predicate) {
