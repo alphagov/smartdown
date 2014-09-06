@@ -3,7 +3,7 @@ module Smartdown
     module Predicate
       Function = Struct.new(:name, :arguments) do
         def evaluate(state)
-          state.get(name, false).call(*evaluate_arguments(state))
+          state.get(name).call(*evaluate_arguments(state))
         end
 
         def humanize

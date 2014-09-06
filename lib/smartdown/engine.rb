@@ -1,6 +1,7 @@
 require 'smartdown/engine/transition'
 require 'smartdown/engine/state'
 require 'smartdown/engine/node_presenter'
+require 'smartdown/model/predicate/otherwise'
 
 module Smartdown
   class Engine
@@ -21,7 +22,7 @@ module Smartdown
 
     def default_predicates
       {
-        otherwise: ->(_) { true }
+        otherwise: Smartdown::Model::Predicate::Otherwise.new
       }.merge(@initial_state)
     end
 

@@ -5,12 +5,6 @@ describe Smartdown::Engine do
   subject(:engine) { Smartdown::Engine.new(flow) }
   let(:start_state) {
     engine.build_start_state
-      .put(:eea_passport?, ->(state) {
-        %w{greek british}.include?(state.get(:what_passport_do_you_have?))
-      })
-      .put(:imaginary?, ->(state) {
-        %w{narnia}.include?(state.get(:what_country_are_you_going_to?))
-      })
       .put(:otherwise, true)
   }
 
@@ -34,7 +28,7 @@ describe Smartdown::Engine do
         )
         next_node_rules do
           rule do
-            named_predicate("eea_passport?")
+            set_membership_predicate("what_passport_do_you_have?", ["greek", "british"])
             outcome("outcome_no_visa_needed")
           end
         end
@@ -85,11 +79,11 @@ describe Smartdown::Engine do
         )
         next_node_rules do
           rule do
-            named_predicate("imaginary?")
+            set_membership_predicate("what_country_are_you_going_to?", ["narnia"])
             outcome("outcome_imaginary_country")
           end
           rule do
-            named_predicate("eea_passport?")
+            set_membership_predicate("what_passport_do_you_have?", ["greek", "british"])
             outcome("outcome_no_visa_needed")
           end
         end
@@ -118,16 +112,19 @@ describe Smartdown::Engine do
   }
 
   describe "initial_state" do
+    let(:lambda) {
+      ->(state) { 'a_dynamic_state_object' }
+    }
     let(:initial_state) { {
       key_1: 'a_state_object',
-      key_2: ->(state) { 'a_dynamic_state_object' }
+      key_2: :lambda
     } }
     let(:engine) { Smartdown::Engine.new(flow, initial_state) }
     subject(:state) { engine.process([]) }
 
     it "should have added initial_state to state" do
       expect(subject.get(:key_1)).to eql 'a_state_object'
-      expect(subject.get(:key_2)).to eql 'a_dynamic_state_object'
+      expect(subject.get(:key_2)).to eql :lambda
     end
   end
 

@@ -120,6 +120,10 @@ class ModelBuilder
     @predicate = Smartdown::Model::Predicate::Named.new(name)
   end
 
+  def set_membership_predicate(varname, values)
+    @predicate = Smartdown::Model::Predicate::SetMembership.new(varname, values)
+  end
+
   def outcome(name)
     @outcome = name
   end

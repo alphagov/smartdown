@@ -21,13 +21,8 @@ module Smartdown
         has_key?(key) && fetch(key) == expected_value
       end
 
-      def get(key, with_eval= true)
-        value = fetch(key)
-        if value.respond_to?(:call) and with_eval
-          evaluate(value)
-        else
-          value
-        end
+      def get(key)
+        fetch(key)
       end
 
       def put(name, value)
@@ -53,10 +48,6 @@ module Smartdown
         else
           raise UndefinedValue, "variable '#{key}' not defined", caller
         end
-      end
-
-      def evaluate(callable)
-        @cached[callable] ||= callable.call(self)
       end
     end
   end
