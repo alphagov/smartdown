@@ -21,9 +21,9 @@ module Smartdown
         has_key?(key) && fetch(key) == expected_value
       end
 
-      def get(key)
+      def get(key, with_eval= true)
         value = fetch(key)
-        if value.respond_to?(:call)
+        if value.respond_to?(:call) and with_eval
           evaluate(value)
         else
           value
