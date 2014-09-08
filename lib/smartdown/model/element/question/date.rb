@@ -1,8 +1,14 @@
+require 'smartdown/model/answer/date'
+
 module Smartdown
   module Model
     module Element
       module Question
-        Date = Struct.new(:name)
+        class Date < Struct.new(:name)
+          def answer_type
+            Smartdown::Model::Answer::Date
+          end
+        end
       end
     end
   end

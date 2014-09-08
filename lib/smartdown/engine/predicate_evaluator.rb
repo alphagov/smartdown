@@ -11,9 +11,9 @@ module Smartdown
         when Smartdown::Model::Predicate::Equality
           ->(state) { state.get(predicate.varname) == predicate.expected_value }
         when Smartdown::Model::Predicate::SetMembership
-          ->(state) { predicate.values.include?(state.get(predicate.varname)) }
+          ->(state) { predicate.values.any? {|value| state.get(predicate.varname) == value } }
         when Smartdown::Model::Predicate::Named
-          ->(state) { state.get(predicate.name) }
+          ->(state) { !!state.get(predicate.name) }
         when Smartdown::Model::Predicate::Comparison::Base
           ->(state) { predicate.evaluate(state.get(predicate.varname)) }
         when Smartdown::Model::Predicate::Combined

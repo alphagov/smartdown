@@ -6,10 +6,10 @@ describe Smartdown::Engine do
   let(:start_state) {
     engine.build_start_state
       .put(:eea_passport?, ->(state) {
-        %w{greek british}.include?(state.get(:what_passport_do_you_have?))
+        %w{greek british}.include?(state.get(:what_passport_do_you_have?).to_s)
       })
       .put(:imaginary?, ->(state) {
-        %w{narnia}.include?(state.get(:what_country_are_you_going_to?))
+        %w{narnia}.include?(state.get(:what_country_are_you_going_to?).to_s)
       })
       .put(:otherwise, true)
   }
