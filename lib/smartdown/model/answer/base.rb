@@ -4,7 +4,27 @@ module Smartdown
       class Base
         extend Forwardable
 
-        def_delegators :value, :to_s, :==, :<, :>, :<=, :>=
+        def_delegators :value, :to_s
+
+        def ==(other)
+          value == parse_value(other)
+        end
+
+        def <(other)
+          value < parse_value(other)
+        end
+
+        def >(other)
+          value > parse_value(other)
+        end
+
+        def <=(other)
+          value <= parse_value(other)
+        end
+
+        def >=(other)
+          value >= parse_value(other)
+        end
 
         attr_reader :question, :value
 

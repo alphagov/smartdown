@@ -18,26 +18,58 @@ describe Smartdown::Model::Answer::Base do
   specify { expect(instance.to_s).to eql "a value" }
 
   describe "comparisons" do
-    specify { expect(instance == "a value").to eql true }
+    context "with a string kind of answer" do
+      specify { expect(instance == "a value").to eql true }
+    end
 
-    context "with an integer value" do
-      let(:value) { 10 }
+    context "with an integer kind of answer" do
+      class TestIntegerAnswer < described_class
+        def parse_value(value)
+          value.to_i
+        end
+      end
+      let(:value) { "10" }
+      subject(:instance) { TestIntegerAnswer.new(question, value) }
 
-      specify { expect(instance < 11).to eql true }
-      specify { expect(instance < 10).to eql false }
-      specify { expect(instance < 9).to eql false }
+      context "comparing against integers" do
+        specify { expect(instance == 10).to eql true }
 
-      specify { expect(instance > 11).to eql false }
-      specify { expect(instance > 10).to eql false }
-      specify { expect(instance > 9).to eql true }
+        specify { expect(instance < 11).to eql true }
+        specify { expect(instance < 10).to eql false }
+        specify { expect(instance < 9).to eql false }
 
-      specify { expect(instance <= 11).to eql true }
-      specify { expect(instance <= 10).to eql true }
-      specify { expect(instance <= 9).to eql false }
+        specify { expect(instance > 11).to eql false }
+        specify { expect(instance > 10).to eql false }
+        specify { expect(instance > 9).to eql true }
 
-      specify { expect(instance >= 11).to eql false }
-      specify { expect(instance >= 10).to eql true }
-      specify { expect(instance >= 9).to eql true }
+        specify { expect(instance <= 11).to eql true }
+        specify { expect(instance <= 10).to eql true }
+        specify { expect(instance <= 9).to eql false }
+
+        specify { expect(instance >= 11).to eql false }
+        specify { expect(instance >= 10).to eql true }
+        specify { expect(instance >= 9).to eql true }
+      end
+
+      context "comparing against strings" do
+        specify { expect(instance == "10").to eql true }
+
+        specify { expect(instance < "11").to eql true }
+        specify { expect(instance < "10").to eql false }
+        specify { expect(instance < "9").to eql false }
+
+        specify { expect(instance > "11").to eql false }
+        specify { expect(instance > "10").to eql false }
+        specify { expect(instance > "9").to eql true }
+
+        specify { expect(instance <= "11").to eql true }
+        specify { expect(instance <= "10").to eql true }
+        specify { expect(instance <= "9").to eql false }
+
+        specify { expect(instance >= "11").to eql false }
+        specify { expect(instance >= "10").to eql true }
+        specify { expect(instance >= "9").to eql true }
+      end
     end
   end
 end
