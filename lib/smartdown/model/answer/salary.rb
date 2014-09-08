@@ -6,6 +6,10 @@ module Smartdown
       class Salary < Base
         attr_reader :period, :amount_per_period
 
+        def value_type
+          ::Float
+        end
+
         def to_s
           "#{'%.2f' % amount_per_period} per #{period}"
         end

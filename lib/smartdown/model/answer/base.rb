@@ -4,7 +4,31 @@ module Smartdown
       class Base
         extend Forwardable
 
-        def_delegators :value, :to_s, :==, :<, :>, :<=, :>=
+        def_delegators :value, :to_s
+
+        def value_type
+          ::String
+        end
+
+        def ==(other)
+          value == parse_comparison_object(other)
+        end
+
+        def <(other)
+          value < parse_comparison_object(other)
+        end
+
+        def >(other)
+          value > parse_comparison_object(other)
+        end
+
+        def <=(other)
+          value <= parse_comparison_object(other)
+        end
+
+        def >=(other)
+          value >= parse_comparison_object(other)
+        end
 
         attr_reader :question, :value
 
@@ -14,6 +38,16 @@ module Smartdown
         end
 
       private
+        def parse_comparison_object(comparison_object)
+          if comparison_object.is_a? Base
+            comparison_object.value
+          elsif comparison_object.is_a? value_type
+            comparison_object
+          else
+            parse_value(comparison_object)
+          end
+        end
+
         def parse_value(value)
           value
         end

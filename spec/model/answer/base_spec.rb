@@ -14,30 +14,4 @@ describe Smartdown::Model::Answer::Base do
       expect(instance.value).to eql "parsed value"
     end
   end
-
-  specify { expect(instance.to_s).to eql "a value" }
-
-  describe "comparisons" do
-    specify { expect(instance == "a value").to eql true }
-
-    context "with an integer value" do
-      let(:value) { 10 }
-
-      specify { expect(instance < 11).to eql true }
-      specify { expect(instance < 10).to eql false }
-      specify { expect(instance < 9).to eql false }
-
-      specify { expect(instance > 11).to eql false }
-      specify { expect(instance > 10).to eql false }
-      specify { expect(instance > 9).to eql true }
-
-      specify { expect(instance <= 11).to eql true }
-      specify { expect(instance <= 10).to eql true }
-      specify { expect(instance <= 9).to eql false }
-
-      specify { expect(instance >= 11).to eql false }
-      specify { expect(instance >= 10).to eql true }
-      specify { expect(instance >= 9).to eql true }
-    end
-  end
 end
