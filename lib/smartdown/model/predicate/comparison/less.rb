@@ -6,7 +6,8 @@ module Smartdown
     module Predicate
       module Comparison
         class Less < Base
-          def evaluate(variable)
+          def evaluate(state)
+            variable = state.get(varname)
             if /(\d{4})-(\d{1,2})-(\d{1,2})/.match(value)
               Date.parse(variable) < Date.parse(value)
             else
