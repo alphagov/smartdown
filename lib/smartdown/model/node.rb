@@ -7,18 +7,30 @@ module Smartdown
         super(name, elements, front_matter || Smartdown::Model::FrontMatter.new)
       end
 
-      def questions
-        elements.select do |element|
-          element.class.to_s.include?("Smartdown::Model::Element::Question")
-        end
-      end
-
       def title
         h1s.first ? h1s.first.content : ""
       end
 
       def body
         markdown_blocks[1..-1].map { |block| as_markdown(block) }.compact.join("\n")
+      end
+
+      def questions
+        @questions ||= elements.select do |element|
+          element.class.to_s.include?("Smartdown::Model::Element::Question")
+        end
+      end
+
+      def next_node_rules
+        @next_node_rules ||= elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) }
+      end
+
+      def start_button
+        @start_button ||= elements.find { |e| e.is_a?(Smartdown::Model::Element::StartButton) }
+      end
+
+      def is_start_page_node?
+        @is_start_page_node ||= !!start_button
       end
 
       private

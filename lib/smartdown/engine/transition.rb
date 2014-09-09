@@ -26,24 +26,15 @@ module Smartdown
 
     private
       def next_node_from_next_node_rules
-        next_node_rules && first_matching_rule(next_node_rules.rules).outcome
+        node.next_node_rules && first_matching_rule(node.next_node_rules.rules).outcome
       end
 
       def next_node_from_start_button
-        start_button && start_button.start_node
+        node.start_button && node.start_button.start_node
       end
 
       def input_variable_names_from_question
-        questions = node.elements.select { |e| e.class.to_s.include?("Smartdown::Model::Element::Question") }
-        questions.map(&:name)
-      end
-
-      def next_node_rules
-        node.elements.find { |e| e.is_a?(Smartdown::Model::NextNodeRules) }
-      end
-
-      def start_button
-        node.elements.find { |e| e.is_a?(Smartdown::Model::Element::StartButton) }
+        node.questions.map(&:name)
       end
 
       def first_matching_rule(rules)
