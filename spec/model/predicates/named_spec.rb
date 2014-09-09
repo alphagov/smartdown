@@ -24,4 +24,18 @@ describe Smartdown::Model::Predicate::Named do
       end
     end
   end
+
+  describe "#humanize" do
+    context "predicate name without question mark" do
+      subject(:predicate) { described_class.new("my_pred") }
+
+      it { expect(predicate.humanize).to eq("my_pred?") }
+    end
+
+    context "predicate name with question mark" do
+      subject(:predicate) { described_class.new("my_pred?") }
+
+      it { expect(predicate.humanize).to eq("my_pred?") }
+    end
+  end
 end

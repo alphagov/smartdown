@@ -32,4 +32,8 @@ describe Smartdown::Model::Predicate::SetMembership do
       end
     end
   end
+
+  describe "#humanize" do
+    it { expect(predicate.humanize).to eq("my_var in [v1, v2, v3]") }
+  end
 end

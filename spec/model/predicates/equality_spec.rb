@@ -29,4 +29,8 @@ describe Smartdown::Model::Predicate::Equality do
       end
     end
   end
+
+  describe "#humanize" do
+    it { expect(predicate.humanize).to eq("my_var == 'some value'") }
+  end
 end

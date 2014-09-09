@@ -3,7 +3,11 @@ module Smartdown
     module Predicate
       Equality = Struct.new(:varname, :expected_value) do
         def evaluate(state)
-            state.get(varname) == expected_value
+          state.get(varname) == expected_value
+        end
+
+        def humanize
+          "#{varname} == '#{expected_value}'"
         end
       end
     end

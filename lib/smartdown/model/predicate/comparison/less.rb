@@ -14,6 +14,10 @@ module Smartdown
               variable < value
             end
           end
+
+          def humanize
+            "#{varname} < #{value}"
+          end
         end
       end
     end

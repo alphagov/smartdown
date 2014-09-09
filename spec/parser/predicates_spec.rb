@@ -122,19 +122,19 @@ describe Smartdown::Parser::Predicates do
       subject(:transformed) {
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
-      context "greater" do
+      context "greater or equal" do
         let(:source) { greater_equal_source }
         it { should eq(Smartdown::Model::Predicate::Comparison::GreaterOrEqual.new("varname", "value")) }
       end
-      context "stricly greater" do
+      context "greater" do
         let(:source) { greater_source }
         it { should eq(Smartdown::Model::Predicate::Comparison::Greater.new("varname", "value")) }
       end
-      context "lower" do
+      context "less than or equal" do
         let(:source) { less_equal_source }
         it { should eq(Smartdown::Model::Predicate::Comparison::LessOrEqual.new("varname", "value")) }
       end
-      context "strictly lower" do
+      context "less than" do
         let(:source) { less_source }
         it { should eq(Smartdown::Model::Predicate::Comparison::Less.new("varname", "value")) }
       end
