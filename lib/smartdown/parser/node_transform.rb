@@ -121,6 +121,10 @@ module Smartdown
         Smartdown::Model::Predicate::Named.new(name)
       }
 
+      rule(:otherwise_predicate => simple(:name) ) {
+        Smartdown::Model::Predicate::Otherwise.new
+      }
+
       rule(:combined_predicate => {first_predicate: subtree(:first_predicate), and_predicates: subtree(:and_predicates) }) {
         Smartdown::Model::Predicate::Combined.new([first_predicate]+and_predicates)
       }

@@ -5,6 +5,10 @@ module Smartdown
         def evaluate(state)
             true
         end
+
+        def ==(o)
+          o.class == self.class
+        end
       end
     end
   end

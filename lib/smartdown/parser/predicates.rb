@@ -38,7 +38,7 @@ module Smartdown
       }
 
       rule(:otherwise_predicate) {
-        str('otherwise').as(:named_predicate)
+        str('otherwise').as(:otherwise_predicate)
       }
 
       rule(:predicate) {
