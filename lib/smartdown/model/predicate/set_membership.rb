@@ -3,7 +3,7 @@ module Smartdown
     module Predicate
       SetMembership = Struct.new(:varname, :values) do
         def evaluate(state)
-          values.include?(state.get(varname))
+          values.any? {|value| state.get(varname) == value }
         end
 
         def humanize
