@@ -16,6 +16,7 @@ require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
 require 'smartdown/model/predicate/combined'
+require 'smartdown/model/predicate/function'
 require 'smartdown/model/predicate/comparison/greater_or_equal'
 require 'smartdown/model/predicate/comparison/greater'
 require 'smartdown/model/predicate/comparison/less_or_equal'
@@ -123,6 +124,16 @@ module Smartdown
 
       rule(:combined_predicate => {first_predicate: subtree(:first_predicate), and_predicates: subtree(:and_predicates) }) {
         Smartdown::Model::Predicate::Combined.new([first_predicate]+and_predicates)
+      }
+
+      rule(:function_argument => simple(:argument)) { argument }
+
+      rule(:function_predicate => { name: simple(:name), arguments: subtree(:arguments) }) {
+        Smartdown::Model::Predicate::Function.new(name, Array(arguments))
+      }
+
+      rule(:function_predicate => { name: simple(:name) }) {
+        Smartdown::Model::Predicate::Function.new(name, [])
       }
 
       rule(:comparison_predicate => { varname: simple(:varname), 

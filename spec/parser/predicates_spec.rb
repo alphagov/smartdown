@@ -104,6 +104,71 @@ describe Smartdown::Parser::Predicates do
     end
   end
 
+  describe "function predicate" do
+    subject(:parser) { described_class.new }
+
+    context "no arguments" do
+      let(:source) { "function_name()" }
+
+      it { should parse(source).as(function_predicate: { name: "function_name" }) }
+      it { should_not parse("function_name(") }
+
+      describe "transformed" do
+        let(:node_name) { "my_node" }
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it { should eq(Smartdown::Model::Predicate::Function.new("function_name", [])) }
+      end
+    end
+
+    context "single argument" do
+      let(:source) { "function_name(arg_1)" }
+
+      it { should parse(source).as(function_predicate: { name: "function_name", arguments: {function_argument: "arg_1"} }) }
+      it { should_not parse("function_name(hello") }
+      it { should_not parse("function name(hello)") }
+      it { should_not parse("function_name(hello) foo") }
+
+      describe "transformed" do
+        let(:node_name) { "my_node" }
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it { should eq(Smartdown::Model::Predicate::Function.new("function_name", ["arg_1"])) }
+      end
+    end
+
+    context "multiple arguments" do
+      let(:source) { "function_name(arg_1 arg_2 arg_3)" }
+
+      it { should parse(source).as(
+        { function_predicate: {
+          name: "function_name", arguments:
+          [
+            {function_argument: "arg_1"},
+            {function_argument: "arg_2"},
+            {function_argument: "arg_3"}
+          ]
+        } }
+      ) }
+
+      it { should_not parse("function_name(hello, foo") }
+      it { should_not parse("function name(hello, foo, bar) bar") }
+
+      describe "transformed" do
+        let(:node_name) { "my_node" }
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it { should eq(Smartdown::Model::Predicate::Function.new("function_name", ["arg_1", "arg_2", "arg_3"])) }
+      end
+    end
+  end
+
   describe "comparison predicate" do
     subject(:parser) { described_class.new }
     let(:greater_equal_source) { "varname >= 'value'" }

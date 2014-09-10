@@ -50,8 +50,20 @@ module Smartdown
         predicate).repeat(1).as(:and_predicates)
       }
 
+      rule(:function_arguments) {
+        identifier.as(:function_argument) >> (some_space >> identifier.as(:function_argument)).repeat
+      }
+
+      rule (:function_predicate) {
+        identifier.as(:name) >>
+        str('(') >>
+        function_arguments.as(:arguments).maybe >>
+        str(')')
+      }
+
       rule (:predicates) {
         combined_predicate.as(:combined_predicate) |
+        function_predicate.as(:function_predicate) |
         predicate
       }
 
