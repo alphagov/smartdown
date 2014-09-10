@@ -33,11 +33,11 @@ module Smartdown
       end
 
       def questions
-        flow_input.questions.map { |i| interpret_node(i) }
+        flow_input.questions.map { |question_data| interpret_node(question_data) }
       end
 
       def outcomes
-        flow_input.outcomes.map { |i| interpret_node(i) }
+        flow_input.outcomes.map { |outcome_data| interpret_node(outcome_data) }
       end
 
       def interpret_node(input_data)
