@@ -1,5 +1,6 @@
 require 'smartdown/model/flow'
 require 'smartdown/parser/node_interpreter'
+require 'smartdown/parser/snippet_pre_parser'
 
 module Smartdown
   module Parser
@@ -20,7 +21,7 @@ module Smartdown
       attr_reader :flow_input
 
       def initialize(flow_input)
-        @flow_input = flow_input
+        @flow_input = pre_parse(flow_input)
       end
 
       def interpret
@@ -44,6 +45,10 @@ module Smartdown
         Smartdown::Parser::NodeInterpreter.new(input_data.name, input_data.read).interpret
       rescue Parslet::ParseFailed => error
         raise ParseError.new(input_data.to_s, error)
+      end
+
+      def pre_parse(flow_input)
+        SnippetPreParser.parse(flow_input)
       end
     end
   end
