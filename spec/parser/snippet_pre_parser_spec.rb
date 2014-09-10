@@ -55,4 +55,18 @@ describe Smartdown::Parser::SnippetPreParser do
       expect(parsed_output.coversheet.read).to eql "some smartdown top level snippet nested snippet"
     end
   end
+
+  context "when referencing a non-existent snippet" do
+    let(:input_data) {
+      Smartdown::Parser::InputSet.new({
+        coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{non_existent_snippet}}"),
+        questions: [],
+        outcomes: [],
+        snippets: [],
+        scenarios: []
+      })
+    }
+
+    specify { expect { parsed_output }.to raise_exception(Smartdown::Parser::SnippetPreParser::SnippetNotFound) }
+  end
 end

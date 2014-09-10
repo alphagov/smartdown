@@ -3,6 +3,8 @@ require 'smartdown/parser/input_set'
 module Smartdown
   module Parser
     class SnippetPreParser
+      class SnippetNotFound < StandardError; end
+
       attr_reader :input_data
 
       def initialize(input_data)
@@ -35,7 +37,7 @@ module Smartdown
       end
 
       def get_snippet(snippet_name)
-        input_data.snippets.find { |snippet| snippet.name == snippet_name }
+        input_data.snippets.find { |snippet| snippet.name == snippet_name } or raise SnippetNotFound.new(snippet_name)
       end
     end
   end
