@@ -104,6 +104,14 @@ EXPECTED
       expect(flow.nodes.map(&:name)).to eq(["question-and-outcome", "q1", "o1"])
     end
   end
+
+  context "full flow example" do
+    subject(:flow) { Smartdown.parse(fixture("animal-example-simple")) }
+
+    it "parses" do
+      expect(flow.instance_of? Smartdown::Model::Flow).to eq(true)
+    end
+  end
 end
 
 
