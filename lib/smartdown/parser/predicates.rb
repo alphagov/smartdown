@@ -37,10 +37,15 @@ module Smartdown
         (identifier >> str('?')).as(:named_predicate)
       }
 
+      rule(:otherwise_predicate) {
+        str('otherwise').as(:named_predicate)
+      }
+
       rule(:predicate) {
         equality_predicate.as(:equality_predicate) |
         set_membership_predicate.as(:set_membership_predicate) |
         comparison_predicate.as(:comparison_predicate) |
+        otherwise_predicate |
         named_predicate
       }
 
