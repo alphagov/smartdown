@@ -5,12 +5,12 @@ require 'ostruct'
 describe Smartdown::Parser::SnippetPreParser do
   let(:input_data) {
     Smartdown::Parser::InputSet.new({
-      coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{coversheet_snippet}}"),
+      coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{snippet: coversheet_snippet}}"),
       questions: [
-        Smartdown::Parser::InputData.new("question_1", "some {{question_snippet}} smartdown"),
+        Smartdown::Parser::InputData.new("question_1", "some {{snippet: question_snippet}} smartdown"),
       ],
       outcomes: [
-        Smartdown::Parser::InputData.new("outcome_1", "some smartdown\n\n{{outcome_snippet}}\n\nmore smartdown"),
+        Smartdown::Parser::InputData.new("outcome_1", "some smartdown\n\n{{snippet: outcome_snippet}}\n\nmore smartdown"),
       ],
       snippets: [
         Smartdown::Parser::InputData.new("question_snippet", "question snippet"),
@@ -40,11 +40,11 @@ describe Smartdown::Parser::SnippetPreParser do
   context "with nested snippets" do
     let(:input_data) {
       Smartdown::Parser::InputSet.new({
-        coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{top_level_snippet}}"),
+        coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{snippet: top_level_snippet}}"),
         questions: [],
         outcomes: [],
         snippets: [
-          Smartdown::Parser::InputData.new("top_level_snippet", "top level snippet {{nested_snippet}}"),
+          Smartdown::Parser::InputData.new("top_level_snippet", "top level snippet {{snippet: nested_snippet}}"),
           Smartdown::Parser::InputData.new("nested_snippet", "nested snippet"),
         ],
         scenarios: []
@@ -59,7 +59,7 @@ describe Smartdown::Parser::SnippetPreParser do
   context "when referencing a non-existent snippet" do
     let(:input_data) {
       Smartdown::Parser::InputSet.new({
-        coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{non_existent_snippet}}"),
+        coversheet: Smartdown::Parser::InputData.new("coversheet_1", "some smartdown {{snippet: non_existent_snippet}}"),
         questions: [],
         outcomes: [],
         snippets: [],
@@ -74,7 +74,7 @@ describe Smartdown::Parser::SnippetPreParser do
     let(:snippet_smartdown) { "A snippet" }
     let(:input_data) {
       Smartdown::Parser::InputSet.new({
-        coversheet: Smartdown::Parser::InputData.new("coversheet_1",  "Smartdown {{snippet}} more smartdown"),
+        coversheet: Smartdown::Parser::InputData.new("coversheet_1",  "Smartdown {{snippet: snippet}} more smartdown"),
         questions: [],
         outcomes: [],
         snippets: [ Smartdown::Parser::InputData.new("snippet", snippet_smartdown) ],
@@ -88,6 +88,29 @@ describe Smartdown::Parser::SnippetPreParser do
       it "should strip off the snippet content's leading and trailing whitespace" do
         expect(parsed_output.coversheet.read).to eql "Smartdown Snippet text\n\n with whitespace more smartdown"
       end
+    end
+  end
+
+  describe "alternative tag definitions" do
+    let(:snippet_tag) { "{{snippet: snippet_name}}" }
+    let(:input_data) {
+      Smartdown::Parser::InputSet.new({
+        coversheet: Smartdown::Parser::InputData.new("coversheet_1",  snippet_tag),
+        questions: [],
+        outcomes: [],
+        snippets: [ Smartdown::Parser::InputData.new("snippet_name", "the snippet") ],
+        scenarios: []
+      })
+    }
+
+    context "with {{SNIPPET: snippet_name}}" do
+      let(:snippet_tag) { "{{SNIPPET: snippet_name}}" }
+      specify { expect(parsed_output.coversheet.read).to eql "the snippet" }
+    end
+
+    context "with {{snippet:snippet_name}}" do
+      let(:snippet_tag) { "{{snippet:snippet_name}}" }
+      specify { expect(parsed_output.coversheet.read).to eql "the snippet" }
     end
   end
 end

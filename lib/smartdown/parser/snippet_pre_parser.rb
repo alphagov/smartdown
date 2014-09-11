@@ -31,7 +31,7 @@ module Smartdown
       end
 
       def parse_content(content)
-        content.gsub(/\{\{(.*)\}\}/) { |_|
+        content.gsub(/\{\{snippet:\W?(.*)\}\}/i) { |_|
           parse_content(get_snippet($1).read.strip)
         }
       end
