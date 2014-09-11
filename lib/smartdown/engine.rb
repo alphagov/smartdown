@@ -21,9 +21,7 @@ module Smartdown
     end
 
     def default_predicates
-      {
-        otherwise: Smartdown::Model::Predicate::Otherwise.new
-      }.merge(@initial_state)
+      {}.merge(@initial_state)
     end
 
     def process(responses, test_start_state = nil)

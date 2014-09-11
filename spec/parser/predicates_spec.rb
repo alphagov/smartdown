@@ -62,6 +62,23 @@ describe Smartdown::Parser::Predicates do
     end
   end
 
+  describe "otherwise predicate" do
+    subject(:parser) { described_class.new }
+
+    it { should parse("otherwise").as(otherwise_predicate: "otherwise") }
+    it { should_not parse("other") }
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      let(:source) { "otherwise" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Predicate::Otherwise.new) }
+    end
+  end
+
   describe "predicate AND predicate" do
     subject(:parser) { described_class.new }
 
