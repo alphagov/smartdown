@@ -112,6 +112,14 @@ EXPECTED
       expect(flow.instance_of? Smartdown::Model::Flow).to eq(true)
     end
   end
+
+  context "snippets" do
+    subject(:flow) { Smartdown.parse(fixture("snippet")) }
+
+    it "has replaced the snippet tag with the snippet contents" do
+      expect(flow.nodes.first.elements.any? { |element| element.content.to_s.include? "snippet body" })
+    end
+  end
 end
 
 
