@@ -166,4 +166,30 @@ SOURCE
       })
     }
   end
+
+  context "body with extra trailing newlines" do
+    let(:source) {
+<<SOURCE
+# This is my title
+
+This is a paragraph of text with stuff
+that flows along
+
+Another paragraph of text
+
+
+SOURCE
+     }
+
+    it {
+      should parse(source).as({
+        body: [
+          {h1: "This is my title"},
+          {p: "This is a paragraph of text with stuff\nthat flows along\n"},
+          {p: "Another paragraph of text\n"}
+        ]
+      })
+    }
+  end
+
 end

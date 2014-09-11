@@ -30,7 +30,7 @@ module Smartdown
       }
 
       rule(:body) {
-        markdown_blocks.as(:body)
+        markdown_blocks.as(:body) >> newline.repeat
       }
 
       rule(:flow) {
