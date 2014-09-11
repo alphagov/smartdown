@@ -1,3 +1,14 @@
+## 0.4.0
+
+### Breaking changes
+
+* [Plugins](https://github.com/alphagov/smart-answers/blob/master/lib/smartdown_adapter/plugins.rb) calls now take specific arguments, not just state. Some plugins will need rewriting and their call syntax in a flow updated.
+
+### New features
+* Predicate models now provide a `humanize` function, for a friendly representation
+* Plugin calls can be used within interpolation
+* Plugin calls can be nested
+
 ## 0.3.0
 
 * State values can be inserted into smart down text
