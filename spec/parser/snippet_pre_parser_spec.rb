@@ -69,4 +69,25 @@ describe Smartdown::Parser::SnippetPreParser do
 
     specify { expect { parsed_output }.to raise_exception(Smartdown::Parser::SnippetPreParser::SnippetNotFound) }
   end
+
+  describe "whitespace handling" do
+    let(:snippet_smartdown) { "A snippet" }
+    let(:input_data) {
+      Smartdown::Parser::InputSet.new({
+        coversheet: Smartdown::Parser::InputData.new("coversheet_1",  "Smartdown {{snippet}} more smartdown"),
+        questions: [],
+        outcomes: [],
+        snippets: [ Smartdown::Parser::InputData.new("snippet", snippet_smartdown) ],
+        scenarios: []
+      })
+    }
+
+    context "when snippet smartdown has leading / trailing whitespace" do
+      let(:snippet_smartdown) { "\n\n  Snippet text\n\n with whitespace  \n\n" }
+
+      it "should strip off the snippet content's leading and trailing whitespace" do
+        expect(parsed_output.coversheet.read).to eql "Smartdown Snippet text\n\n with whitespace more smartdown"
+      end
+    end
+  end
 end
