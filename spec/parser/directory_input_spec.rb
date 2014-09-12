@@ -1,11 +1,5 @@
 require 'smartdown/parser/directory_input'
-
-shared_examples "flow input interface" do
-  it { should respond_to(:coversheet) }
-  it { should respond_to(:questions) }
-  it { should respond_to(:outcomes) }
-  it { should respond_to(:scenarios) }
-end
+require 'support/flow_input_interface'
 
 describe Smartdown::Parser::DirectoryInput do
   it_should_behave_like "flow input interface"
@@ -51,6 +45,14 @@ describe Smartdown::Parser::DirectoryInput do
       expect(input.scenarios).to match([instance_of(Smartdown::Parser::InputFile)])
       expect(input.scenarios.first.name).to eq("s1")
       expect(input.scenarios.first.read).to eq("scenario one\n")
+    end
+  end
+
+  describe "#snippets" do
+    it "returns an InputFile for every file in the snippets folder" do
+      expect(input.snippets).to match([instance_of(Smartdown::Parser::InputFile)])
+      expect(input.snippets.first.name).to eq("sn1")
+      expect(input.snippets.first.read).to eq("snippet one\n")
     end
   end
 end

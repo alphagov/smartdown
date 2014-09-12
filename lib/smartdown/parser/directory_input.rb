@@ -23,6 +23,10 @@ module Smartdown
         read_dir("scenarios")
       end
 
+      def snippets
+        read_dir("snippets")
+      end
+
       def filenames_hash
         {
           coversheet: coversheet.to_s,
