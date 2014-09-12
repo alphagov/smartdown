@@ -285,6 +285,28 @@ Interpolations are currently supported into headings and paragraphs using the fo
 Your state pension age is %{state_pension_age}.
 ```
 
+## Snippets
+
+Snippets work like partials, to re-use common text. They can be block or inline,
+can be called recursivelty and can contain interpolation and conditional logic
+
+They're called like so:
+
+```
+## My header
+
+Markdown copy..
+
+{{snippet: my_snippet}}
+
+More copy...
+```
+
+Where `snippet_name` is in a `snippets/` directory in the flow root with a `.txt`
+extension, eg `my-flow-name/snippets/my_snippet.txt`.
+
+The contents of `my_snippet` will be inseted into the outcome/question.
+
 ## Named predicates (tbd)
 
 Named predicates
