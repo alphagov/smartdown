@@ -1,3 +1,12 @@
+## 0.5.0
+
+Add snippets feature. These are re-usage bits of content.
+
+They're stored in a `snippets/` directory in the flow root, and are called like:
+```{{snippet: snippet_name}}```
+
+Which will include the `snippets/snippet_name.txt` file into the question/outcome.
+
 ## 0.4.0
 
 ### Breaking changes
