@@ -9,6 +9,10 @@ module Smartdown
         def ==(o)
           o.class == self.class
         end
+
+        def humanize
+          "otherwise"
+        end
       end
     end
   end
