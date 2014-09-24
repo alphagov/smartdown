@@ -14,4 +14,10 @@ describe Smartdown::Model::Answer::Base do
       expect(instance.value).to eql "parsed value"
     end
   end
+
+  describe "simple type behaviour" do
+    [:==, :<, :>, :<=, :>=, :to_s, :to_i, :to_f, :+, :-, :*, :/].each do |method|
+      it { should respond_to(method) }
+    end
+  end
 end

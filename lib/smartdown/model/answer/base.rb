@@ -4,7 +4,7 @@ module Smartdown
       class Base
         extend Forwardable
 
-        def_delegators :value, :to_s
+        def_delegators :value, :to_s, :to_i, :to_f, :+, :-, :*, :/
 
         def value_type
           ::String
