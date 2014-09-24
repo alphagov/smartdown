@@ -30,15 +30,11 @@ module Smartdown
       while !unprocessed_responses.empty? do
         current_node = flow.node(state.get(:current_node))
 
-        if current_node.elements.any?{|element| element.class.to_s.include?("Smartdown::Model::Element::StartButton") }
+        if current_node.is_start_page_node?
           # If it's a start page node, we've got to do something different because of the preceeding 'y' answer
           transition = Transition.new(state, current_node, unprocessed_responses.shift(1))
         else
-          questions = current_node.elements.select{|element|
-            element.class.to_s.include?("Smartdown::Model::Element::Question")
-          }
-
-          answers = questions.map do |question|
+          answers = current_node.questions.map do |question|
             question.answer_type.new(question, unprocessed_responses.shift)
           end
 
