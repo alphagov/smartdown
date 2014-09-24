@@ -8,11 +8,7 @@ module Smartdown
         class GreaterOrEqual < Base
           def evaluate(state)
             variable = state.get(varname)
-            if /(\d{4})-(\d{1,2})-(\d{1,2})/.match(value)
-              Date.parse(variable) >= Date.parse(value)
-            else
-              variable >= value
-            end
+            variable >= value
           end
 
           def humanize
