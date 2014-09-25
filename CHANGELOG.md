@@ -1,3 +1,8 @@
+## 0.5.1
+
+Answers are now parsed into typed objects depending on the question type.
+
+
 ## 0.5.0
 
 Add snippets feature. These are re-usage bits of content.
