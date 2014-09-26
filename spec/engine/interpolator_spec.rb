@@ -92,4 +92,19 @@ describe Smartdown::Engine::Interpolator do
       expect(interpolated_node.elements.first.content).to eq("20")
     end
   end
+
+  context "a paragraph containing function call with two arguments" do
+    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new('%{multiply(number other_number)}')] }
+    let(:state) {
+      Smartdown::Engine::State.new(
+          current_node: node.name,
+          number: 10,
+          other_number: 2,
+          multiply: ->(number, other_number) { number * other_number }
+      )
+    }
+    it "interpolates the result of the function call" do
+      expect(interpolated_node.elements.first.content).to eq("20")
+    end
+  end
 end
