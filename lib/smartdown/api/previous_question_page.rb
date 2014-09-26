@@ -11,12 +11,12 @@ module Smartdown
         headings = node_elements.select {
           |element| element.is_a? Smartdown::Model::Element::MarkdownHeading
         }
-        @title = headings.first.content.to_s if headings.first
         nb_questions = node_elements.select{ |element|
           element.class.to_s.include?("Smartdown::Model::Element::Question")
         }.count
         if headings.count > nb_questions
           node_elements.delete(headings.first) #Remove page title
+          @title = headings.first.content.to_s
         end
         @elements = node_elements
         @responses = responses
