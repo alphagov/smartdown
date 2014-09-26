@@ -35,7 +35,8 @@ module Smartdown
         markdown_elements = elements.select do |element|
           markdown_element?(element)
         end
-        GovspeakPresenter.new(markdown_elements.map(&:content).join("\n")).html
+        govspeak = markdown_elements.map(&:content).join("\n")
+        GovspeakPresenter.new(govspeak).html unless govspeak.empty?
       end
     end
   end
