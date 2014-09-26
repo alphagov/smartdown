@@ -1,3 +1,9 @@
+## 0.5.2
+
+Fix a bug where `PreviousQuestionPage` would include a page title when it shouldn't.
+
+Minor API fix to methods rendering `govspeak` output (eg `body`, `title`), so that they return nil for empty values, not `""` or `"\n"`.
+
 ## 0.5.1
 
 Answers are now parsed into typed objects depending on the question type.
