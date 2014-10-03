@@ -44,7 +44,7 @@ module Smartdown
       def interpret_node(input_data)
         Smartdown::Parser::NodeInterpreter.new(input_data.name, input_data.read).interpret
       rescue Parslet::ParseFailed => error
-        raise ParseError.new(input_data.to_s, error)
+        raise ParseError.new(input_data.name, error)
       end
 
       def pre_parse(flow_input)
