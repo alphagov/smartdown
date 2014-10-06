@@ -12,6 +12,10 @@ module Smartdown
           value.strftime("%Y-%-m-%-d")
         end
 
+        def humanize
+          value.strftime("%-d %B %Y")
+        end
+
       private
         def parse_value(value)
           ::Date.parse(value)

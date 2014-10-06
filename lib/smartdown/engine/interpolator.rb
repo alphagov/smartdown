@@ -40,7 +40,8 @@ module Smartdown
       private
         def interpolate(text, state)
           text.to_s.gsub(/%{([^}]+)}/) do |_|
-            resolve_term($1, state)
+            term = resolve_term($1, state)
+            term.respond_to?(:humanize) ? term.humanize : term
           end
         end
 
