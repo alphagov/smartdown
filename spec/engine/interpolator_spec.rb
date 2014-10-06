@@ -1,3 +1,6 @@
+# encoding: utf-8
+#TODO: this "require" for money is here for now since there is no associated question type for money yet
+require 'smartdown/model/answer/money'
 require 'smartdown/engine/interpolator'
 require 'smartdown/engine/state'
 require 'parslet'
@@ -105,6 +108,32 @@ describe Smartdown::Engine::Interpolator do
     }
     it "interpolates the result of the function call" do
       expect(interpolated_node.elements.first.content).to eq("20")
+    end
+  end
+
+  context "a paragraph containing a date answer" do
+    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new('%{date_answer}')] }
+    let(:state) {
+      Smartdown::Engine::State.new(
+          current_node: node.name,
+          date_answer: Smartdown::Model::Answer::Date.new("date_question", "2014-1-1")
+      )
+    }
+    it "interpolates the result of the function call" do
+      expect(interpolated_node.elements.first.content).to eq("1 January 2014")
+    end
+  end
+
+  context "a paragraph containing a money answer" do
+    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new('%{money_answer}')] }
+    let(:state) {
+      Smartdown::Engine::State.new(
+          current_node: node.name,
+          money_answer: Smartdown::Model::Answer::Money.new("money_answer", 12.32523)
+      )
+    }
+    it "interpolates the result of the function call" do
+      expect(interpolated_node.elements.first.content).to eq("£12.33")
     end
   end
 end

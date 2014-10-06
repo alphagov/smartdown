@@ -9,6 +9,10 @@ describe Smartdown::Model::Answer::Date do
   specify { expect(instance.value).to eql Date.new(2014, 9, 4) }
   specify { expect(instance.to_s).to eql "2014-9-4" }
 
+  describe "humanize" do
+    let(:date_string) { "2000-1-10" }
+    specify { expect(instance.humanize).to eql "10 January 2000" }
+  end
 
   describe "comparisons" do
     let(:date_string) { "2000-1-10" }
