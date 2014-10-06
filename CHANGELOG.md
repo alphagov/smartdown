@@ -1,3 +1,9 @@
+## 0.5.3
+
+Interpolate humanized versions of date and money answers
+
+Fix a bug in the ParseError exception message
+
 ## 0.5.2
 
 Fix a bug where `PreviousQuestionPage` would include a page title when it shouldn't.
