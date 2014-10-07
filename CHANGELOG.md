@@ -1,3 +1,8 @@
+## 0.5.4
+
+Modify Answer API to take value as first attribute, question as optional second attribute.
+This allows the use of Answer objects in a plugin context, not just as a answer to a question.
+
 ## 0.5.3
 
 Interpolate humanized versions of date and money answers
