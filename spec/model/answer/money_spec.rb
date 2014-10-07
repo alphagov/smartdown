@@ -4,7 +4,7 @@ require 'smartdown/model/answer/money'
 describe Smartdown::Model::Answer::Money do
 
   let(:money_float) { 523.42 }
-  subject(:instance) { described_class.new(nil, money_float) }
+  subject(:instance) { described_class.new(money_float) }
 
   describe "#humanize" do
     it "specifies money in the correct format" do

@@ -4,6 +4,7 @@ require 'smartdown/model/answer/money'
 require 'smartdown/engine/interpolator'
 require 'smartdown/engine/state'
 require 'parslet'
+require 'date'
 
 describe Smartdown::Engine::Interpolator do
   subject(:interpolator) { described_class.new }
@@ -116,7 +117,7 @@ describe Smartdown::Engine::Interpolator do
     let(:state) {
       Smartdown::Engine::State.new(
           current_node: node.name,
-          date_answer: Smartdown::Model::Answer::Date.new("date_question", "2014-1-1")
+          date_answer: Smartdown::Model::Answer::Date.new("2014-1-1")
       )
     }
     it "interpolates the result of the function call" do
@@ -129,7 +130,7 @@ describe Smartdown::Engine::Interpolator do
     let(:state) {
       Smartdown::Engine::State.new(
           current_node: node.name,
-          money_answer: Smartdown::Model::Answer::Money.new("money_answer", 12.32523)
+          money_answer: Smartdown::Model::Answer::Money.new(12.32523)
       )
     }
     it "interpolates the result of the function call" do

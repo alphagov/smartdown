@@ -35,7 +35,7 @@ module Smartdown
           transition = Transition.new(state, current_node, unprocessed_responses.shift(1))
         else
           answers = current_node.questions.map do |question|
-            question.answer_type.new(question, unprocessed_responses.shift)
+            question.answer_type.new(unprocessed_responses.shift, question)
           end
 
           transition = Transition.new(state, current_node, answers)

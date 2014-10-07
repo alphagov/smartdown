@@ -4,7 +4,7 @@ require 'smartdown/model/element/question/date'
 describe Smartdown::Model::Answer::Date do
   let(:date_string) { "2014-9-4" }
   let(:question) { Smartdown::Model::Element::Question::Date.new("a_date") }
-  subject(:instance) { described_class.new(question, date_string) }
+  subject(:instance) { described_class.new(date_string, question) }
 
   specify { expect(instance.value).to eql Date.new(2014, 9, 4) }
   specify { expect(instance.to_s).to eql "2014-9-4" }
@@ -59,23 +59,23 @@ describe Smartdown::Model::Answer::Date do
     end
 
     context "comparing against Answer::Dates" do
-      specify { expect(instance == described_class.new(nil, "2000-1-10")).to eql true }
+      specify { expect(instance == described_class.new("2000-1-10")).to eql true }
 
-      specify { expect(instance < described_class.new(nil, "2000-1-11")).to eql true }
-      specify { expect(instance < described_class.new(nil, "2000-1-10")).to eql false }
-      specify { expect(instance < described_class.new(nil, "2000-1-9")).to eql false }
+      specify { expect(instance < described_class.new("2000-1-11")).to eql true }
+      specify { expect(instance < described_class.new("2000-1-10")).to eql false }
+      specify { expect(instance < described_class.new("2000-1-9")).to eql false }
 
-      specify { expect(instance > described_class.new(nil, "2000-1-11")).to eql false }
-      specify { expect(instance > described_class.new(nil, "2000-1-10")).to eql false }
-      specify { expect(instance > described_class.new(nil, "2000-1-9")).to eql true }
+      specify { expect(instance > described_class.new("2000-1-11")).to eql false }
+      specify { expect(instance > described_class.new("2000-1-10")).to eql false }
+      specify { expect(instance > described_class.new("2000-1-9")).to eql true }
 
-      specify { expect(instance <= described_class.new(nil, "2000-1-11")).to eql true }
-      specify { expect(instance <= described_class.new(nil, "2000-1-10")).to eql true }
-      specify { expect(instance <= described_class.new(nil, "2000-1-9")).to eql false }
+      specify { expect(instance <= described_class.new("2000-1-11")).to eql true }
+      specify { expect(instance <= described_class.new("2000-1-10")).to eql true }
+      specify { expect(instance <= described_class.new("2000-1-9")).to eql false }
 
-      specify { expect(instance >= described_class.new(nil, "2000-1-11")).to eql false }
-      specify { expect(instance >= described_class.new(nil, "2000-1-10")).to eql true }
-      specify { expect(instance >= described_class.new(nil, "2000-1-9")).to eql true }
+      specify { expect(instance >= described_class.new("2000-1-11")).to eql false }
+      specify { expect(instance >= described_class.new("2000-1-10")).to eql true }
+      specify { expect(instance >= described_class.new("2000-1-9")).to eql true }
     end
   end
 end

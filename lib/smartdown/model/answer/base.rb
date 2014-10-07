@@ -17,9 +17,9 @@ module Smartdown
 
         attr_reader :question, :value
 
-        def initialize(question, value)
-          @question = question
+        def initialize(value, question=nil)
           @value = parse_value(value)
+          @question = question
         end
 
       private
