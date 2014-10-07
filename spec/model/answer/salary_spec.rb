@@ -4,7 +4,7 @@ require 'smartdown/model/element/question/date'
 describe Smartdown::Model::Answer::Salary do
   let(:salary_string) { "500-week" }
   let(:question) { Smartdown::Model::Element::Question::Date.new("a_date") }
-  subject(:instance) { described_class.new(question, salary_string) }
+  subject(:instance) { described_class.new(salary_string, question) }
 
   specify { expect(instance.period).to eql('week') }
   specify { expect(instance.amount_per_period).to eql(500.00) }
@@ -76,23 +76,23 @@ describe Smartdown::Model::Answer::Salary do
     end
 
     context "comparing against Answer::Salaries" do
-      specify { expect(instance == described_class.new(nil, "1200-week")).to eql true }
+      specify { expect(instance == described_class.new("1200-week")).to eql true }
 
-      specify { expect(instance < described_class.new(nil, "1200.1-week")).to eql true }
-      specify { expect(instance < described_class.new(nil, "1200.0-week")).to eql false }
-      specify { expect(instance < described_class.new(nil, "1199.9-week")).to eql false }
+      specify { expect(instance < described_class.new("1200.1-week")).to eql true }
+      specify { expect(instance < described_class.new("1200.0-week")).to eql false }
+      specify { expect(instance < described_class.new("1199.9-week")).to eql false }
 
-      specify { expect(instance > described_class.new(nil, "1200.1-week")).to eql false }
-      specify { expect(instance > described_class.new(nil, "1200.0-week")).to eql false }
-      specify { expect(instance > described_class.new(nil, "1199.9-week")).to eql true }
+      specify { expect(instance > described_class.new("1200.1-week")).to eql false }
+      specify { expect(instance > described_class.new("1200.0-week")).to eql false }
+      specify { expect(instance > described_class.new("1199.9-week")).to eql true }
 
-      specify { expect(instance <= described_class.new(nil, "1200.1-week")).to eql true }
-      specify { expect(instance <= described_class.new(nil, "1200.0-week")).to eql true }
-      specify { expect(instance <= described_class.new(nil, "1199.9-week")).to eql false }
+      specify { expect(instance <= described_class.new("1200.1-week")).to eql true }
+      specify { expect(instance <= described_class.new("1200.0-week")).to eql true }
+      specify { expect(instance <= described_class.new("1199.9-week")).to eql false }
 
-      specify { expect(instance >= described_class.new(nil, "1200.1-week")).to eql false }
-      specify { expect(instance >= described_class.new(nil, "1200.0-week")).to eql true }
-      specify { expect(instance >= described_class.new(nil, "1199.9-week")).to eql true }
+      specify { expect(instance >= described_class.new("1200.1-week")).to eql false }
+      specify { expect(instance >= described_class.new("1200.0-week")).to eql true }
+      specify { expect(instance >= described_class.new("1199.9-week")).to eql true }
     end
   end
 end

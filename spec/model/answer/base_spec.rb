@@ -4,7 +4,7 @@ describe Smartdown::Model::Answer::Base do
   let(:question) { :a_question }
   let(:value) { 'a value' }
 
-  subject(:instance) {Smartdown::Model::Answer::Base.new(question, value)}
+  subject(:instance) {Smartdown::Model::Answer::Base.new(value, question)}
 
   specify { expect(instance.question).to eql question }
 
