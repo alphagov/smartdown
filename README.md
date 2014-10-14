@@ -140,10 +140,10 @@ passport_country:
 [date: baby_due_date]
 ```
 
-### Value (tbd)
+### Text
 
 ```markdown
-[value]
+[text: text_value]
 ```
 
 Asks for an arbitrary text input.
