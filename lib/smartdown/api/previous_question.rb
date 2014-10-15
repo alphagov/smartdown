@@ -15,6 +15,8 @@ module Smartdown
           @question = DateQuestion.new(elements)
         elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Salary}
           @question = SalaryQuestion.new(elements)
+        elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Text}
+          @question = TextQuestion.new(elements)
         end
       end
 

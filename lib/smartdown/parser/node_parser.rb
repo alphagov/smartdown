@@ -5,6 +5,7 @@ require 'smartdown/parser/element/start_button'
 require 'smartdown/parser/element/multiple_choice_question'
 require 'smartdown/parser/element/date_question'
 require 'smartdown/parser/element/salary_question'
+require 'smartdown/parser/element/text_question'
 require 'smartdown/parser/element/markdown_heading'
 require 'smartdown/parser/element/markdown_paragraph'
 require 'smartdown/parser/element/conditional'
@@ -19,6 +20,7 @@ module Smartdown
         Element::MultipleChoiceQuestion.new |
         Element::DateQuestion.new |
         Element::SalaryQuestion.new |
+        Element::TextQuestion.new |
         Rules.new |
         Element::StartButton.new |
         Element::NextSteps.new |
