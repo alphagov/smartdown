@@ -1,3 +1,12 @@
+## 0.6.0
+
+Add text question.
+Provides the ability to accept text value answers.
+
+* text question
+
+```[text: text_question]```
+
 ## 0.5.4
 
 Modify Answer API to take value as first attribute, question as optional second attribute.
