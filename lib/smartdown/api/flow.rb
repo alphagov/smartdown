@@ -4,13 +4,18 @@ require 'smartdown/api/state'
 require 'smartdown/api/coversheet'
 require 'smartdown/api/question_page'
 require 'smartdown/api/outcome'
+require 'smartdown/parser/scenario_sets_interpreter'
 
 module Smartdown
   module Api
     class Flow
+
+      attr_reader :scenario_sets
+
       def initialize(smartdown_input, initial_state = {})
         @smartdown_flow = Smartdown::Parser::FlowInterpreter.new(smartdown_input).interpret
         @engine = Smartdown::Engine.new(@smartdown_flow, initial_state)
+        @scenario_sets = Smartdown::Parser::ScenarioSetsInterpreter.new(smartdown_input).interpret
       end
 
       def state(started, responses)
