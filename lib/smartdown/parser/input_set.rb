@@ -1,14 +1,14 @@
 module Smartdown
   module Parser
     class InputSet
-      attr_reader :coversheet, :questions, :outcomes, :snippets, :scenarios
+      attr_reader :coversheet, :questions, :outcomes, :snippets, :scenario_sets
 
       def initialize(params = {})
         @coversheet = params[:coversheet]
         @questions = params[:questions]
         @outcomes = params[:outcomes]
         @snippets = params[:snippets]
-        @scenarios = params[:scenarios]
+        @scenario_sets = params[:scenario_sets]
       end
     end
 

@@ -17,7 +17,7 @@ module Smartdown
           questions: input_data.questions.map { |question_data| parse_node_input(question_data) },
           outcomes: input_data.outcomes.map { |outcome_data| parse_node_input(outcome_data) },
           snippets: input_data.snippets,
-          scenarios: input_data.scenarios,
+          scenario_sets: input_data.scenario_sets,
         })
       end
 

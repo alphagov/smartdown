@@ -40,11 +40,11 @@ describe Smartdown::Parser::DirectoryInput do
     end
   end
 
-  describe "#scenarios" do
+  describe "#scenario_sets" do
     it "returns an InputFile for every file in the scenarios folder" do
-      expect(input.scenarios).to match([instance_of(Smartdown::Parser::InputFile)])
-      expect(input.scenarios.first.name).to eq("s1")
-      expect(input.scenarios.first.read).to eq("scenario one\n")
+      expect(input.scenario_sets).to match([instance_of(Smartdown::Parser::InputFile)])
+      expect(input.scenario_sets.first.name).to eq("s1")
+      expect(input.scenario_sets.first.read).to eq("scenario one\n")
     end
   end
 
