@@ -1,0 +1,23 @@
+#User has trained with lions, not with tigers
+- question_1: lion
+- trained_for_lions: yes
+  trained_for_tigers: no
+outcome_trained_with_lions
+
+#User has trained with lions and tigers
+- question_1: lion
+- trained_for_lions: yes
+  trained_for_lions: yes
+outcome_can_outrun_a_lion
+
+#User has trained neither with lions, nor with tigers
+- question_1: lion
+- trained_for_lions: no
+  trained_for_tigers: no
+outcome_untrained_with_lions
+
+#User has trained with tigers, not with lions
+- question_1: lion
+- trained_for_lions: no
+  trained_for_tigers: yes
+outcome_untrained_with_lions

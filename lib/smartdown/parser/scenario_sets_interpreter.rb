@@ -25,12 +25,31 @@ module Smartdown
           scenario_lines = scenario_lines[1..-1]
         end
         outcome = scenario_lines.last
-        questions = scenario_lines[0..-2].map { |question_line| interpret_question(question_line) }
+        question_pages = group_questions_by_page(scenario_lines[0..-2])
+        question_groups = question_pages.map { |question_page| interpret_question_page(question_page) }
         OpenStruct.new(
           :description => description,
-          :questions => questions,
+          :question_groups => question_groups,
           :outcome => outcome,
         )
+      end
+
+      def group_questions_by_page(scenario_lines)
+        result = []
+        scenario_lines.each do |scenario_line|
+          if scenario_line.start_with?("-")
+            result << [scenario_line[1..-1]]
+          else
+            result.last << scenario_line
+          end
+        end
+        result
+      end
+
+      def interpret_question_page(question_page)
+        question_page.map { |question|
+          interpret_question(question)
+        }
       end
 
       def interpret_question(question_string)
