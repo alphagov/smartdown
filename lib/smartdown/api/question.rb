@@ -10,6 +10,10 @@ module Smartdown
         elements.first.content
       end
 
+      def name
+        elements.find{ |element| element.class.to_s.include?("Smartdown::Model::Element::Question") }.name
+      end
+
       def body
         elements_before_smartdown = elements[1..-1].take_while{|element| !smartdown_element?(element)}
         build_govspeak(elements_before_smartdown)
