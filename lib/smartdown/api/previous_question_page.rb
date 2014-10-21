@@ -22,8 +22,12 @@ module Smartdown
         @responses = responses
       end
 
+      def answers
+        questions.map(&:answer)
+      end
+
       def questions
-        elements.slice_before do |element|
+        @questions ||= elements.slice_before do |element|
           element.is_a? Smartdown::Model::Element::MarkdownHeading
         end.each_with_index.map do |question_element_group, index|
           Smartdown::Api::PreviousQuestion.new(question_element_group, responses[index])

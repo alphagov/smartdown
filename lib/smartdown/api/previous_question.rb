@@ -5,19 +5,19 @@ module Smartdown
 
       def_delegators :@question, :title, :options
 
-      attr_reader :response, :question
+      attr_reader :answer, :question
 
       def initialize(elements, response)
-        @response = response
-        if elements.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
+        if element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
           @question = MultipleChoice.new(elements)
-        elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
+        elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
           @question = DateQuestion.new(elements)
-        elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Salary}
+        elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Salary}
           @question = SalaryQuestion.new(elements)
-        elsif elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Text}
+        elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Text}
           @question = TextQuestion.new(elements)
         end
+        @answer = element.answer_type.new(response) if element
       end
 
     end
