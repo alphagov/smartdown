@@ -1,3 +1,7 @@
+require "smartdown/model/scenarios/scenario_set"
+require "smartdown/model/scenarios/scenario"
+require "smartdown/model/scenarios/question"
+
 module Smartdown
   module Parser
     class ScenarioSetsInterpreter
@@ -12,9 +16,9 @@ module Smartdown
 
     private
       def interpret_scenario_set(scenario_set)
-        OpenStruct.new(
-          :name => scenario_set.name,
-          :scenarios => scenario_set.read.split("\n\n").map { |scenario_string| interpret_scenario(scenario_string) }
+        Smartdown::Model::Scenarios::ScenarioSet.new(
+          scenario_set.name,
+          scenario_set.read.split("\n\n").map { |scenario_string| interpret_scenario(scenario_string) }
         )
       end
 
@@ -27,10 +31,10 @@ module Smartdown
         outcome = scenario_lines.last
         question_pages = group_questions_by_page(scenario_lines[0..-2])
         question_groups = question_pages.map { |question_page| interpret_question_page(question_page) }
-        OpenStruct.new(
-          :description => description,
-          :question_groups => question_groups,
-          :outcome => outcome,
+        Smartdown::Model::Scenarios::Scenario.new(
+          description,
+          question_groups,
+          outcome,
         )
       end
 
@@ -54,9 +58,9 @@ module Smartdown
 
       def interpret_question(question_string)
         name, answer = question_string.split(":").map(&:strip)
-        OpenStruct.new(
-          :name => name,
-          :answer => answer,
+        Smartdown::Model::Scenarios::Question.new(
+          name,
+          answer,
         )
       end
     end
