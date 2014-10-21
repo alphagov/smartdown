@@ -21,7 +21,7 @@ module Smartdown
       def interpret_scenario(scenario_string)
         scenario_lines = scenario_string.split("\n")
         if scenario_lines.first.start_with?("#")
-          description = scenario_lines.first[1..-1]
+          description = scenario_lines.first[1..-1].strip
           scenario_lines = scenario_lines[1..-1]
         end
         outcome = scenario_lines.last
