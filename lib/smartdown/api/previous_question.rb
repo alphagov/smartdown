@@ -17,7 +17,7 @@ module Smartdown
         elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Text}
           @question = TextQuestion.new(elements)
         end
-        @answer = element.answer_type.new(response) if element
+        @answer = element.answer_type.new(response, element) if element
       end
 
     end
