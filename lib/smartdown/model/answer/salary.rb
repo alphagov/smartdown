@@ -1,3 +1,4 @@
+# encoding: utf-8
 require_relative "base"
 
 module Smartdown
@@ -12,6 +13,11 @@ module Smartdown
 
         def to_s
           "#{'%.2f' % amount_per_period} per #{period}"
+        end
+
+        def humanize
+          whole, decimal = separate_by_comma(amount_per_period)
+          "£#{whole}.#{decimal} per #{period}"
         end
 
       private
@@ -30,6 +36,15 @@ module Smartdown
           when "year"
             amount_per_period
           end
+        end
+
+        def separate_by_comma(number)
+          left, right = ('%.2f' % number).split('.')
+          left.gsub!(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
+            "#{digit_to_delimit},"
+          end
+          right = "%02d" % right.to_i
+          [left, right]
         end
       end
     end

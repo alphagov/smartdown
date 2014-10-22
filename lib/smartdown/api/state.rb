@@ -12,18 +12,22 @@ module Smartdown
         @responses = responses
       end
 
+      def answers
+        previous_question_pages(responses).map { |previous_question_page|
+          previous_question_page.answers
+        }.flatten
+      end
+
+      def previous_question_pages(responses)
+        @previous_question_pages ||= build_question_pages(responses)
+      end
+
       def started?
         !current_node.is_a? Smartdown::Api::Coversheet
       end
 
       def finished?
         current_node.is_a? Smartdown::Api::Outcome
-      end
-
-      def previous_question_pages(responses)
-        previous_questionpage_smartdown_nodes.map do |smartdown_questionpage_node|
-          Smartdown::Api::PreviousQuestionPage.new(smartdown_questionpage_node, responses)
-        end
       end
 
       def current_question_number
@@ -34,6 +38,14 @@ module Smartdown
 
       attr_reader :smartdown_state, :previous_questionpage_smartdown_nodes
 
+      def build_question_pages(responses)
+        resp = responses.dup
+        previous_questionpage_smartdown_nodes.map do |smartdown_questionpage_node|
+          page_questions = resp.take(smartdown_questionpage_node.questions.count)
+          resp = resp.drop(smartdown_questionpage_node.questions.count)
+          Smartdown::Api::PreviousQuestionPage.new(smartdown_questionpage_node, page_questions)
+        end
+      end
     end
   end
 end

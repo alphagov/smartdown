@@ -5,7 +5,7 @@ module Smartdown
         extend Forwardable
         include Comparable
 
-        def_delegators :value, :to_s, :to_i, :to_f, :+, :-, :*, :/
+        def_delegators :value, :to_s, :humanize, :to_i, :to_f, :+, :-, :*, :/
 
         def value_type
           ::String

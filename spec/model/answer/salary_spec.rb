@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'smartdown/model/answer/date'
 require 'smartdown/model/element/question/date'
 
@@ -11,6 +12,40 @@ describe Smartdown::Model::Answer::Salary do
 
   it "as a string, it should declare itself in the initial format provided" do
     expect(instance.to_s).to eql("500.00 per week")
+  end
+
+  describe "#humanize" do
+    it "declares itself in the initial format provided" do
+      expect(instance.humanize).to eql("£500.00 per week")
+    end
+
+    context "amounts over 999" do
+      let(:salary_string) { "15000-week" }
+      it "adds commas" do
+        expect(instance.humanize).to eql("£15,000.00 per week")
+      end
+    end
+
+    context "amounts with .525 decimal part" do
+      let(:salary_string) { "15000.525-week" }
+      it "adds commas" do
+        expect(instance.humanize).to eql("£15,000.52 per week")
+      end
+    end
+
+    context "amounts with .555 decimal part" do
+      let(:salary_string) { "15000.555-week" }
+      it "adds commas" do
+        expect(instance.humanize).to eql("£15,000.56 per week")
+      end
+    end
+
+    context "amounts with .556 decimal part" do
+      let(:salary_string) { "15000.556-week" }
+      it "adds commas" do
+        expect(instance.humanize).to eql("£15,000.56 per week")
+      end
+    end
   end
 
   context "declared by week" do
