@@ -1,3 +1,12 @@
+## 0.7.0
+
+Scenario sets on flow: Api::Flow object now has a scenario_sets public method
+that lists all scenarios and their questions
+
+Adds support for exposing answers and humanizing them:
+* Api::Question object now has an answer method which returns an Answer object.
+* Answer objects all have a humanize method which returns the user-friendly version of its value.
+
 ## 0.6.0
 
 Add text question.
