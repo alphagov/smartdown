@@ -39,10 +39,12 @@ module Smartdown
         end
 
         def separate_by_comma(number)
-          whole, decimal = ('%.2f' % number).split(".")
-          whole_with_commas = whole.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse
-          rounded_up_decimal = "%02d" % decimal.to_i
-          [whole_with_commas, rounded_up_decimal]
+          left, right = ('%.2f' % number).split('.')
+          left.gsub!(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
+            "#{digit_to_delimit},"
+          end
+          right = "%02d" % right.to_i
+          [left, right]
         end
       end
     end
