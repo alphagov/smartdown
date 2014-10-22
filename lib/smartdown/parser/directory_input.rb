@@ -19,7 +19,7 @@ module Smartdown
         read_dir("outcomes")
       end
 
-      def scenarios
+      def scenario_sets
         read_dir("scenarios")
       end
 
@@ -32,7 +32,7 @@ module Smartdown
           coversheet: coversheet.to_s,
           questions: questions.map(&:to_s),
           outcomes: outcomes.map(&:to_s),
-          scenarios: scenarios.map(&:to_s)
+          scenario_sets: scenario_sets.map(&:to_s)
         }
       end
 

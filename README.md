@@ -10,8 +10,6 @@ The language is designed to look like
 to allow expression of logical rules, questions and conditional blocks of
 text.
 
-It's a work-in-progress so some of the features described in this readme haven't been implemented yet. These are indicated with (tbd).
-
 ## Overview
 
 A single smartdown flow has a cover sheet, a set of questions, a set of
@@ -34,9 +32,9 @@ flow:
    |   |-- medical_y.txt
    |   `-- ...
    |-- scenarios
-   |   |-- 1.test
-   |   |-- 2.test
-   |   `-- 3.test
+   |   |-- 1.txt
+   |   |-- 2.txt
+   |   `-- 3.txt
    |-- questions
    |   |-- planning_to_leave_airport.txt
    |   |-- purpose_of_visit.txt
@@ -108,30 +106,6 @@ to your outbound flight.
 * no: No
 ```
 
-### Country (tbd)
-
-```markdown
-## What passport do you have?
-
-[country: passport_country]
-```
-
-Presents a drop-down list of countries from the built-in list.
-
-Use front matter to exclude/include countries
-
-```markdown
----
-passport_country:
-  exclude_countries: country1, country2
-  include_countries: {country3: "Country 3", country4: "Country 4"}
----
-
-## What passport do you have?
-
-[country: passport_country]
-```
-
 ### Date
 
 ```markdown
@@ -148,28 +122,10 @@ passport_country:
 
 Asks for an arbitrary text input.
 
-### Money (tbd)
-
-```markdown
-[money]
-```
-
-Asks for a numerical input which can have decimals and optional thousand-separating commas.
-
 ### Salary
 
 ```markdown
 [salary: salary_value]
-```
-
-### Checkbox (tbd)
-
-```markdown
-## Will you pass through UK Border Control?
-
-[checkbox: uk_border_control]
-* [ ] yes: Yes
-* [ ] no: No
 ```
 
 ## Next steps
@@ -305,20 +261,36 @@ More copy...
 Where `snippet_name` is in a `snippets/` directory in the flow root with a `.txt`
 extension, eg `my-flow-name/snippets/my_snippet.txt`.
 
-The contents of `my_snippet` will be inseted into the outcome/question.
+The contents of `my_snippet` will be inserted into the outcome/question.
 
-## Named predicates (tbd)
+## Scenarios
 
-Named predicates
+Scenarios are meant to be run as test to check that a Smartdown flow behaves
+in a certain way given some input data.
 
-## Plugin API (tbd)
+###Scenario files
 
-A plugin API will be provided to allow more complex calculations to be defined
-in an external ruby class.
+There can be as many scenario files as one wishes, with no restriction on name. Each
+scenario file should contain scenarios written as documented below.
+
+###Format
+
+Each scenario is made of:
+* a description (optional)
+* list of questions pages (each question page starts with a -), inside which questions to answers are defined
+* name of the outcome
+
+```
+# Description
+- name_of_q1_p1: answer_to_q1_p1
+- name_of_q1_p2: answer_to_q1_p2
+  name_of_q2_p2: answer_to_q2_p2
+outcome_the_result
+```
 
 ## Software design
 
-The software design can be seen in this diagram:
+The initial plan for software design can be seen in this diagram:
 
 ![Software design](https://raw.githubusercontent.com/alphagov/smartdown/master/doc/design.png)
 
