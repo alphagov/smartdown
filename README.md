@@ -286,6 +286,13 @@ Each scenario is made of:
 - name_of_q1_p2: answer_to_q1_p2
   name_of_q2_p2: answer_to_q2_p2
 outcome_the_result
+
+# Descriptions
+# can have several lines
+- name_of_q1_p1: answer_to_q1_p1_2
+- name_of_q1_p3: answer_to_q1_p3
+  name_of_q2_p3: answer_to_q2_p3
+outcome_the_other_result
 ```
 
 ## Software design
