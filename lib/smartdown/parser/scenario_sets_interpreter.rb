@@ -24,10 +24,11 @@ module Smartdown
 
       def interpret_scenario(scenario_string)
         scenario_lines = scenario_string.split("\n")
-        if scenario_lines.first.start_with?("#")
-          description = scenario_lines.first[1..-1].strip
-          scenario_lines = scenario_lines[1..-1]
-        end
+        description_lines = scenario_lines.select{ |line| line.start_with?("#") }
+        description = description_lines.map { |description_line|
+          description_line[1..-1].strip
+        }.join(";")
+        scenario_lines = scenario_lines - description_lines
         outcome = scenario_lines.last
         question_pages = group_questions_by_page(scenario_lines[0..-2])
         question_groups = question_pages.map { |question_page| interpret_question_page(question_page) }

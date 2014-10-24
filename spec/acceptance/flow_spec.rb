@@ -21,7 +21,7 @@ describe Smartdown::Api::Flow do
     it "has scenarios with description, questions and outcome" do
       tigers_and_cats_scenario_set = flow.scenario_sets.find { |scenario_set| scenario_set.name == "tigers_and_cats" }
       expect(tigers_and_cats_scenario_set.scenarios.size).to eq(1)
-      expect(tigers_and_cats_scenario_set.scenarios.first.description).to eq("User has a cat")
+      expect(tigers_and_cats_scenario_set.scenarios.first.description).to eq("User has a cat;And cats are amazing")
       expect(tigers_and_cats_scenario_set.scenarios.first.question_groups.size).to eq(1)
       expect(tigers_and_cats_scenario_set.scenarios.first.outcome).to eq("outcome_safe_pet")
     end
