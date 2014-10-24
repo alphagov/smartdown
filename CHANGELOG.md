@@ -1,3 +1,7 @@
+## 0.7.1
+
+Multi-line descriptions for scenarios are supported. 
+
 ## 0.7.0
 
 Scenario sets on flow: Api::Flow object now has a scenario_sets public method
