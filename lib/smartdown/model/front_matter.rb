@@ -21,8 +21,12 @@ module Smartdown
         @attributes.has_key?(name.to_s)
       end
 
-      def fetch(name)
-        @attributes.fetch(name.to_s)
+      def fetch(name, default=(default_not_given=true))
+        if default_not_given
+          @attributes.fetch(name.to_s)
+        else
+          @attributes.fetch(name.to_s, default)
+        end
       end
 
       def to_hash

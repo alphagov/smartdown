@@ -35,11 +35,11 @@ module Smartdown
       end
 
       def meta_description
-        front_matter.meta_description
+        front_matter.fetch meta_description, nil
       end
 
       def need_id
-        front_matter.satisfies_need
+        front_matter.fetch satisfies_need, nil
       end
 
       def status
