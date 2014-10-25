@@ -45,6 +45,17 @@ describe Smartdown::Model::Predicate::Function do
       end
     end
 
+    context "with a ? in the function name" do
+      let(:function_name) { "is_odd?" }
+      let(:my_function) { ->(number) { number.odd? } }
+      subject(:predicate) { described_class.new(function_name, ["number"]) }
+      let(:state) { Smartdown::Engine::State.new(current_node: "n", "number" => 3, function_name => my_function) }
+
+      it "can be called normally" do
+        expect(predicate.evaluate(state)).to eq(true)
+      end
+    end
+
     context "with nested functions" do
       # nesting looks like: function_1(function_2(5))
       let(:function_1) { ->(x) { x - 1 } }
