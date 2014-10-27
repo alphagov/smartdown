@@ -33,15 +33,15 @@ module Smartdown
       }
 
       rule(h1: simple(:content)) {
-        Smartdown::Model::Element::MarkdownHeading.new(content)
+        Smartdown::Model::Element::MarkdownHeading.new(content.to_s)
       }
 
       rule(p: simple(:content)) {
-        Smartdown::Model::Element::MarkdownParagraph.new(content)
+        Smartdown::Model::Element::MarkdownParagraph.new(content.to_s)
       }
 
       rule(:start_button => simple(:start_node)) {
-        Smartdown::Model::Element::StartButton.new(start_node)
+        Smartdown::Model::Element::StartButton.new(start_node.to_s)
       }
 
       rule(:front_matter => subtree(:attrs), body: subtree(:body)) {
@@ -66,7 +66,7 @@ module Smartdown
 
       rule(:multiple_choice => {identifier: simple(:identifier), options: subtree(:choices)}) {
         Smartdown::Model::Element::Question::MultipleChoice.new(
-          identifier, Hash[choices]
+          identifier.to_s, Hash[choices]
         )
       }
 
@@ -115,17 +115,17 @@ module Smartdown
       }
 
       rule(:equality_predicate => { varname: simple(:varname), expected_value: simple(:expected_value) }) {
-        Smartdown::Model::Predicate::Equality.new(varname, expected_value)
+        Smartdown::Model::Predicate::Equality.new(varname.to_s, expected_value.to_s)
       }
 
       rule(:set_value => simple(:value)) { value }
 
       rule(:set_membership_predicate => { varname: simple(:varname), values: subtree(:values) }) {
-        Smartdown::Model::Predicate::SetMembership.new(varname, values)
+        Smartdown::Model::Predicate::SetMembership.new(varname.to_s, values)
       }
 
       rule(:named_predicate => simple(:name) ) {
-        Smartdown::Model::Predicate::Named.new(name)
+        Smartdown::Model::Predicate::Named.new(name.to_s)
       }
 
       rule(:otherwise_predicate => simple(:name) ) {
@@ -136,14 +136,14 @@ module Smartdown
         Smartdown::Model::Predicate::Combined.new([first_predicate]+and_predicates)
       }
 
-      rule(:function_argument => simple(:argument)) { argument }
+      rule(:function_argument => simple(:argument)) { argument.to_s }
 
       rule(:function_predicate => { name: simple(:name), arguments: subtree(:arguments) }) {
-        Smartdown::Model::Predicate::Function.new(name, Array(arguments))
+        Smartdown::Model::Predicate::Function.new(name.to_s, Array(arguments))
       }
 
       rule(:function_predicate => { name: simple(:name) }) {
-        Smartdown::Model::Predicate::Function.new(name, [])
+        Smartdown::Model::Predicate::Function.new(name.to_s, [])
       }
 
       rule(:comparison_predicate => { varname: simple(:varname), 
@@ -152,20 +152,20 @@ module Smartdown
                                      }) { 
         case operator
         when "<="
-          Smartdown::Model::Predicate::Comparison::LessOrEqual.new(varname, value)
+          Smartdown::Model::Predicate::Comparison::LessOrEqual.new(varname.to_s, value.to_s)
         when "<"
-          Smartdown::Model::Predicate::Comparison::Less.new(varname, value)
+          Smartdown::Model::Predicate::Comparison::Less.new(varname.to_s, value.to_s)
         when ">="
-          Smartdown::Model::Predicate::Comparison::GreaterOrEqual.new(varname, value)
+          Smartdown::Model::Predicate::Comparison::GreaterOrEqual.new(varname.to_s, value.to_s)
         when ">"
-          Smartdown::Model::Predicate::Comparison::Greater.new(varname, value)
+          Smartdown::Model::Predicate::Comparison::Greater.new(varname.to_s, value.to_s)
         else
           raise "Comparison operator not recognised"
         end
       }
 
       rule(:rule => {predicate: subtree(:predicate), outcome: simple(:outcome_name) } ) {
-        Smartdown::Model::Rule.new(predicate, outcome_name)
+        Smartdown::Model::Rule.new(predicate, outcome_name.to_s)
       }
       rule(:nested_rule => {predicate: subtree(:predicate), child_rules: subtree(:child_rules) } ) {
         Smartdown::Model::NestedRule.new(predicate, child_rules)
