@@ -12,6 +12,7 @@ describe Smartdown::Engine::State do
   it "initializes path and responses" do
     expect(subject.get(:responses)).to eq []
     expect(subject.get(:path)).to eq []
+    expect(subject.get(:answers)).to eq []
   end
 
   describe "#get" do
@@ -27,7 +28,7 @@ describe Smartdown::Engine::State do
 
   describe "#keys" do
     it "returns a set of all keys in the state" do
-      expect(subject.keys).to eq(Set.new(["current_node", "path", "responses"]))
+      expect(subject.keys).to eq(Set.new(["current_node", "path", "responses", "answers"]))
     end
   end
 

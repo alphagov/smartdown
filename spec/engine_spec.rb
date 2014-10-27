@@ -165,6 +165,16 @@ describe Smartdown::Engine do
           expect { subject }.to raise_error(Smartdown::Engine::IndeterminateNextNode)
         end
       end
+
+      context "no passport answer entered" do
+        let(:responses) { ["yes", nil] }
+
+        it "raises parsing errors" do
+          expect(subject.get(:current_node)).to eq("passport_question")
+          expect(subject.get("answers").count).to eq 1
+          expect(subject.get("answers").first.error).to eq "Please answer this question"
+        end
+      end
     end
 
     context "two questions per page" do
@@ -192,6 +202,36 @@ describe Smartdown::Engine do
         it "has recorded inputs" do
           expect(subject.get("what_passport_do_you_have?")).to eq("greek")
           expect(subject.get("what_country_are_you_going_to?")).to eq("usa")
+        end
+      end
+
+      context "no answers given" do
+        let(:responses) { ["yes", nil, nil] }
+        it "raises parsing errors" do
+          expect(subject.get(:current_node)).to eq("passport_question")
+          expect(subject.get("answers").count).to eq 2
+          expect(subject.get("answers")[0].error).to eq "Please answer this question"
+          expect(subject.get("answers")[1].error).to eq "Please answer this question"
+        end
+      end
+
+      context "only second answer given" do
+        let(:responses) { ["yes", nil, "narnia"] }
+        it "raises parsing errors" do
+          expect(subject.get(:current_node)).to eq("passport_question")
+          expect(subject.get("answers").count).to eq 2
+          expect(subject.get("answers")[0].error).to eq "Please answer this question"
+          expect(subject.get("answers")[1].error).to be nil
+        end
+      end
+
+      context "only first answer given" do
+        let(:responses) { ["yes", "greek", nil] }
+        it "raises parsing errors" do
+          expect(subject.get(:current_node)).to eq("passport_question")
+          expect(subject.get("answers").count).to eq 2
+          expect(subject.get("answers")[0].error).to be nil
+          expect(subject.get("answers")[1].error).to eq "Please answer this question"
         end
       end
     end
