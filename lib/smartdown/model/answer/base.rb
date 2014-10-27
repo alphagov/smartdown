@@ -15,11 +15,15 @@ module Smartdown
           value <=> parse_comparison_object(other)
         end
 
-        attr_reader :question, :value
+        attr_reader :question, :value, :error
 
         def initialize(value, question=nil)
           @value = parse_value(value)
           @question = question
+        end
+
+        def valid?
+          @error.nil?
         end
 
       private
@@ -34,6 +38,9 @@ module Smartdown
         end
 
         def parse_value(value)
+          unless value
+            @error = "Please answer this question"
+          end
           value
         end
       end
