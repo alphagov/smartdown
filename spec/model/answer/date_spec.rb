@@ -14,6 +14,19 @@ describe Smartdown::Model::Answer::Date do
     specify { expect(instance.humanize).to eql "10 January 2000" }
   end
 
+  describe "errors" do
+
+    context "format is incorrect" do
+      let(:date_string) { "tomorrow" }
+      specify { expect(instance.error).to eql "Invalid date" }
+    end
+
+    context "answer not filled in" do
+      let(:date_string) { nil }
+      specify { expect(instance.error).to eql "Please answer this question" }
+    end
+  end
+
   describe "comparisons" do
     let(:date_string) { "2000-1-10" }
 

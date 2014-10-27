@@ -18,7 +18,15 @@ module Smartdown
 
       private
         def parse_value(value)
-          ::Date.parse(value)
+          unless value
+            @error = "Please answer this question"
+            return
+          end
+          begin
+            ::Date.parse(value)
+          rescue ArgumentError
+            @error = "Invalid date"
+          end
         end
       end
     end
