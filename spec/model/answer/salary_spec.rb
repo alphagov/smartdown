@@ -46,6 +46,32 @@ describe Smartdown::Model::Answer::Salary do
         expect(instance.humanize).to eql("£15,000.56 per week")
       end
     end
+
+    context "amounts with commas" do
+      let(:salary_string) { "15,0000-week" }
+      it "correct comma location" do
+        expect(instance.humanize).to eql("£150,000.00 per week")
+      end
+    end
+  end
+
+  describe "errors" do
+    context "invalid formatting" do
+      let(:salary_string) {"Loads'a'money"}
+
+      it "Has errors" do
+        expect(instance.error).to eql("Invalid format")
+      end
+    end
+
+    context "no input" do
+      let(:salary_string) { nil }
+
+      it "Has errors" do
+        expect(instance.error).to eql("Please answer this question")
+      end
+    end
+
   end
 
   context "declared by week" do
