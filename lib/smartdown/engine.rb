@@ -37,11 +37,14 @@ module Smartdown
           answers = current_node.questions.map do |question|
             question.answer_type.new(unprocessed_responses.shift, question)
           end
-          state = state.put(:answers, state.get(:answers) + answers)
 
-          break unless answers.all?(&:valid?)
+          unless answers.all?(&:valid?)
+            state = state.put(:current_answers, answers)
+            break
+          end
 
-          transition = Transition.new(state, current_node, answers)
+          answer_values = answers.map(&:value)
+          transition = Transition.new(state, current_node, answer_values)
         end
         state = transition.next_state
       end

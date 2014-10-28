@@ -2,7 +2,7 @@ require 'smartdown/api/state'
 
 describe Smartdown::Api::State do
 
-  subject(:state) { Smartdown::Api::State.new(current_node, previous_questionpage_smartdown_nodes, responses)}
+  subject(:state) { Smartdown::Api::State.new(current_node, previous_questionpage_smartdown_nodes, responses, double)}
   let(:current_node) { double(:current_node) }
   let(:previous_questionpage_smartdown_nodes) { [question_page_node_1, question_page_node_2] }
   let(:question_page_node_1) { double(:question_page_node_1, :questions => [double, double]) }

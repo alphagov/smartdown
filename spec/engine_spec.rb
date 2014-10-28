@@ -196,8 +196,8 @@ describe Smartdown::Engine do
 
         it "raises parsing errors" do
           expect(subject.get(:current_node)).to eq("passport_question")
-          expect(subject.get("answers").count).to eq 1
-          expect(subject.get("answers").first.error).to eq "Please answer this question"
+          expect(subject.get("current_answers").count).to eq 1
+          expect(subject.get("current_answers").first.error).to eq "Please answer this question"
         end
       end
     end
@@ -234,9 +234,9 @@ describe Smartdown::Engine do
         let(:responses) { ["yes", nil, nil] }
         it "raises parsing errors" do
           expect(subject.get(:current_node)).to eq("passport_question")
-          expect(subject.get("answers").count).to eq 2
-          expect(subject.get("answers")[0].error).to eq "Please answer this question"
-          expect(subject.get("answers")[1].error).to eq "Please answer this question"
+          expect(subject.get("current_answers").count).to eq 2
+          expect(subject.get("current_answers")[0].error).to eq "Please answer this question"
+          expect(subject.get("current_answers")[1].error).to eq "Please answer this question"
           expect(subject.get("accepted_responses")).to eq ["yes"]
         end
       end
@@ -245,9 +245,9 @@ describe Smartdown::Engine do
         let(:responses) { ["yes", nil, "narnia"] }
         it "raises parsing errors" do
           expect(subject.get(:current_node)).to eq("passport_question")
-          expect(subject.get("answers").count).to eq 2
-          expect(subject.get("answers")[0].error).to eq "Please answer this question"
-          expect(subject.get("answers")[1].error).to be nil
+          expect(subject.get("current_answers").count).to eq 2
+          expect(subject.get("current_answers")[0].error).to eq "Please answer this question"
+          expect(subject.get("current_answers")[1].error).to be nil
           expect(subject.get("accepted_responses")).to eq ["yes"]
         end
       end
@@ -256,9 +256,9 @@ describe Smartdown::Engine do
         let(:responses) { ["yes", "greek", nil] }
         it "raises parsing errors" do
           expect(subject.get(:current_node)).to eq("passport_question")
-          expect(subject.get("answers").count).to eq 2
-          expect(subject.get("answers")[0].error).to be nil
-          expect(subject.get("answers")[1].error).to eq "Please answer this question"
+          expect(subject.get("current_answers").count).to eq 2
+          expect(subject.get("current_answers")[0].error).to be nil
+          expect(subject.get("current_answers")[1].error).to eq "Please answer this question"
           expect(subject.get("accepted_responses")).to eq ["yes"]
         end
       end
@@ -267,7 +267,8 @@ describe Smartdown::Engine do
         let(:responses) { ["yes", "british", "usa", nil] }
         it "raises parsing errors" do
           expect(subject.get(:current_node)).to eq("second_passport_question")
-          expect(subject.get("answers").count).to eq 3
+          expect(subject.get("current_answers").count).to eq 1
+          expect(subject.get("current_answers").first.error).to eq "Please answer this question"
           expect(subject.get("accepted_responses")).to eq ["yes", "british", "usa"]
         end
       end
