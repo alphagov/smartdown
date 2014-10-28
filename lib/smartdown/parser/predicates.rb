@@ -60,7 +60,7 @@ module Smartdown
       }
 
       rule (:function_predicate) {
-        identifier.as(:name) >>
+        (identifier >> str('?').maybe).as(:name) >>
         str('(') >>
         function_arguments.as(:arguments).maybe >>
         str(')')

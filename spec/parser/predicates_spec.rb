@@ -140,6 +140,21 @@ describe Smartdown::Parser::Predicates do
       end
     end
 
+    context "with ? in name" do
+      let(:source) { "function_name?()" }
+
+      it { should parse(source).as(function_predicate: { name: "function_name?" }) }
+
+      describe "transformed" do
+        let(:node_name) { "my_node" }
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it { should eq(Smartdown::Model::Predicate::Function.new("function_name?", [])) }
+      end
+    end
+
     context "single argument" do
       let(:source) { "function_name(arg_1)" }
 
