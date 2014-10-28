@@ -20,7 +20,7 @@ module Smartdown
       end
 
       def previous_question_pages
-        @previous_question_pages ||= build_question_pages(accepted_responses[1..-1])
+        @previous_question_pages ||= build_question_pages(accepted_responses)
       end
 
       def started?
