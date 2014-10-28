@@ -24,10 +24,6 @@ module Smartdown
 
       private
         def parse_value(value)
-          unless value
-            @error = "Please answer this question"
-            return
-          end
           matched_value = value.strip.match FORMAT_REGEX
           unless matched_value
             @error = "Invalid format"

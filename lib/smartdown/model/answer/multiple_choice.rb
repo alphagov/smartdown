@@ -11,6 +11,17 @@ module Smartdown
         def humanize
           question.choices.fetch(value)
         end
+
+        private
+        def parse_value(value)
+          check_value_not_nil(value)
+          if valid?
+            unless question.choices.keys.include? value
+              @error = "Invalid choice"
+            end
+          end
+          value
+        end
       end
     end
   end

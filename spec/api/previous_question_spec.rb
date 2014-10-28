@@ -5,7 +5,11 @@ describe Smartdown::Api::PreviousQuestion do
 
   subject(:previous_question) { Smartdown::Api::PreviousQuestion.new(elements, response)}
   let(:elements) { [ multiple_choice_element ] }
-  let(:multiple_choice_element) { Smartdown::Model::Element::Question::MultipleChoice.new }
+  let(:multiple_choice_element) {
+    Smartdown::Model::Element::Question::MultipleChoice.new("question",
+                                                            {"answer" => "Beautiful answer"}
+    )
+  }
   let(:response) { double(:response) }
   let(:multiple_choice_class) { double(:multiple_choice_class, :new => nil) }
   let(:answer_type) { double(:answer_type) }

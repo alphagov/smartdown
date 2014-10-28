@@ -18,8 +18,9 @@ module Smartdown
         attr_reader :question, :value, :error
 
         def initialize(value, question=nil)
-          @value = parse_value(value)
           @question = question
+          @value = check_value_not_nil(value)
+          @value = parse_value(value) if valid?
         end
 
         def valid?
@@ -38,6 +39,10 @@ module Smartdown
         end
 
         def parse_value(value)
+          value
+        end
+
+        def check_value_not_nil(value)
           unless value
             @error = "Please answer this question"
           end
