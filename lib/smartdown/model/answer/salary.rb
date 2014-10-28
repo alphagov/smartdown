@@ -14,7 +14,7 @@ module Smartdown
         end
 
         def to_s
-          "#{'%.2f' % amount_per_period} per #{period}"
+          "#{'%.2f' % amount_per_period}-#{period}"
         end
 
         def humanize
