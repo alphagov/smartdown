@@ -22,6 +22,7 @@ module Smartdown
             ::Date.parse(value)
           rescue ArgumentError
             @error = "Invalid date"
+            return
           end
         end
       end
