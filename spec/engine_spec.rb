@@ -83,8 +83,29 @@ describe Smartdown::Engine do
             outcome("outcome_imaginary_country")
           end
           rule do
-            set_membership_predicate("what_passport_do_you_have?", ["greek", "british"])
+            set_membership_predicate("what_passport_do_you_have?", ["greek"])
             outcome("outcome_no_visa_needed")
+          end
+          rule do
+            set_membership_predicate("what_passport_do_you_have?", ["british"])
+            outcome("second_passport_question")
+          end
+        end
+      end
+
+      node("second_passport_question") do
+        heading("What colour is your passport?")
+        multiple_choice(
+            "what_colour_is_your_passport?",
+            {
+                red: "Red",
+                white: "White",
+                blue: "Blue"
+            }
+        )
+        next_node_rules do
+          rule do
+            outcome("outcome_passport_colour_specified")
           end
         end
       end
@@ -107,6 +128,10 @@ describe Smartdown::Engine do
 
       node("outcome_with_interpolation") do
         paragraph("The answer is %{interpolated_variable}")
+      end
+
+      node("outcome_passport_colour_specified") do
+        paragraph("What a pretty passport")
       end
     end
   }
@@ -212,6 +237,7 @@ describe Smartdown::Engine do
           expect(subject.get("answers").count).to eq 2
           expect(subject.get("answers")[0].error).to eq "Please answer this question"
           expect(subject.get("answers")[1].error).to eq "Please answer this question"
+          expect(subject.get("accepted_responses")).to eq ["yes"]
         end
       end
 
@@ -222,6 +248,7 @@ describe Smartdown::Engine do
           expect(subject.get("answers").count).to eq 2
           expect(subject.get("answers")[0].error).to eq "Please answer this question"
           expect(subject.get("answers")[1].error).to be nil
+          expect(subject.get("accepted_responses")).to eq ["yes"]
         end
       end
 
@@ -232,6 +259,16 @@ describe Smartdown::Engine do
           expect(subject.get("answers").count).to eq 2
           expect(subject.get("answers")[0].error).to be nil
           expect(subject.get("answers")[1].error).to eq "Please answer this question"
+          expect(subject.get("accepted_responses")).to eq ["yes"]
+        end
+      end
+
+      context "british, going to usa" do
+        let(:responses) { ["yes", "british", "usa", nil] }
+        it "raises parsing errors" do
+          expect(subject.get(:current_node)).to eq("second_passport_question")
+          expect(subject.get("answers").count).to eq 3
+          expect(subject.get("accepted_responses")).to eq ["yes", "british", "usa"]
         end
       end
     end

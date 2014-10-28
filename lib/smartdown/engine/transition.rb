@@ -20,7 +20,7 @@ module Smartdown
       def next_state
         state_with_inputs
           .put(:path, state.get(:path) + [node.name])
-          .put(:responses, state.get(:responses) + inputs)
+          .put(:accepted_responses, state.get(:accepted_responses) + inputs)
           .put(:current_node, next_node)
       end
 

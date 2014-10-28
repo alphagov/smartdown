@@ -88,7 +88,7 @@ describe Smartdown::Engine::Transition do
     describe "#next_state" do
       it "returns a state including a record of responses, path, and new current_node" do
         expected_state = start_state
-          .put(:responses, [input])
+          .put(:accepted_responses, [input])
           .put(:path, [current_node_name])
           .put(:current_node, outcome_name1)
           .put(current_node.name, input_array)
