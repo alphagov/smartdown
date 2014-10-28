@@ -14,13 +14,13 @@ module Smartdown
       end
 
       def previous_answers
-        previous_question_pages(accepted_responses).map { |previous_question_page|
+        previous_question_pages.map { |previous_question_page|
           previous_question_page.answers
         }.flatten
       end
 
-      def previous_question_pages(responses)
-        @previous_question_pages ||= build_question_pages(responses)
+      def previous_question_pages
+        @previous_question_pages ||= build_question_pages(accepted_responses[1..-1])
       end
 
       def started?

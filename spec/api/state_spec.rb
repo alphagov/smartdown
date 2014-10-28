@@ -13,7 +13,7 @@ describe Smartdown::Api::State do
   describe "#previous_question_pages" do
     it "creates question pages with their corresponding responses" do
       stub_const("Smartdown::Api::PreviousQuestionPage", previous_question_page_class)
-      state.previous_question_pages(responses)
+      state.previous_question_pages
       expect(Smartdown::Api::PreviousQuestionPage).to have_received(:new)
                                                   .with(question_page_node_1, ["a", "b"])
       expect(Smartdown::Api::PreviousQuestionPage).to have_received(:new)
