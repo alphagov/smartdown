@@ -25,6 +25,7 @@ module Smartdown
     end
 
     def process(raw_responses, test_start_state = nil)
+      #TODO: change interface to match started, raw_responses like API state...no need for shifting etc...
       state = test_start_state || build_start_state
       unprocessed_responses = raw_responses
       while !unprocessed_responses.empty? do
@@ -42,9 +43,7 @@ module Smartdown
             state = state.put(:current_answers, answers)
             break
           end
-
-          answer_values = answers.map(&:value)
-          transition = Transition.new(state, current_node, answer_values)
+          transition = Transition.new(state, current_node, answers)
         end
         state = transition.next_state
       end

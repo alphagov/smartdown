@@ -22,7 +22,7 @@ module Smartdown
         state = smartdown_state(started, responses)
         State.new(transform_node(evaluate_node(node_by_name(state.get(:current_node)), state)),
                   previous_question_nodes_for(state),
-                  state.get(:accepted_responses)[1..-1],
+                  state.get(:accepted_responses)[1..-1] || [],
                   state.get(:current_answers)
         )
       end
