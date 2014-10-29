@@ -21,8 +21,8 @@ module Smartdown
         @attributes.has_key?(name.to_s)
       end
 
-      def fetch(name)
-        @attributes.fetch(name.to_s)
+      def fetch(name, *args)
+        @attributes.fetch(name.to_s, *args)
       end
 
       def to_hash
