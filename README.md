@@ -295,6 +295,15 @@ outcome_the_result
 outcome_the_other_result
 ```
 
+##Code terminology
+
+####Answers vs responses
+
+The words 'answers' and 'responses' are used for various variable names and method names throughout the gem.
+Both are used to describe an answer to a question, but indicate two different formats:
+* ```response``` is used for raw string inputs
+* ```answer``` is used for Model::Answer objects
+
 ## Software design
 
 The initial plan for software design can be seen in this diagram:
