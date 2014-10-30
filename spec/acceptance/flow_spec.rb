@@ -40,13 +40,13 @@ describe Smartdown::Api::Flow do
       end
 
       context "with a valid answer given to the first question" do
-        specify { expect(flow.state("y",["cat"]).current_node.title).to eq "You picked a safe pet" }
+        specify { expect(flow.state("y",["cat"]).current_node.name).to eq "outcome_safe_pet" }
         specify { expect(flow.state("y",["cat"]).accepted_responses).to eq ["cat"] }
         specify { expect(flow.state("y",["cat"]).current_answers).to eq [] }
       end
 
       context "with an invalid answer given to the first question" do
-        specify { expect(flow.state("y",["lynx"]).current_node.title).to eq "Amazing page title" }
+        specify { expect(flow.state("y",["lynx"]).current_node.name).to eq "question_1" }
         specify { expect(flow.state("y",["lynx"]).accepted_responses).to eq [] }
         specify { expect(flow.state("y",["lynx"]).current_answers.first.error).to eq "Invalid choice" }
       end
@@ -87,7 +87,7 @@ describe Smartdown::Api::Flow do
       end
 
       context "with a valid answer given to the first question, only first answer to second page" do
-        specify { expect(flow.state("y",["lion", "yes", nil]).current_node.title).to eq "How good is your big cat training?" }
+        specify { expect(flow.state("y",["lion", "yes", nil]).current_node.name).to eq "question_2" }
         specify { expect(flow.state("y",["lion", "yes", nil]).accepted_responses).to eq ["lion"] }
         specify { expect(flow.state("y",["lion", "yes", nil]).current_answers.count).to eq 2 }
         specify { expect(flow.state("y",["lion", "yes", nil]).current_answers[0].valid?).to be true }
@@ -95,7 +95,7 @@ describe Smartdown::Api::Flow do
       end
 
       context "with a valid answer given to the first question, only second answer to second page" do
-        specify { expect(flow.state("y",["lion", nil, "yes"]).current_node.title).to eq "How good is your big cat training?" }
+        specify { expect(flow.state("y",["lion", nil, "yes"]).current_node.name).to eq "question_2" }
         specify { expect(flow.state("y",["lion", nil, "yes"]).accepted_responses).to eq ["lion"] }
         specify { expect(flow.state("y",["lion", nil, "yes"]).current_answers.count).to eq 2 }
         specify { expect(flow.state("y",["lion", nil, "yes"]).current_answers[1].valid?).to be true }
@@ -103,7 +103,7 @@ describe Smartdown::Api::Flow do
       end
 
       context "with a valid answer given to the first question, only first invalid answer to second page" do
-        specify { expect(flow.state("y",["lion", "lynx", nil]).current_node.title).to eq "How good is your big cat training?" }
+        specify { expect(flow.state("y",["lion", "lynx", nil]).current_node.name).to eq "question_2" }
         specify { expect(flow.state("y",["lion", "lynx", nil]).accepted_responses).to eq ["lion"] }
         specify { expect(flow.state("y",["lion", "lynx", nil]).current_answers.count).to eq 2 }
         specify { expect(flow.state("y",["lion", "lynx", nil]).current_answers[0].error).to eq "Invalid choice" }
@@ -111,7 +111,7 @@ describe Smartdown::Api::Flow do
       end
 
       context "with a valid answer given to the first question, empty answers to second page" do
-        specify { expect(flow.state("y",["lion", nil, nil]).current_node.title).to eq "How good is your big cat training?" }
+        specify { expect(flow.state("y",["lion", nil, nil]).current_node.name).to eq "question_2" }
         specify { expect(flow.state("y",["lion", nil, nil]).accepted_responses).to eq ["lion"] }
         specify { expect(flow.state("y",["lion", nil, nil]).current_answers.count).to eq 2 }
         specify { expect(flow.state("y",["lion", nil, nil]).current_answers[0].error).to eq "Please answer this question" }
@@ -119,7 +119,7 @@ describe Smartdown::Api::Flow do
       end
 
       context "with valid answers to both pages" do
-        specify { expect(flow.state("y",["lion", "no", "no"]).current_node.title).to eq "You're not trained with lions" }
+        specify { expect(flow.state("y",["lion", "no", "no"]).current_node.name).to eq "outcome_untrained_with_lions" }
         specify { expect(flow.state("y",["lion", "no", "no"]).accepted_responses).to eq ["lion", "no", "no"] }
         specify { expect(flow.state("y",["lion", "no", "no"]).current_answers).to eq [] }
       end
