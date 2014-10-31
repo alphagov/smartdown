@@ -20,4 +20,26 @@ describe Smartdown::Model::Answer::Base do
       it { should respond_to(method) }
     end
   end
+
+  describe 'validations' do
+    describe 'valid?' do
+      it 'returns true if there are no errors on the question' do
+        expect(instance).to be_valid
+      end
+
+      it "has no error defined" do
+        expect(instance.error).to be nil
+      end
+
+      context "answer has been given a nil value" do
+        let(:value) { nil }
+        it 'returns false if there are no errors on the question' do
+          expect(instance).not_to be_valid
+        end
+        it "has an error asking for user to input a value" do
+          expect(instance.error).to eq "Please answer this question"
+        end
+      end
+    end
+  end
 end

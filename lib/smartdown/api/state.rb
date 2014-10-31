@@ -4,22 +4,23 @@ module Smartdown
   module Api
     class State
 
-      attr_reader :responses, :current_node
+      attr_reader :accepted_responses, :current_node, :current_answers
 
-      def initialize(current_node, previous_questionpage_smartdown_nodes, responses)
+      def initialize(current_node, previous_questionpage_smartdown_nodes, accepted_responses, current_answers)
         @current_node = current_node
         @previous_questionpage_smartdown_nodes = previous_questionpage_smartdown_nodes
-        @responses = responses
+        @accepted_responses = accepted_responses
+        @current_answers = current_answers
       end
 
-      def answers
-        previous_question_pages(responses).map { |previous_question_page|
+      def previous_answers
+        previous_question_pages.map { |previous_question_page|
           previous_question_page.answers
         }.flatten
       end
 
-      def previous_question_pages(responses)
-        @previous_question_pages ||= build_question_pages(responses)
+      def previous_question_pages
+        @previous_question_pages ||= build_question_pages(accepted_responses)
       end
 
       def started?
@@ -31,12 +32,12 @@ module Smartdown
       end
 
       def current_question_number
-        responses.count + 1
+        accepted_responses.count + 1
       end
 
     private
 
-      attr_reader :smartdown_state, :previous_questionpage_smartdown_nodes
+      attr_reader :previous_questionpage_smartdown_nodes
 
       def build_question_pages(responses)
         resp = responses.dup

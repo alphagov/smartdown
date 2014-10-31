@@ -25,6 +25,7 @@ module Smartdown
     end
 
     def process(raw_responses, test_start_state = nil)
+      #TODO: change interface to match started, raw_responses like API state...no need for shifting etc...
       state = test_start_state || build_start_state
       unprocessed_responses = raw_responses
       while !unprocessed_responses.empty? do
@@ -38,6 +39,10 @@ module Smartdown
             question.answer_type.new(unprocessed_responses.shift, question)
           end
 
+          unless answers.all?(&:valid?)
+            state = state.put(:current_answers, answers)
+            break
+          end
           transition = Transition.new(state, current_node, answers)
         end
         state = transition.next_state

@@ -7,12 +7,14 @@ module Smartdown
       class Salary < Base
         attr_reader :period, :amount_per_period
 
+        FORMAT_REGEX = /^£?\W*([\d|,|]+[\.]?[\d]*)[-|\W*per\W*](week|month|year)$/
+
         def value_type
           ::Float
         end
 
         def to_s
-          "#{'%.2f' % amount_per_period} per #{period}"
+          "#{'%.2f' % amount_per_period}-#{period}"
         end
 
         def humanize
@@ -22,8 +24,13 @@ module Smartdown
 
       private
         def parse_value(value)
-          @amount_per_period, @period = value.split(/-|\W*per\W*/)
-          @amount_per_period = @amount_per_period.to_f
+          matched_value = value.strip.match FORMAT_REGEX
+          unless matched_value
+            @error = "Invalid format"
+            return
+          end
+          @amount_per_period, @period = *matched_value[1..2]
+          @amount_per_period = @amount_per_period.gsub(",","").to_f
           yearly_total
         end
 

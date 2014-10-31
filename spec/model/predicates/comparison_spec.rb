@@ -114,7 +114,7 @@ describe "comparison predicates" do
       end
 
       context "state has lower value" do
-        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: "2014-1-30") }
+        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: Smartdown::Model::Answer::Date.new("2014-1-30")) }
         let(:results) { {
             :greater => false,
             :greater_or_equal => false,
@@ -129,7 +129,7 @@ describe "comparison predicates" do
       end
 
       context "state has identical value" do
-        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: "2014-1-31") }
+        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: Smartdown::Model::Answer::Date.new("2014-1-31")) }
         let(:results) { {
             :greater => false,
             :greater_or_equal => true,
@@ -144,7 +144,7 @@ describe "comparison predicates" do
       end
 
       context "state has higher value" do
-        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: "2014-2-1") }
+        let(:state) { Smartdown::Engine::State.new(current_node: "n", my_var: Smartdown::Model::Answer::Date.new("2014-2-1")) }
         let(:results) { {
             :greater => true,
             :greater_or_equal => true,

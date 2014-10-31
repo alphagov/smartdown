@@ -3,12 +3,12 @@ require 'smartdown/engine/errors'
 module Smartdown
   class Engine
     class Transition
-      attr_reader :state, :node, :inputs
+      attr_reader :state, :node, :answers
 
-      def initialize(state, node, input_array, options = {})
+      def initialize(state, node, answers, options = {})
         @state = state
         @node = node
-        @inputs = input_array
+        @answers = answers
       end
 
       def next_node
@@ -18,9 +18,9 @@ module Smartdown
       end
 
       def next_state
-        state_with_inputs
+        state_with_responses
           .put(:path, state.get(:path) + [node.name])
-          .put(:responses, state.get(:responses) + inputs)
+          .put(:accepted_responses, state.get(:accepted_responses) + answers.map(&:to_s))
           .put(:current_node, next_node)
       end
 
@@ -47,11 +47,11 @@ module Smartdown
         rules.each do |rule|
           case rule
           when Smartdown::Model::Rule
-            if rule.predicate.evaluate(state_with_inputs)
+            if rule.predicate.evaluate(state_with_responses)
               throw(:match, rule)
             end
           when Smartdown::Model::NestedRule
-            if rule.predicate.evaluate(state_with_inputs)
+            if rule.predicate.evaluate(state_with_responses)
               throw_first_matching_rule_in(rule.children)
             end
           else
@@ -61,10 +61,10 @@ module Smartdown
         raise Smartdown::Engine::IndeterminateNextNode
       end
 
-      def state_with_inputs
-        result = state.put(node.name, inputs)
+      def state_with_responses
+        result = state.put(node.name, answers.map(&:to_s))
         input_variable_names_from_question.each_with_index do |input_variable_name, index|
-          result = result.put(input_variable_name, inputs[index])
+          result = result.put(input_variable_name, answers[index])
         end
         result
       end

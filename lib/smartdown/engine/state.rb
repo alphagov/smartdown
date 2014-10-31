@@ -8,7 +8,8 @@ module Smartdown
       def initialize(data = {})
         @data = duplicate_and_normalize_hash(data)
         @data["path"] ||= []
-        @data["responses"] ||= []
+        @data["accepted_responses"] ||= []
+        @data["current_answers"] ||= []
         @cached = {}
         raise ArgumentError, "must specify current_node" unless has_key?("current_node")
       end
