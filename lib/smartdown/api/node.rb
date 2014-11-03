@@ -26,7 +26,7 @@ module Smartdown
         build_govspeak(elements_before_smartdown)
       end
 
-      def devolved_body
+      def post_body
         elements_after_smartdown = elements.drop_while{|element| !smartdown_element?(element)}
         build_govspeak(elements_after_smartdown)
       end
