@@ -1,6 +1,14 @@
+## 0.8.0
+
+Input validation for smartdown questions, exposes answer objects and invalid responses on State.
+
+Money and salary formatting according to GDS standards
+
+Body and post-body on all Node objects, not just cover sheet
+
 ## 0.7.1
 
-Multi-line descriptions for scenarios are supported. 
+Multi-line descriptions for scenarios are supported.
 
 ## 0.7.0
 
