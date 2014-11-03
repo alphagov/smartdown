@@ -23,7 +23,7 @@ module Smartdown
           str("$ELSEIF ") >> (Predicates.new.as(:predicate) >>
           optional_space >> newline.repeat(2) >>
           (markdown_blocks_inside_conditional.as(:true_case) >> newline).maybe >>
-          (elseif_clause.maybe)).as(:conditional).repeat(1,1).as(:false_case)
+          ((elseif_clause | else_clause).maybe)).as(:conditional).repeat(1,1).as(:false_case)
         }
 
         rule(:conditional_clause) {

@@ -225,5 +225,45 @@ SOURCE
       }
     end
   end
+
+  context "ELSE-IF with an ELSE" do
+    let(:source) { <<-SOURCE
+$IF pred1?
+
+#{true1_body}
+
+$ELSEIF pred2?
+
+#{true2_body}
+
+$ELSE
+
+#{true3_body}
+
+$ENDIF
+SOURCE
+    }
+
+    context "with one-line true case" do
+      let(:true1_body) { "Text if first predicate is true" }
+      let(:true2_body) { "Text if first predicate is false and the second is true" }
+      let(:true3_body) { "Text if first predicate is false and the second is false" }
+
+
+      it {
+        should parse(source).as(
+          conditional: {
+            predicate: {named_predicate: "pred1?"},
+            true_case: [{p: "#{true1_body}\n"}],
+            false_case: [{conditional: {
+              predicate: {named_predicate: "pred2?"},
+              true_case: [{p: "#{true2_body}\n"}],
+              false_case: [{p: "#{true3_body}\n"}]
+            }}]
+          }
+        )
+      }
+    end
+  end
 end
 
