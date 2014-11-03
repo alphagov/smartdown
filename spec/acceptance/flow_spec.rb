@@ -126,6 +126,16 @@ describe Smartdown::Api::Flow do
     end
   end
 
+  context "flow metadata" do
+    it "has a meta description" do
+      expect(flow.meta_description).to eq("Animals eh?")
+    end
+
+    it "has a need id" do
+      expect(flow.need_id).to eq("100982")
+    end
+  end
+
 end
 
 
