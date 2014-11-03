@@ -1,3 +1,9 @@
+## 0.8.1
+
+Fix bugs in meta_description and need_id for Api::Flow
+
+Implement post_body for Api::Question objects
+
 ## 0.8.0
 
 Input validation for smartdown questions, exposes answer objects and invalid responses on State.
