@@ -8,3 +8,5 @@ para 2.
 [choice: q1]
 * yes: Yes
 * no: No
+
+Text after the question.

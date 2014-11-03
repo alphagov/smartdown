@@ -119,11 +119,11 @@ describe Smartdown::Engine::Interpolator do
     let(:state) {
       Smartdown::Engine::State.new(
           current_node: node.name,
-          money_answer: Smartdown::Model::Answer::Money.new(1233.32523)
+          money_answer: Smartdown::Model::Answer::Money.new(12.32523)
       )
     }
     it "interpolates the result of the function call" do
-      expect(interpolated_node.elements.first.content).to eq("£1,233.33")
+      expect(interpolated_node.elements.first.content).to eq("£12.33")
     end
   end
 end

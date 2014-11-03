@@ -12,7 +12,11 @@ module Smartdown
       end
 
       def body
-        markdown_blocks[1..-1].map { |block| as_markdown(block) }.compact.join("\n")
+        markdown_blocks_before_question.map { |block| as_markdown(block) }.compact.join("\n")
+      end
+
+      def post_body
+        markdown_blocks_after_question.map { |block| as_markdown(block) }.compact.join("\n")
       end
 
       def questions
@@ -35,8 +39,18 @@ module Smartdown
 
       private
 
-      def markdown_blocks
-        elements_of_kind(Smartdown::Model::Element::MarkdownHeading, Smartdown::Model::Element::MarkdownParagraph)
+      def markdown_blocks_before_question
+        elements.take_while { |e|
+          e.is_a?(Smartdown::Model::Element::MarkdownHeading) ||
+          e.is_a?(Smartdown::Model::Element::MarkdownParagraph)
+        }[1..-1]
+      end
+
+      def markdown_blocks_after_question
+        elements.reverse.take_while { |e|
+          e.is_a?(Smartdown::Model::Element::MarkdownHeading) ||
+          e.is_a?(Smartdown::Model::Element::MarkdownParagraph)
+        }.reverse
       end
 
       def h1s

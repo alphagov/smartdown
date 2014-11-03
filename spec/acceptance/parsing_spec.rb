@@ -87,6 +87,12 @@ para 2.
 EXPECTED
       end
 
+      it "has a post body" do
+        expect(question_node.post_body).to eq(<<-EXPECTED)
+Text after the question.
+EXPECTED
+      end
+
       it "has a multiple choice question" do
         expect(question_node.questions).to match([instance_of(Smartdown::Model::Element::Question::MultipleChoice)])
       end
