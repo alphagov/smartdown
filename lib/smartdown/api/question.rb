@@ -20,7 +20,10 @@ module Smartdown
       end
 
       def post_body
-        elements_after_smartdown = elements.reverse.take_while{|element| !smartdown_element?(element)}.reverse
+        elements_after_smartdown = elements.select{ |element| !next_node_element?(element) }
+                                           .reverse
+                                           .take_while{|element| !smartdown_element?(element)}
+                                           .reverse
         build_govspeak(elements_after_smartdown)
       end
 
@@ -38,6 +41,10 @@ module Smartdown
 
       def smartdown_element?(element)
         !markdown_element?(element)
+      end
+
+      def next_node_element?(element)
+        (element.is_a? Smartdown::Model::NextNodeRules)
       end
 
       def build_govspeak(elements)
