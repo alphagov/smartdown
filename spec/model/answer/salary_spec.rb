@@ -16,13 +16,13 @@ describe Smartdown::Model::Answer::Salary do
 
   describe "#humanize" do
     it "declares itself in the initial format provided" do
-      expect(instance.humanize).to eql("£500.00 per week")
+      expect(instance.humanize).to eql("£500 per week")
     end
 
     context "amounts over 999" do
       let(:salary_string) { "15000-week" }
       it "adds commas" do
-        expect(instance.humanize).to eql("£15,000.00 per week")
+        expect(instance.humanize).to eql("£15,000 per week")
       end
     end
 
@@ -50,7 +50,7 @@ describe Smartdown::Model::Answer::Salary do
     context "amounts with commas" do
       let(:salary_string) { "15,0000-week" }
       it "correct comma location" do
-        expect(instance.humanize).to eql("£150,000.00 per week")
+        expect(instance.humanize).to eql("£150,000 per week")
       end
     end
   end
