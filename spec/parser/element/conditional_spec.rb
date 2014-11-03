@@ -150,5 +150,80 @@ SOURCE
     end
   end
 
+  context "simple ELSE-IF" do
+    let(:source) { <<-SOURCE
+$IF pred1?
+
+#{true1_body}
+
+$ELSEIF pred2?
+
+#{true2_body}
+
+$ENDIF
+SOURCE
+    }
+
+    context "with one-line true case" do
+      let(:true1_body) { "Text if first predicate is true" }
+      let(:true2_body) { "Text if first predicate is false and the second is true" }
+
+
+      it {
+        should parse(source).as(
+          conditional: {
+            predicate: {named_predicate: "pred1?"},
+            true_case: [{p: "#{true1_body}\n"}],
+            false_case: [{conditional: {
+              predicate: {named_predicate: "pred2?"},
+              true_case: [{p: "#{true2_body}\n"}],
+            }}]
+          }
+        )
+      }
+    end
+  end
+
+  context "double ELSE-IF" do
+    let(:source) { <<-SOURCE
+$IF pred1?
+
+#{true1_body}
+
+$ELSEIF pred2?
+
+#{true2_body}
+
+$ELSEIF pred3?
+
+#{true3_body}
+
+$ENDIF
+SOURCE
+    }
+
+    context "with one-line true case" do
+      let(:true1_body) { "Text if first predicate is true" }
+      let(:true2_body) { "Text if first predicate is false and the second is true" }
+      let(:true3_body) { "Text if first and second predicates are false and the third is true" }
+
+      it {
+        should parse(source).as(
+          conditional: {
+            predicate: {named_predicate: "pred1?"},
+            true_case: [{p: "#{true1_body}\n"}],
+            false_case: [{conditional: {
+              predicate: {named_predicate: "pred2?"},
+              true_case: [{p: "#{true2_body}\n"}],
+              false_case: [{conditional: {
+                predicate: {named_predicate: "pred3?"},
+                true_case: [{p: "#{true3_body}\n"}],
+              }}]
+            }}]
+          }
+        )
+      }
+    end
+  end
 end
 
