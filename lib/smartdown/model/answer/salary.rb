@@ -19,7 +19,11 @@ module Smartdown
 
         def humanize
           whole, decimal = separate_by_comma(amount_per_period)
-          "£#{whole}.#{decimal} per #{period}"
+          if decimal == "00"
+            "£#{whole} per #{period}"
+          else
+            "£#{whole}.#{decimal} per #{period}"
+          end
         end
 
       private
@@ -50,7 +54,6 @@ module Smartdown
           left.gsub!(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
             "#{digit_to_delimit},"
           end
-          right = "%02d" % right.to_i
           [left, right]
         end
       end

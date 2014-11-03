@@ -28,5 +28,11 @@ describe Smartdown::Model::Answer::Money do
         expect(instance.humanize).to eql("£523.42")
       end
     end
+    context "no pence" do
+      let(:money_float) { 523.00 }
+      it "rounds down amounts of money correctly" do
+        expect(instance.humanize).to eql("£523")
+      end
+    end
   end
 end

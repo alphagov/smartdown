@@ -14,7 +14,10 @@ module Smartdown
         end
 
         def humanize
-          "£#{'%.2f' % value}"
+          number_string = "£#{'%.2f' % value}".gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
+            "#{digit_to_delimit},"
+          end
+          number_string.end_with?(".00") ? number_string[0..-4] : number_string
         end
       end
     end
