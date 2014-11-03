@@ -102,7 +102,6 @@ SOURCE
         }
       end
     end
-  end
 
   context "simple IF-ELSE" do
     let(:source) { <<-SOURCE
@@ -181,6 +180,26 @@ SOURCE
           }
         )
       }
+
+        describe "transformed" do
+          subject(:transformed) {
+            Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+          }
+
+          it {
+            should eq(
+              Smartdown::Model::Element::Conditional.new(
+                Smartdown::Model::Predicate::Named.new("pred1?"),
+                [Smartdown::Model::Element::MarkdownParagraph.new(true1_body + "\n")],
+                [Smartdown::Model::Element::Conditional.new(
+                  Smartdown::Model::Predicate::Named.new("pred2?"),
+                  [Smartdown::Model::Element::MarkdownParagraph.new(true2_body + "\n")]
+                )]
+              )
+            )
+          }
+        end
+      end
     end
   end
 
@@ -223,6 +242,29 @@ SOURCE
           }
         )
       }
+
+      describe "transformed" do
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it {
+          should eq(
+            Smartdown::Model::Element::Conditional.new(
+              Smartdown::Model::Predicate::Named.new("pred1?"),
+              [Smartdown::Model::Element::MarkdownParagraph.new(true1_body + "\n")],
+              [Smartdown::Model::Element::Conditional.new(
+                Smartdown::Model::Predicate::Named.new("pred2?"),
+                [Smartdown::Model::Element::MarkdownParagraph.new(true2_body + "\n")],
+                  [Smartdown::Model::Element::Conditional.new(
+                    Smartdown::Model::Predicate::Named.new("pred3?"),
+                    [Smartdown::Model::Element::MarkdownParagraph.new(true3_body + "\n")]
+                  )]
+              )]
+            )
+          )
+        }
+      end
     end
   end
 
@@ -238,7 +280,7 @@ $ELSEIF pred2?
 
 $ELSE
 
-#{true3_body}
+#{false_body}
 
 $ENDIF
 SOURCE
@@ -247,7 +289,7 @@ SOURCE
     context "with one-line true case" do
       let(:true1_body) { "Text if first predicate is true" }
       let(:true2_body) { "Text if first predicate is false and the second is true" }
-      let(:true3_body) { "Text if first predicate is false and the second is false" }
+      let(:false_body) { "Text both predicates are false" }
 
 
       it {
@@ -258,11 +300,33 @@ SOURCE
             false_case: [{conditional: {
               predicate: {named_predicate: "pred2?"},
               true_case: [{p: "#{true2_body}\n"}],
-              false_case: [{p: "#{true3_body}\n"}]
+              false_case: [{p: "#{false_body}\n"}]
             }}]
           }
         )
       }
+
+
+      describe "transformed" do
+        subject(:transformed) {
+          Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+        }
+
+        it {
+          should eq(
+            Smartdown::Model::Element::Conditional.new(
+              Smartdown::Model::Predicate::Named.new("pred1?"),
+              [Smartdown::Model::Element::MarkdownParagraph.new(true1_body + "\n")],
+              [Smartdown::Model::Element::Conditional.new(
+                Smartdown::Model::Predicate::Named.new("pred2?"),
+                [Smartdown::Model::Element::MarkdownParagraph.new(true2_body + "\n")],
+                [Smartdown::Model::Element::MarkdownParagraph.new(false_body + "\n")]
+              )]
+            )
+          )
+        }
+      end
+
     end
   end
 end
