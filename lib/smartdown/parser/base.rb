@@ -14,6 +14,8 @@ module Smartdown
       rule(:some_space) { space_char.repeat(1) }
       rule(:ws) { ws_char.repeat }
       rule(:non_ws) { non_ws.repeat }
+      rule(:comma) { str(",") }
+      rule(:colon) { str(":") }
 
       rule(:whitespace_terminated_string) {
         non_ws_char >> (non_ws_char | space_char.repeat(1) >> non_ws_char).repeat
@@ -29,6 +31,16 @@ module Smartdown
 
       rule(:bullet) {
         match('[*-]')
+      }
+
+      rule(:option_pair) {
+        comma >>
+        optional_space >>
+        identifier.as(:key) >>
+        colon >>
+        optional_space >>
+        identifier.as(:value) >>
+        optional_space
       }
     end
   end

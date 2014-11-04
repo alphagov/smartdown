@@ -1,4 +1,5 @@
 require 'parslet/transform'
+require 'smartdown/parser/option_pairs_transform'
 require 'smartdown/model/node'
 require 'smartdown/model/front_matter'
 require 'smartdown/model/rule'
@@ -64,27 +65,33 @@ module Smartdown
         [url.to_s, label.to_s]
       }
 
-      rule(:multiple_choice => {identifier: simple(:identifier), options: subtree(:choices)}) {
+
+      rule(:multiple_choice => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs), options: subtree(:choices)}) {
         Smartdown::Model::Element::Question::MultipleChoice.new(
-          identifier.to_s, Hash[choices]
+          identifier.to_s,
+          Hash[choices],
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil),
         )
       }
 
-      rule(:date => {identifier: simple(:identifier)}) {
+      rule(:date => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
         Smartdown::Model::Element::Question::Date.new(
-          identifier.to_s
+          identifier.to_s,
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
         )
       }
 
-      rule(:salary => {identifier: simple(:identifier)}) {
+      rule(:salary => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
         Smartdown::Model::Element::Question::Salary.new(
-          identifier.to_s
+          identifier.to_s,
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
         )
       }
 
-      rule(:text => {identifier: simple(:identifier)}) {
+      rule(:text => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
         Smartdown::Model::Element::Question::Text.new(
-          identifier.to_s
+          identifier.to_s,
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
         )
       }
 
@@ -146,10 +153,10 @@ module Smartdown
         Smartdown::Model::Predicate::Function.new(name.to_s, [])
       }
 
-      rule(:comparison_predicate => { varname: simple(:varname), 
+      rule(:comparison_predicate => { varname: simple(:varname),
                                        value: simple(:value),
                                        operator: simple(:operator)
-                                     }) { 
+                                     }) {
         case operator
         when "<="
           Smartdown::Model::Predicate::Comparison::LessOrEqual.new(varname.to_s, value.to_s)

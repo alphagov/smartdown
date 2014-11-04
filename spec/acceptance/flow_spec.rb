@@ -123,6 +123,10 @@ describe Smartdown::Api::Flow do
         specify { expect(flow.state("y",["lion", "no", "no"]).accepted_responses).to eq ["lion", "no", "no"] }
         specify { expect(flow.state("y",["lion", "no", "no"]).current_answers).to eq [] }
       end
+
+      context "with aliased identifier overwritten with later answer" do
+        specify { expect(flow.state("y",["bulldog", "lion", "no", "no"]).current_node.name).to eq "outcome_untrained_with_lions" }
+      end
     end
   end
 

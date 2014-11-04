@@ -4,7 +4,7 @@ module Smartdown
   module Model
     module Element
       module Question
-        class Text < Struct.new(:name)
+        class Text < Struct.new(:name, :alias)
           def answer_type
             Smartdown::Model::Answer::Text
           end

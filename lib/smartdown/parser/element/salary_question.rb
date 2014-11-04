@@ -10,6 +10,7 @@ module Smartdown
               optional_space >>
               question_identifier.as(:identifier) >>
               optional_space >>
+              option_pair.repeat.as(:option_pairs) >>
               str("]") >>
               optional_space >>
               line_ending

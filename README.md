@@ -128,6 +128,18 @@ Asks for an arbitrary text input.
 [salary: salary_value]
 ```
 
+## Aliases
+
+An alias lets you referrer to any question identifier by its question intentifer or its alias.
+
+```markdown
+## Are you Clark Kent?
+
+[choice: clark_kent, alias: superman]
+* yes: Yes
+* no: No
+```
+
 ## Next steps
 
 Markdown to be displayed as part of an outcome to direct the users to other information of potential interest to them.

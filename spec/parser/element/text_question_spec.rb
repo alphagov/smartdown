@@ -10,10 +10,11 @@ describe Smartdown::Parser::Element::TextQuestion do
 
     it "parses" do
       should parse(source).as(
-                 text: {
-                     identifier: "hometown",
-                 }
-             )
+        text: {
+          identifier: "hometown",
+          option_pairs: [],
+        },
+      )
     end
 
     describe "transformed" do
@@ -25,4 +26,32 @@ describe Smartdown::Parser::Element::TextQuestion do
       it { should eq(Smartdown::Model::Element::Question::Text.new("hometown")) }
     end
   end
+
+  context "with question tag and alias" do
+    let(:source) { "[text: hometown, alias: birthplace]" }
+
+    it "parses" do
+      should parse(source).as(
+        text: {
+          identifier: "hometown",
+          option_pairs:[
+            {
+              key: 'alias',
+              value: 'birthplace',
+            }
+          ]
+        }
+      )
+    end
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Element::Question::Text.new("hometown", "birthplace")) }
+    end
+  end
+
 end

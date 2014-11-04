@@ -4,7 +4,7 @@ module Smartdown
   module Model
     module Element
       module Question
-        class Date < Struct.new(:name)
+        class Date < Struct.new(:name, :alias)
           def answer_type
             Smartdown::Model::Answer::Date
           end

@@ -24,7 +24,8 @@ describe Smartdown::Engine do
                 greek: "Greek",
                 british: "British",
                 usa: "USA"
-            }
+            },
+            "passport_type?"
         )
         next_node_rules do
           rule do
@@ -180,6 +181,10 @@ describe Smartdown::Engine do
 
         it "has recorded input" do
           expect(subject.get("what_passport_do_you_have?")).to eq("greek")
+        end
+
+        it "recorded input is accessiable via question alias" do
+          expect(subject.get("passport_type?")).to eq("greek")
         end
       end
 
