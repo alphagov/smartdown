@@ -89,6 +89,42 @@ describe ModelBuilder do
     it "builds a conditional" do
       should eq(expected)
     end
+
+    context "nested conditionals" do
+      let(:expected) {
+        Smartdown::Model::Element::Conditional.new(
+          Smartdown::Model::Predicate::Named.new("pred1?"),
+          [Smartdown::Model::Element::MarkdownParagraph.new("True case")],
+          [Smartdown::Model::Element::Conditional.new(
+            Smartdown::Model::Predicate::Named.new("pred2?"),
+            [Smartdown::Model::Element::MarkdownParagraph.new("False True case")],
+            [Smartdown::Model::Element::MarkdownParagraph.new("False False case")]
+          )]
+        )
+      }
+
+      subject(:model) {
+        builder.conditional do
+          named_predicate "pred1?"
+          true_case do
+            paragraph("True case")
+          end
+          false_case do
+            conditional do
+              named_predicate "pred2?"
+              true_case do
+                paragraph("False True case")
+              end
+              false_case do
+                paragraph("False False case")
+              end
+            end
+          end
+        end
+      }
+
+      it { should eq(expected) }
+    end
   end
 
   describe "#rule" do

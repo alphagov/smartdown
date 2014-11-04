@@ -81,52 +81,46 @@ class ModelBuilder
   end
 
   def rule(predicate = nil, outcome = nil, &block)
-    @predicate = predicate
-    @outcome = outcome
+    @predicate = [predicate].compact
+    @outcome = [outcome].compact
     @rules ||= []
     instance_eval(&block) if block_given?
-    @rules << Smartdown::Model::Rule.new(@predicate, @outcome)
+    @rules << Smartdown::Model::Rule.new(@predicate.pop, @outcome.pop)
     @rules.last
   end
 
   def conditional(&block)
-    @predicate = nil
-    @true_case = nil
-    @false_case = nil
+    @predicate ||= []
+    @true_case ||= []
+    @false_case ||= []
     @elements ||= []
     instance_eval(&block) if block_given?
-    @elements << Smartdown::Model::Element::Conditional.new(@predicate, @true_case, @false_case)
+    @elements << Smartdown::Model::Element::Conditional.new(@predicate.pop, [@true_case.pop], [@false_case.pop])
     @elements.last
   end
 
   def true_case(&block)
-    @outer_elements = @elements
-    @elements = []
     instance_eval(&block) if block_given?
-    @true_case = @elements
-    @elements = @outer_elements
-    @true_case
+    @true_case << @elements.pop
+    @true_case.last
   end
 
   def false_case(&block)
-    @outer_elements = @elements
-    @elements = []
     instance_eval(&block) if block_given?
-    @false_case = @elements
-    @elements = @outer_elements
-    @false_case
+    @false_case << @elements.pop
+    @false_case.last
   end
 
   def named_predicate(name)
-    @predicate = Smartdown::Model::Predicate::Named.new(name)
+    @predicate << Smartdown::Model::Predicate::Named.new(name)
   end
 
   def set_membership_predicate(varname, values)
-    @predicate = Smartdown::Model::Predicate::SetMembership.new(varname, values)
+    @predicate << Smartdown::Model::Predicate::SetMembership.new(varname, values)
   end
 
   def outcome(name)
-    @outcome = name
+    @outcome << name
   end
 
   module DSL
