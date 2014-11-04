@@ -228,6 +228,31 @@ Text if true
 $ENDIF
 ```
 
+Similarly, it is also possible to specify an elseif clause. These can be
+chained together indefinitely. It is also possible to keep an else
+clause at the end like so:
+
+```markdown
+$IF pred1?
+
+Text if pred1 true
+
+$ELSEIF pred2?
+
+Text if pred1 false and pred2 true
+
+$ELSEIF pred3?
+
+Text if pred1 and pred2 false, and pred3 true
+
+$ELSE
+
+Text if pred1, pred2, pred3 are false
+
+$ENDIF
+```
+
+
 ## Interpolation
 
 It's possible to interpolate values from calculations, responses to questions, plugins etc.
