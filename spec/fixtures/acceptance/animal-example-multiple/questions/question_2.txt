@@ -17,7 +17,7 @@ Think very carefully again.
 * maybe: I've been to a zoo once
 * no: No
 
-* question_1 is 'lion'
+* type_of_feline is 'lion'
   * trained_for_lions is 'yes' => question_3
   * otherwise => outcome_untrained_with_lions
 * otherwise

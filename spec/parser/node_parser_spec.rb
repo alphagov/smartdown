@@ -75,7 +75,8 @@ SOURCE
             options: [
               {value: "yes", label: "Yes"},
               {value: "no", label: "No"}
-            ]}
+            ],
+            option_pairs: []}
           }
         ]
       })
@@ -106,7 +107,8 @@ SOURCE
             options: [
               {value: "yes", label: "Yes"},
               {value: "no", label: "No"}
-            ]}
+            ],
+            option_pairs: []}
           },
           {h1: "Next node rules"},
           {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}

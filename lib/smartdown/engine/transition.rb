@@ -33,10 +33,6 @@ module Smartdown
         node.start_button && node.start_button.start_node
       end
 
-      def input_variable_names_from_question
-        node.questions.map(&:name)
-      end
-
       def first_matching_rule(rules)
         catch(:match) do
           throw_first_matching_rule_in(rules)
@@ -63,8 +59,11 @@ module Smartdown
 
       def state_with_responses
         result = state.put(node.name, answers.map(&:to_s))
-        input_variable_names_from_question.each_with_index do |input_variable_name, index|
-          result = result.put(input_variable_name, answers[index])
+        node.questions.each_with_index do |question, index|
+          result = result.put(question.name, answers[index])
+          if question.alias
+            result = result.put(question.alias, answers[index])
+          end
         end
         result
       end

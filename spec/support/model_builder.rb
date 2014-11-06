@@ -53,10 +53,10 @@ class ModelBuilder
     @elements.last
   end
 
-  def multiple_choice(name, options)
+  def multiple_choice(name, options, question_alias=nil)
     @elements ||= []
     options_with_string_keys = ::Hash[options.map {|k,v| [k.to_s, v]}]
-    @elements << Smartdown::Model::Element::Question::MultipleChoice.new(name, options_with_string_keys)
+    @elements << Smartdown::Model::Element::Question::MultipleChoice.new(name, options_with_string_keys, question_alias)
     @elements.last
   end
 

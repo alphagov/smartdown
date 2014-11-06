@@ -10,10 +10,11 @@ describe Smartdown::Parser::Element::SalaryQuestion do
 
     it "parses" do
       should parse(source).as(
-                 salary: {
-                     identifier: "mother_salary",
-                 }
-             )
+        salary: {
+          identifier: "mother_salary",
+          option_pairs:[],
+        }
+      )
     end
 
     describe "transformed" do
@@ -25,4 +26,32 @@ describe Smartdown::Parser::Element::SalaryQuestion do
       it { should eq(Smartdown::Model::Element::Question::Salary.new("mother_salary")) }
     end
   end
+
+  context "with question tag and alias" do
+    let(:source) { "[salary: mother_salary, alias: mums_salary]" }
+
+    it "parses" do
+      should parse(source).as(
+        salary: {
+          identifier: "mother_salary",
+          option_pairs: [
+            {
+              key: 'alias',
+              value: 'mums_salary',
+            }
+          ]
+        }
+      )
+    end
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Element::Question::Salary.new("mother_salary", "mums_salary")) }
+    end
+  end
+
 end

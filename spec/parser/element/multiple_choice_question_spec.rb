@@ -21,7 +21,8 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
           options: [
             {value: "yes", label: "Yes"},
             {value: "no", label: "No"}
-          ]
+          ],
+          option_pairs: [],
         }
       )
     end
@@ -33,6 +34,43 @@ describe Smartdown::Parser::Element::MultipleChoiceQuestion do
       }
 
       it { should eq(Smartdown::Model::Element::Question::MultipleChoice.new("yes_or_no", {"yes"=>"Yes", "no"=>"No"})) }
+    end
+  end
+
+  context "with question tag and alias" do
+    let(:source) {
+      [
+        "[choice: yes_or_no, alias: no_or_yes]",
+        "* yes: Yes",
+        "* no: No"
+      ].join("\n")
+    }
+
+    it "parses" do
+      should parse(source).as(
+        multiple_choice: {
+          identifier: "yes_or_no",
+          options: [
+            {value: "yes", label: "Yes"},
+            {value: "no", label: "No"},
+          ],
+          option_pairs: [
+            {
+              key: 'alias',
+              value: 'no_or_yes',
+            }
+          ],
+        }
+      )
+    end
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Element::Question::MultipleChoice.new("yes_or_no", {"yes"=>"Yes", "no"=>"No"}, "no_or_yes")) }
     end
   end
 

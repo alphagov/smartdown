@@ -4,7 +4,7 @@ module Smartdown
   module Model
     module Element
       module Question
-        class MultipleChoice < Struct.new(:name, :choices)
+        class MultipleChoice < Struct.new(:name, :choices, :alias)
           def answer_type
             Smartdown::Model::Answer::MultipleChoice
           end
