@@ -10,20 +10,22 @@ module Smartdown
     private
       def evaluate(conditional, state)
         if conditional.predicate.evaluate(state)
-          conditional.true_case
+          selected_branch = conditional.true_case
         else
-          conditional.false_case
+          selected_branch = conditional.false_case
         end
+        resolve_conditionals selected_branch, state
       end
 
       def resolve_conditionals(elements, state)
+        return unless elements
         elements.map do |element|
-          if element.is_a?(Smartdown::Model::Element::Conditional)
+          if element.is_a? Smartdown::Model::Element::Conditional
             evaluate(element, state)
           else
             element
           end
-        end.flatten
+        end.flatten.compact
       end
     end
   end
