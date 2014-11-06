@@ -1,3 +1,17 @@
+## 0.8.2
+
+Implement question identifier aliasing.
+
+eg.
+
+```[choice: question1, alias: the_first_question]```
+
+This question may be referred to as question1, or the_first_question
+henceforth.
+
+```$ELSEIF``` syntax - can now use elseif clauses in conditionals.
+
+
 ## 0.8.1
 
 Fix bugs in meta_description and need_id for Api::Flow
