@@ -28,6 +28,26 @@ require 'smartdown/model/predicate/comparison/less'
 module Smartdown
   module Parser
     class NodeTransform < Parslet::Transform
+
+      attr_reader :data_module
+
+      def initialize data_module=nil, &block
+        super(&block)
+
+        @data_module = data_module || Module.new
+      end
+
+      #TODO: Horrible monkey patching, should try to submit a PR to parselet
+      #to allow modification of bindings?
+      def call_on_match(bindings, block)
+
+        data_module.singleton_methods.each do |method_name|
+          bindings[method_name.to_s] = data_module.method(method_name)
+        end
+
+        super(bindings, block)
+      end
+
       rule(body: subtree(:body)) {
         Smartdown::Model::Node.new(
           node_name, body, Smartdown::Model::FrontMatter.new({})
@@ -76,8 +96,11 @@ module Smartdown
       }
 
       rule(:country => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
+        country_data_method = Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('countries', nil)
+        country_hash = (eval country_data_method).call
         Smartdown::Model::Element::Question::Country.new(
           identifier.to_s,
+          country_hash,
           Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
         )
       }
