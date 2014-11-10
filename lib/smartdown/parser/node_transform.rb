@@ -6,6 +6,7 @@ require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
 require 'smartdown/model/element/question/multiple_choice'
+require 'smartdown/model/element/question/country'
 require 'smartdown/model/element/question/date'
 require 'smartdown/model/element/question/salary'
 require 'smartdown/model/element/question/text'
@@ -71,6 +72,13 @@ module Smartdown
           identifier.to_s,
           Hash[choices],
           Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil),
+        )
+      }
+
+      rule(:country => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
+        Smartdown::Model::Element::Question::Country.new(
+          identifier.to_s,
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
         )
       }
 
