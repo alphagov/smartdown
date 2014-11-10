@@ -7,6 +7,10 @@ module Smartdown
         def value_type
           ::String
         end
+
+        def humanize
+          question.countries[value]
+        end
       end
     end
   end
