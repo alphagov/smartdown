@@ -1,18 +1,21 @@
 require 'smartdown/parser/base'
-require 'smartdown/parser/question'
 
 module Smartdown
   module Parser
     module Element
-      class SalaryQuestion < Question
-        rule(:question_type) {
-          str("salary")
-        }
-
+      class SalaryQuestion < Base
         rule(:salary_question) {
-          question_tag.as(:salary)
+          (
+          str("[salary:") >>
+              optional_space >>
+              question_identifier.as(:identifier) >>
+              optional_space >>
+              option_pair.repeat.as(:option_pairs) >>
+              str("]") >>
+              optional_space >>
+              line_ending
+          ).as(:salary)
         }
-
         root(:salary_question)
       end
     end

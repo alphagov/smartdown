@@ -1,7 +1,6 @@
 # encoding: utf-8
 #TODO: this "require" for money is here for now since there is no associated question type for money yet
 require 'smartdown/model/answer/money'
-require 'smartdown/model/element/question/country'
 require 'smartdown/engine/interpolator'
 require 'smartdown/engine/state'
 require 'parslet'
@@ -125,49 +124,6 @@ describe Smartdown::Engine::Interpolator do
     }
     it "interpolates the result of the function call" do
       expect(interpolated_node.elements.first.content).to eq("£12.33")
-    end
-  end
-
-  context "a paragraph containing a text answer" do
-    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new('%{text_answer}')] }
-    let(:state) {
-      Smartdown::Engine::State.new(
-          current_node: node.name,
-          text_answer: Smartdown::Model::Answer::Text.new('I AM TEXT, HEAR ME RAWR')
-      )
-    }
-    it "interpolates the result" do
-      expect(interpolated_node.elements.first.content).to eq("I AM TEXT, HEAR ME RAWR")
-    end
-  end
-
-  context "a paragraph containing a multuple-choice answer" do
-    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new('%{multiple_choice_answer}')] }
-    let(:choices) { { 'dog' => 'Dog', 'growlithe' => 'Growlithe', 'arcanine' => 'Arcanine' } }
-    let(:question) { Smartdown::Model::Element::Question::MultipleChoice.new('arcanine', choices) }
-    let(:state) {
-      Smartdown::Engine::State.new(
-          current_node: node.name,
-          multiple_choice_answer: Smartdown::Model::Answer::MultipleChoice.new('arcanine', question)
-      )
-    }
-    it "interpolates the result" do
-      expect(interpolated_node.elements.first.content).to eq("Arcanine")
-    end
-  end
-
-  context "a paragraph containing a country answer" do
-    let(:elements) { [Smartdown::Model::Element::MarkdownParagraph.new('%{country_answer}')] }
-    let(:country_hash) { { 'united-kingdom' => 'United Kingdom' } }
-    let(:question) { Smartdown::Model::Element::Question::Country.new('united-kingdom', country_hash) }
-    let(:state) {
-      Smartdown::Engine::State.new(
-          current_node: node.name,
-          country_answer: Smartdown::Model::Answer::Country.new('united-kingdom', question)
-      )
-    }
-    it "interpolates the result" do
-      expect(interpolated_node.elements.first.content).to eq("United Kingdom")
     end
   end
 end
