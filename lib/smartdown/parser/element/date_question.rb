@@ -1,18 +1,21 @@
 require 'smartdown/parser/base'
-require 'smartdown/parser/question'
 
 module Smartdown
   module Parser
     module Element
-      class DateQuestion < Question
-        rule(:question_type) {
-          str("date")
-        }
-
+      class DateQuestion < Base
         rule(:date_question) {
-          question_tag.as(:date)
+          (
+          str("[date:") >>
+              optional_space >>
+              question_identifier.as(:identifier) >>
+              optional_space >>
+              option_pair.repeat.as(:option_pairs) >>
+              str("]") >>
+              optional_space >>
+              line_ending
+          ).as(:date)
         }
-
         root(:date_question)
       end
     end
