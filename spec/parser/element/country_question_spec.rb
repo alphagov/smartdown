@@ -4,13 +4,7 @@ require 'smartdown/parser/element/country_question'
 
 describe Smartdown::Parser::Element::CountryQuestion do
   subject(:parser) { described_class.new }
-  let(:data_module) { Module.new do
-                        def self.country_data_all
-                          {}
-                        end
-
-                      end
-  }
+  let(:data_module) { { 'country_data_all' => ->{{}} } }
 
   context "with question tag and countries" do
     let(:source) { "[country: country_of_residence, countries: country_data_all]" }

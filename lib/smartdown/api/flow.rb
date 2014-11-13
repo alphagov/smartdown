@@ -12,8 +12,11 @@ module Smartdown
 
       attr_reader :scenario_sets
 
-      def initialize(smartdown_input, initial_state = {})
-        @smartdown_flow = Smartdown::Parser::FlowInterpreter.new(smartdown_input).interpret
+      def initialize(smartdown_input, options = {})
+        initial_state = options.fetch(:initial_state, {})
+        data_module = options.fetch(:data_module, nil)
+
+        @smartdown_flow = Smartdown::Parser::FlowInterpreter.new(smartdown_input, data_module).interpret
         @engine = Smartdown::Engine.new(@smartdown_flow, initial_state)
         @scenario_sets = Smartdown::Parser::ScenarioSetsInterpreter.new(smartdown_input).interpret
       end
