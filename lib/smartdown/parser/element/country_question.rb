@@ -4,16 +4,17 @@ require 'smartdown/parser/question'
 module Smartdown
   module Parser
     module Element
-      class SalaryQuestion < Question
+      class CountryQuestion < Question
+
         rule(:question_type) {
-          str("salary")
+          str("country")
         }
 
-        rule(:salary_question) {
-          question_tag.as(:salary)
+        rule(:country_question) {
+          question_tag.as(:country)
         }
 
-        root(:salary_question)
+        root(:country_question)
       end
     end
   end
