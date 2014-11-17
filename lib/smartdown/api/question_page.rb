@@ -1,5 +1,6 @@
 require 'smartdown/api/multiple_choice'
 require 'smartdown/api/date_question'
+require 'smartdown/api/country_question'
 require 'smartdown/api/salary_question'
 require 'smartdown/api/text_question'
 
@@ -10,8 +11,10 @@ module Smartdown
         elements.slice_before do |element|
           element.is_a? Smartdown::Model::Element::MarkdownHeading
         end.map do |question_element_group|
-          if question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
+          if question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice }
             Smartdown::Api::MultipleChoice.new(question_element_group)
+          elsif question_element_group.find{ |element| element.is_a?(Smartdown::Model::Element::Question::Country) }
+            Smartdown::Api::CountryQuestion.new(question_element_group)
           elsif question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
             Smartdown::Api::DateQuestion.new(question_element_group)
           elsif question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::Salary}

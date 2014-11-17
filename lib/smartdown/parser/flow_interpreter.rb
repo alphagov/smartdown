@@ -18,10 +18,11 @@ module Smartdown
     end
 
     class FlowInterpreter
-      attr_reader :flow_input
+      attr_reader :flow_input, :data_module
 
-      def initialize(flow_input)
+      def initialize(flow_input, data_module=nil)
         @flow_input = pre_parse(flow_input)
+        @data_module = data_module
       end
 
       def interpret
@@ -42,13 +43,19 @@ module Smartdown
       end
 
       def interpret_node(input_data)
-        Smartdown::Parser::NodeInterpreter.new(input_data.name, input_data.read).interpret
+        Smartdown::Parser::NodeInterpreter.new(input_data.name, input_data.read, options).interpret
       rescue Parslet::ParseFailed => error
         raise ParseError.new(input_data.name, error)
       end
 
       def pre_parse(flow_input)
         SnippetPreParser.parse(flow_input)
+      end
+
+      def options
+        {}.tap do |opts|
+          opts[:data_module] = data_module if data_module
+        end
       end
     end
   end

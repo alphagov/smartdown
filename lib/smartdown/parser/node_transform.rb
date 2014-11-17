@@ -34,17 +34,13 @@ module Smartdown
       def initialize data_module=nil, &block
         super(&block)
 
-        @data_module = data_module || Module.new
+        @data_module = data_module || {}
       end
 
       #TODO: Horrible monkey patching, should try to submit a PR to parselet
       #to allow modification of bindings?
       def call_on_match(bindings, block)
-
-        data_module.singleton_methods.each do |method_name|
-          bindings[method_name.to_s] = data_module.method(method_name)
-        end
-
+        bindings.merge! data_module
         super(bindings, block)
       end
 

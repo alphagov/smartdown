@@ -10,6 +10,8 @@ module Smartdown
       def initialize(elements, response)
         if element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::MultipleChoice}
           @question = MultipleChoice.new(elements)
+        elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Country}
+          @question = CountryQuestion.new(elements)
         elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
           @question = DateQuestion.new(elements)
         elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Salary}
