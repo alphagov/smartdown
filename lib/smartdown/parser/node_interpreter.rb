@@ -12,8 +12,10 @@ module Smartdown
       def initialize(name, source, options = {})
         @name = name
         @source = source
+        data_module = options.fetch(:data_module, Module.new)
         @parser = options.fetch(:parser, Smartdown::Parser::NodeParser.new)
-        @transform = options.fetch(:transform, Smartdown::Parser::NodeTransform.new)
+        @transform = options.fetch(:transform, Smartdown::Parser::NodeTransform.new(data_module))
+
       end
 
       def interpret

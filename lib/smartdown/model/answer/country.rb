@@ -3,13 +3,13 @@ require_relative "base"
 module Smartdown
   module Model
     module Answer
-      class Text < Base
+      class Country < Base
         def value_type
           ::String
         end
 
         def humanize
-          value
+          question.countries[value]
         end
       end
     end

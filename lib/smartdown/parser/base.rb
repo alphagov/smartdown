@@ -33,15 +33,6 @@ module Smartdown
         match('[*-]')
       }
 
-      rule(:option_pair) {
-        comma >>
-        optional_space >>
-        identifier.as(:key) >>
-        colon >>
-        optional_space >>
-        identifier.as(:value) >>
-        optional_space
-      }
     end
   end
 end

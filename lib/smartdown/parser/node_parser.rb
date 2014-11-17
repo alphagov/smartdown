@@ -21,6 +21,7 @@ module Smartdown
         Element::DateQuestion.new |
         Element::SalaryQuestion.new |
         Element::TextQuestion.new |
+        Element::CountryQuestion.new |
         Rules.new |
         Element::StartButton.new |
         Element::NextSteps.new |
