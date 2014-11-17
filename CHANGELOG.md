@@ -1,3 +1,27 @@
+## 0.9.0
+
+Country questions and data modules
+
+example country question:
+
+```[country: country_of_birth, countries: all_countries]```
+
+```all_countries``` is the name of a method in a data module which
+can now be optionally supplied via the flow api as a hash of methods/
+lambdas.
+
+The initial state is now also optionally supplied via the flow api.
+
+Eg. what was previously:
+  ````
+  Flow.new(smartdown_input, initial_state)
+  ````
+is now:
+  ````
+  options = {initial_state: initial_state, data_module: data_module}
+  Flow.new(smartdown_input, options)
+  ````
+
 ## 0.8.2
 
 Implement question identifier aliasing.
