@@ -13,7 +13,11 @@ module Smartdown
       end
 
       def to_s(full = true)
-        "Parse error in '#{filename}':\n\n" + @parse_error.cause.ascii_tree
+        position = parse_error.cause.pos
+        line, column = parse_error.cause.source.line_and_column(position)
+
+        "Parse error in file:'#{filename}' line:'#{line}' column:'#{column}'" +
+        "\n\n" + parse_error.cause.ascii_tree
       end
     end
 
