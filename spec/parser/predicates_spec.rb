@@ -82,9 +82,9 @@ describe Smartdown::Parser::Predicates do
   describe "predicate AND predicate" do
     subject(:parser) { described_class.new }
 
-    it { should parse("my_pred? AND my_other_pred?").as(
+    it { should parse("my_pred() AND my_other_pred?").as(
       { combined_predicate: {
-        first_predicate: { named_predicate: "my_pred?" },
+        first_predicate: { function_predicate: { name: "my_pred" } },
         and_predicates:
           [
             {named_predicate: "my_other_pred?"},
@@ -107,16 +107,16 @@ describe Smartdown::Parser::Predicates do
 
     describe "transformed" do
       let(:node_name) { "my_node" }
-      let(:source) { "my_pred? AND my_other_pred?" }
+      let(:source) { "my_pred() AND my_other_pred?" }
       subject(:transformed) {
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
       it { should eq(Smartdown::Model::Predicate::Combined.new(
         [
-          Smartdown::Model::Predicate::Named.new("my_pred?"),
+          Smartdown::Model::Predicate::Function.new("my_pred", []),
           Smartdown::Model::Predicate::Named.new("my_other_pred?")
-        ]
+      ]
       )) }
     end
   end

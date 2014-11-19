@@ -45,6 +45,7 @@ module Smartdown
         equality_predicate.as(:equality_predicate) |
         set_membership_predicate.as(:set_membership_predicate) |
         comparison_predicate.as(:comparison_predicate) |
+        function_predicate.as(:function_predicate) |
         otherwise_predicate |
         named_predicate
       }
@@ -68,7 +69,6 @@ module Smartdown
 
       rule (:predicates) {
         combined_predicate.as(:combined_predicate) |
-        function_predicate.as(:function_predicate) |
         predicate
       }
 
