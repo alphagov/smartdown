@@ -7,7 +7,7 @@ require 'smartdown/parser/node_transform'
 module Smartdown
   module Parser
     class NodeInterpreter
-      attr_reader :name, :source
+      attr_reader :name, :source, :reporter
 
       def initialize(name, source, options = {})
         @name = name
@@ -15,10 +15,11 @@ module Smartdown
         data_module = options.fetch(:data_module, {})
         @parser = options.fetch(:parser, Smartdown::Parser::NodeParser.new)
         @transform = options.fetch(:transform, Smartdown::Parser::NodeTransform.new(data_module))
+        @reporter = options.fetch(:reporter, Parslet::ErrorReporter::Deepest.new)
       end
 
       def interpret
-        transform.apply(parser.parse(source),
+        transform.apply(parser.parse(source, reporter: reporter),
           node_name: name
         )
       end
