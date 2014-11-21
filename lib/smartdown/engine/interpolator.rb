@@ -41,7 +41,7 @@ module Smartdown
         def interpolate(text, state)
           text.to_s.gsub(/%{([^}]+)}/) do |_|
             term = resolve_term($1, state)
-            if term.respond_to?(:humanize) and !term.is_a?(String)
+            if term.is_a?(Smartdown::Model::Answer::Base)
               term = term.humanize
             end
             term
