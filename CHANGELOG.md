@@ -1,3 +1,20 @@
+## 0.10.0
+
+Date Question range options
+
+You can now specify `to` and `from` options to display questions to
+decide which year range they can take, in both absolute and relative
+(from current year)
+format.
+
+eg
+
+[date: year_of_birth, from: 1990 to: 2012]
+
+or
+
+[date: year_of_birth, from: -10 to: 10]
+
 ## 0.9.0
 
 Country questions and data modules
