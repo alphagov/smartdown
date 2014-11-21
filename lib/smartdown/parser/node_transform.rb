@@ -102,9 +102,12 @@ module Smartdown
       }
 
       rule(:date => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
+        transformed_option_pairs = Smartdown::Parser::OptionPairs.transform(option_pairs)
         Smartdown::Model::Element::Question::Date.new(
           identifier.to_s,
-          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
+          transformed_option_pairs.fetch('from', nil),
+          transformed_option_pairs.fetch('to', nil),
+          transformed_option_pairs.fetch('alias', nil),
         )
       }
 
