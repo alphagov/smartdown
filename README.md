@@ -127,6 +127,21 @@ country slugs/names.
 [date: baby_due_date]
 ```
 
+To control the range of years selected you can supply 2 optional arguments to date questions: `from` and `to`.
+These can take the form of absolute values, eg.
+
+```markdown
+[date: baby_due_date, from: 2010, to: 2015]
+```
+
+Or relative values (from the current year), eg.
+
+```markdown
+[date: baby_due_date, from: -4, to: 1]
+```
+
+The default values for `from` and `to` are relative years: `-1` and `3` respectively.
+
 ### Text
 
 ```markdown
