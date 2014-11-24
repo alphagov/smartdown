@@ -366,5 +366,32 @@ SOURCE
       }
     end
   end
+
+  context "with custom markdown tags inside" do
+
+    let (:source) { <<-SOURCE
+$IF pred?
+
+#{true_body.chomp}
+
+$ENDIF
+SOURCE
+}
+    let(:true_body) { <<-TAG
+$E
+Bit of content in lovely custom tag
+$E
+TAG
+}
+
+    it { should parse(source).as(
+         conditional: {
+           predicate: {named_predicate: "pred?"},
+            true_case: [
+              {p: "#{true_body}"}
+           ]},
+        )
+      }
+  end
 end
 
