@@ -329,5 +329,42 @@ SOURCE
 
     end
   end
+
+  context "Nested IF statement" do
+    let(:source) { <<-SOURCE
+$IF pred1?
+
+#{first_true_body}
+
+$IF pred2?
+
+#{both_true_body}
+
+$ENDIF
+
+#{first_true_body}
+
+$ENDIF
+SOURCE
+}
+    context "With a body for double true case" do
+      let(:first_true_body) { "Text if first predicates is true" }
+      let(:both_true_body) { "Text if both predicates are true" }
+      it { should parse(source).as(
+           conditional: {
+             predicate: {named_predicate: "pred1?"},
+             true_case: [
+               {p: "#{first_true_body}\n"},
+               {conditional: {
+                 predicate: {named_predicate: "pred2?"},
+                 true_case: [{p: "#{both_true_body}\n"}],
+               }},
+               {p: "#{first_true_body}\n"}
+             ]
+           }
+        )
+      }
+    end
+  end
 end
 

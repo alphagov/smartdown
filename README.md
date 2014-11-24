@@ -292,6 +292,20 @@ Text if pred1, pred2, pred3 are false
 $ENDIF
 ```
 
+It is also possible to nest if statements: like so.
+
+```markdown
+
+$IF pred1?
+
+$IF pred2?
+
+Text if both true
+
+$ENDIF
+
+$ENDIF
+```
 
 ## Interpolation
 
