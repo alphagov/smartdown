@@ -194,4 +194,23 @@ SOURCE
     }
   end
 
+  context "blank line with a tab on it" do
+
+    let(:source) {
+<<SOURCE
+# Lovely title
+  
+line of content
+SOURCE
+}
+
+    it "doesn't blow up" do
+      should parse(source).as({
+        body: [
+          { h1: "Lovely title" },
+          { p: "line of content\n" },
+        ]
+      })
+    end
+  end
 end
