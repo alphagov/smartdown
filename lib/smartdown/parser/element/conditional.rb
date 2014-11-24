@@ -10,19 +10,23 @@ module Smartdown
           str("$").absent? >> NodeParser.new.markdown_block
         }
 
-        rule(:markdown_blocks_inside_conditional) {
-          markdown_block_inside_conditional.repeat(1,1) >> (newline.repeat(1) >> markdown_block_inside_conditional).repeat
+        rule(:conditional_body_block) {
+          markdown_block_inside_conditional | conditional_clause
+        }
+
+        rule(:blocks_inside_conditional) {
+          conditional_body_block.repeat(1,1) >> (newline.repeat(1) >> conditional_body_block).repeat
         }
 
         rule(:else_clause) {
           str("$ELSE") >> optional_space >> newline.repeat(2) >>
-            (markdown_blocks_inside_conditional.as(:false_case) >> newline).maybe
+            (blocks_inside_conditional.as(:false_case) >> newline).maybe
         }
 
         rule(:elseif_clause) {
           str("$ELSEIF ") >> (Predicates.new.as(:predicate) >>
           optional_space >> newline.repeat(2) >>
-          (markdown_blocks_inside_conditional.as(:true_case) >> newline).maybe >>
+          (blocks_inside_conditional.as(:true_case) >> newline).maybe >>
           ((elseif_clause | else_clause).maybe)).as(:conditional).repeat(1,1).as(:false_case)
         }
 
@@ -31,7 +35,7 @@ module Smartdown
             str("$IF ") >>
               Predicates.new.as(:predicate) >>
               optional_space >> newline.repeat(2) >>
-              (markdown_blocks_inside_conditional.as(:true_case) >> newline).maybe >>
+              (blocks_inside_conditional.as(:true_case) >> newline).maybe >>
               (else_clause | elseif_clause).maybe >>
               str("$ENDIF") >> optional_space >> line_ending
           ).as(:conditional)
