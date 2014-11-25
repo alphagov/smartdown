@@ -30,11 +30,15 @@ module Smartdown
       }
 
       rule(:markdown_blocks) {
-        markdown_block.repeat(1, 1) >> (newline.repeat(1) >> markdown_block).repeat
+        markdown_block.repeat(1, 1) >> (newline.repeat(1,1) >> blanklines.as(:blanklines).repeat(1,1).maybe >> (markdown_block)).repeat
       }
 
       rule(:body) {
         markdown_blocks.as(:body) >> newline.repeat
+      }
+
+      rule(:blanklines) {
+        newline.repeat(1)
       }
 
       rule(:flow) {

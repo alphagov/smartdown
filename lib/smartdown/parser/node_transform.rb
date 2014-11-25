@@ -210,6 +210,10 @@ module Smartdown
       rule(:next_node_rules => subtree(:rules)) {
         Smartdown::Model::NextNodeRules.new(rules)
       }
+
+      rule(blanklines: simple(:content)) {
+        Smartdown::Model::Element::MarkdownParagraph.new(content)
+      }
     end
   end
 end

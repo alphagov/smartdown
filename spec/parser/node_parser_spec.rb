@@ -213,4 +213,50 @@ SOURCE
       })
     end
   end
+
+  context "multiple blank lines" do
+
+    let(:source) {
+<<SOURCE
+# Lovely title
+  
+
+
+
+line of content
+SOURCE
+}
+
+    it "appends surplus whitespace to the next paragraph" do
+      should parse(source).as({
+        body: [
+          { h1: "Lovely title" },
+          { blanklines: "\n\n\n" },
+          { p: "line of content\n"},
+        ]
+      })
+    end
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      let(:expected_elements) {
+        [
+          Smartdown::Model::Element::MarkdownHeading.new("Lovely title"),
+          Smartdown::Model::Element::MarkdownParagraph.new("\n\n\n"),
+          Smartdown::Model::Element::MarkdownParagraph.new("line of content\n"),
+        ]
+      }
+
+      let(:expected_node_model) {
+        Smartdown::Model::Node.new(node_name, expected_elements)
+      }
+
+      it { should eq(expected_node_model) }
+    end
+  end
+
 end
