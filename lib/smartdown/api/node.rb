@@ -54,7 +54,7 @@ module Smartdown
           markdown_element?(element)
         end
         govspeak = markdown_elements.map(&:content).join("\n")
-        GovspeakPresenter.new(govspeak).html unless govspeak.empty?
+        Govspeak::Document.new(govspeak).to_html.html_safe
       end
     end
   end
