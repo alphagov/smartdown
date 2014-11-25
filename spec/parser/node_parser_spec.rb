@@ -199,7 +199,7 @@ SOURCE
     let(:source) {
 <<SOURCE
 # Lovely title
-  
+	
 line of content
 SOURCE
 }
@@ -219,7 +219,7 @@ SOURCE
     let(:source) {
 <<SOURCE
 # Lovely title
-  
+	
 
 
 
@@ -259,4 +259,28 @@ SOURCE
     end
   end
 
+  context "multiple blank lines with 2 paragraphs" do
+
+    let(:source) {
+<<SOURCE
+# Lovely title
+	
+line of content
+
+
+another line of content
+SOURCE
+}
+
+    it "works" do
+      should parse(source).as({
+        body: [
+          { h1: "Lovely title" },
+          { p: "line of content\n"},
+          { blanklines: "\n" },
+          { p: "another line of content\n"},
+        ]
+      })
+    end
+	end
 end

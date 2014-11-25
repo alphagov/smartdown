@@ -8,7 +8,7 @@ module Smartdown
       rule(:space_char) { str(" ") }
       rule(:non_ws_char) { match('\S') }
       rule(:carriage_return) { str("\r\n") | str("\n\r") | str("\n") | str("\r") }
-      rule(:newline) { optional_space >> carriage_return }
+      rule(:newline) { ws >> carriage_return }
       rule(:line_ending) { eof | newline }
 
       rule(:optional_space) { space_char.repeat }
