@@ -23,8 +23,6 @@ describe Smartdown::Parser::Base do
 
     # Only one newline
     it { should parse("\r") }
-    it { should parse("\r\n") }
-    it { should parse("\n\r") }
     it { should parse("\n") }
 
     # Not multiple

@@ -29,9 +29,19 @@ module Smartdown
         Element::MarkdownParagraph.new
       }
 
+      # The .repeat(0,1) may look strange because the parselet website says that is the same as .maybe
+      #
+      #                           !!! .repeat(0,1) is NOT the same as .maybe !!!
+      #
+      # .repeat calls will not merge as subtrees where as .maybe will. This was the source of many hours
+      # of head scratching, so this comment should stay here until the parselet docs (or behavior) are updated.
       rule(:markdown_blocks) {
-        markdown_block.repeat(1, 1) >> (newline.repeat(1,1) >> blanklines.as(:blanklines).repeat(1,1).maybe >> (markdown_block)).repeat
+        markdown_block.repeat(1, 1) >> (newline.repeat(1,1) >> blanklines.as(:blanklines).repeat(0,1) >> (markdown_block)).repeat
       }
+
+      "# Lovely title\n\nline of content\n\n\nanotherlineofcontent"
+ #     ("# Lovely title\n": markdown_block, MarkdownHeading) >> (newline >> nil >> ("line of content\n": markdown_block, MarkdownParagraph))
+
 
       rule(:body) {
         markdown_blocks.as(:body) >> newline.repeat
