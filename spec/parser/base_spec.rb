@@ -6,9 +6,9 @@ describe Smartdown::Parser::Base do
 
   describe "#ws" do
     subject { parser.ws }
-    it { should parse("\n") }
     it { should parse(" ") }
     it { should parse("   ") }
+    it { should parse("  ") }
   end
 
   describe "#eof" do
