@@ -4,13 +4,14 @@ module Smartdown
   module Parser
     class Base < Parslet::Parser
       rule(:eof) { any.absent? }
-      rule(:ws_char) { match('\s') }
+      rule(:ws_char) { space_char | str("\t") }
       rule(:space_char) { str(" ") }
       rule(:non_ws_char) { match('\S') }
-      rule(:newline) { str("\r\n") | str("\n\r") | str("\n") | str("\r") }
+      rule(:carriage_return) { str("\r\n") | str("\n\r") | str("\n") | str("\r") }
+      rule(:newline) { optional_space >> carriage_return }
       rule(:line_ending) { eof | newline }
 
-      rule(:optional_space) { space_char.repeat }
+      rule(:optional_space) { ws_char.repeat }
       rule(:some_space) { space_char.repeat(1) }
       rule(:ws) { ws_char.repeat }
       rule(:non_ws) { non_ws.repeat }

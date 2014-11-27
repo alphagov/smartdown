@@ -4,7 +4,7 @@ module Smartdown
 
       def next_steps
         next_step_element = elements.find{|element| element.is_a? Smartdown::Model::Element::NextSteps}
-        GovspeakPresenter.new(next_step_element.content).html if next_step_element
+        Govspeak::Document.new(next_step_element.content).to_html.html_safe if next_step_element
       end
 
     end
