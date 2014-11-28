@@ -1,7 +1,7 @@
 module Smartdown
   module Model
     module Predicate
-      Disjunction = Struct.new(:predicates) do
+      OrOperation = Struct.new(:predicates) do
         def evaluate(state)
           predicates.map { |predicate| predicate.evaluate(state) }.any?
         end

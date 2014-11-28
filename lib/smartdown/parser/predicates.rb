@@ -50,25 +50,25 @@ module Smartdown
         set_membership_predicate |
         comparison_predicate |
         function_predicate |
-        negated_predicate |
+        not_operation |
         otherwise_predicate |
         named_predicate
       }
 
-      rule (:conjunction_predicate) {
+      rule (:and_operation) {
         (predicate.as(:first_predicate) >>
         (some_space >> str('AND') >> some_space >>
-         predicate).repeat(1).as(:and_predicates)).as(:conjunction_predicate)
+         predicate).repeat(1).as(:and_predicates)).as(:and_operation)
       }
 
-      rule (:disjunction_predicate) {
+      rule (:or_operation) {
         (predicate.as(:first_predicate) >>
         (some_space >> str('OR') >> some_space >>
-         predicate).repeat(1).as(:or_predicates)).as(:disjunction_predicate)
+         predicate).repeat(1).as(:or_predicates)).as(:or_operation)
       }
 
-      rule (:negated_predicate) {
-        (str('NOT') >> some_space >> predicate.as(:predicate)).as(:negated_predicate)
+      rule (:not_operation) {
+        (str('NOT') >> some_space >> predicate.as(:predicate)).as(:not_operation)
       }
 
       rule(:function_arguments) {
@@ -83,8 +83,8 @@ module Smartdown
       }
 
       rule (:predicates) {
-        conjunction_predicate |
-        disjunction_predicate |
+        and_operation |
+        or_operation |
         predicate
       }
 

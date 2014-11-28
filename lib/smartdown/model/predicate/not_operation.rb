@@ -1,7 +1,7 @@
 module Smartdown
   module Model
     module Predicate
-      Negated = Struct.new(:predicate) do
+      NotOperation = Struct.new(:predicate) do
         def evaluate(state)
           !predicate.evaluate(state)
         end

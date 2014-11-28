@@ -1,8 +1,8 @@
+require 'smartdown/model/predicate/not_operation'
 require 'smartdown/model/predicate/named'
-require 'smartdown/model/predicate/negated'
 require 'smartdown/engine/state'
 
-describe Smartdown::Model::Predicate::Negated do
+describe Smartdown::Model::Predicate::NotOperation do
   subject(:negated_predicate) { described_class.new(inner_predicate) }
   let(:inner_predicate_name) { "my_pred?" }
   let(:inner_predicate) { Smartdown::Model::Predicate::Named.new inner_predicate_name }

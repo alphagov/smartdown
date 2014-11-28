@@ -77,7 +77,7 @@ describe Smartdown::Parser::Predicates do
   describe "predicate AND predicate" do
 
     it { should parse("my_pred() AND my_other_pred?").as(
-      { conjunction_predicate: {
+      { and_operation: {
         first_predicate: { function_predicate: { name: "my_pred" } },
         and_predicates:
           [
@@ -86,7 +86,7 @@ describe Smartdown::Parser::Predicates do
       } }
     ) }
     it { should parse("my_pred? AND my_other_pred? AND varname in {a b c}").as(
-      { conjunction_predicate: {
+      { and_operation: {
         first_predicate: { named_predicate: "my_pred?" },
         and_predicates:
           [
@@ -106,7 +106,7 @@ describe Smartdown::Parser::Predicates do
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Predicate::Conjunction.new(
+      it { should eq(Smartdown::Model::Predicate::AndOperation.new(
         [
           Smartdown::Model::Predicate::Function.new("my_pred", []),
           Smartdown::Model::Predicate::Named.new("my_other_pred?")
@@ -117,7 +117,7 @@ describe Smartdown::Parser::Predicates do
 
   describe "predicate OR predicate" do
     it {should parse("my_pred() OR my_other_pred?").as(
-      { disjunction_predicate: {
+      { or_operation: {
         first_predicate: { function_predicate: { name: "my_pred" } },
         or_predicates:
           [
@@ -126,7 +126,7 @@ describe Smartdown::Parser::Predicates do
       } }
     ) }
     it { should parse("my_pred? OR my_other_pred? OR varname in {a b c}").as(
-      { disjunction_predicate: {
+      { or_operation: {
         first_predicate: { named_predicate: "my_pred?" },
         or_predicates:
           [
@@ -146,7 +146,7 @@ describe Smartdown::Parser::Predicates do
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Predicate::Disjunction.new(
+      it { should eq(Smartdown::Model::Predicate::OrOperation.new(
         [
           Smartdown::Model::Predicate::Function.new("my_pred", []),
           Smartdown::Model::Predicate::Named.new("my_other_pred?")
@@ -158,17 +158,17 @@ describe Smartdown::Parser::Predicates do
 
   describe "NOT predicate" do
     it { should parse("NOT my_pred?").as(
-      { negated_predicate: {
+      { not_operation: {
         predicate: { named_predicate: "my_pred?" }
         } }
     ) }
 
-    it { should parse("NOT my_pred? AND  my_other_pred?").as (
-      { conjunction_predicate:
+    it { should parse("NOT my_pred? AND my_other_pred?").as (
+      { and_operation:
         {
           first_predicate:
             {
-              negated_predicate: { predicate: { named_predicate: 'my_pred?' } }
+              not_operation: { predicate: { named_predicate: 'my_pred?' } }
             },
           and_predicates:
             [
@@ -185,7 +185,7 @@ describe Smartdown::Parser::Predicates do
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Predicate::Negated.new(
+      it { should eq(Smartdown::Model::Predicate::NotOperation.new(
           Smartdown::Model::Predicate::Named.new("my_pred?"),
       )) }
     end
