@@ -2,9 +2,9 @@ require 'smartdown/parser/predicates'
 require 'smartdown/parser/node_interpreter'
 
 describe Smartdown::Parser::Predicates do
+  subject(:parser) { described_class.new }
 
   describe "equality predicate" do
-    subject(:parser) { described_class.new }
     let(:source) { "varname is 'expected_value'" }
 
     it { should parse(source).as(equality_predicate: {varname: "varname", expected_value: "expected_value"}) }
@@ -24,7 +24,6 @@ describe Smartdown::Parser::Predicates do
   end
 
   describe "set membership predicate" do
-    subject(:parser) { described_class.new }
     let(:source) { "varname in {a b c}" }
 
     it { should parse(source).as(set_membership_predicate: {varname: "varname", values: [{set_value: "a"}, {set_value: "b"}, {set_value: "c"}]}) }
@@ -45,8 +44,6 @@ describe Smartdown::Parser::Predicates do
   end
 
   describe "named predicate" do
-    subject(:parser) { described_class.new }
-
     it { should parse("my_pred?").as(named_predicate: "my_pred?") }
     it { should_not parse("my_pred") }
     it { should_not parse("my pred") }
@@ -63,8 +60,6 @@ describe Smartdown::Parser::Predicates do
   end
 
   describe "otherwise predicate" do
-    subject(:parser) { described_class.new }
-
     it { should parse("otherwise").as(otherwise_predicate: "otherwise") }
     it { should_not parse("other") }
 
@@ -122,7 +117,6 @@ describe Smartdown::Parser::Predicates do
   end
 
   describe "function predicate" do
-    subject(:parser) { described_class.new }
 
     context "no arguments" do
       let(:source) { "function_name()" }
@@ -202,7 +196,6 @@ describe Smartdown::Parser::Predicates do
   end
 
   describe "comparison predicate" do
-    subject(:parser) { described_class.new }
     let(:greater_equal_source) { "varname >= 'value'" }
     let(:greater_source) { "varname > 'value'" }
     let(:less_equal_source) { "varname <= 'value'" }
