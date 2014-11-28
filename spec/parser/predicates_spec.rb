@@ -137,6 +137,18 @@ describe Smartdown::Parser::Predicates do
         }
       }
     )}
+
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      let(:source) { "NOT my_pred?" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Predicate::Negated.new(
+          Smartdown::Model::Predicate::Named.new("my_pred?"),
+      )) }
+    end
   end
 
   describe "function predicate" do

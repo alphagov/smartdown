@@ -18,6 +18,7 @@ require 'smartdown/model/element/next_steps'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
+require 'smartdown/model/predicate/negated'
 require 'smartdown/model/predicate/combined'
 require 'smartdown/model/predicate/function'
 require 'smartdown/model/predicate/comparison/greater_or_equal'
@@ -196,6 +197,10 @@ module Smartdown
 
       rule(:combined_predicate => {first_predicate: subtree(:first_predicate), and_predicates: subtree(:and_predicates) }) {
         Smartdown::Model::Predicate::Combined.new([first_predicate]+and_predicates)
+      }
+
+      rule(:negated_predicate => {predicate: subtree(:predicate)}) {
+        Smartdown::Model::Predicate::Negated.new(predicate)
       }
 
       rule(:function_argument => simple(:argument)) { argument.to_s }
