@@ -116,6 +116,29 @@ describe Smartdown::Parser::Predicates do
     end
   end
 
+  describe "NOT predicate" do
+    it { should parse("NOT my_pred?").as(
+      { negated_predicate: {
+        predicate: { named_predicate: "my_pred?" }
+        } }
+    ) }
+
+    it { should parse("NOT my_pred? AND my_other_pred?").as (
+      { combined_predicate:
+        {
+          first_predicate:
+            {
+              negated_predicate: { predicate: { named_predicate: 'my_pred?' } }
+            },
+          and_predicates:
+            [
+              {  named_predicate: 'my_other_pred?' }
+            ]
+        }
+      }
+    )}
+  end
+
   describe "function predicate" do
 
     context "no arguments" do

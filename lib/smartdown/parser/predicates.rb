@@ -50,6 +50,7 @@ module Smartdown
         set_membership_predicate |
         comparison_predicate |
         function_predicate |
+        negated_predicate |
         otherwise_predicate |
         named_predicate
       }
@@ -58,6 +59,10 @@ module Smartdown
         predicate.as(:first_predicate) >>
         (some_space >> str('AND') >> some_space >>
         predicate).repeat(1).as(:and_predicates)
+      }
+
+      rule (:negated_predicate) {
+        (str('NOT') >> some_space >> predicate.as(:predicate)).as(:negated_predicate)
       }
 
       rule(:function_arguments) {
