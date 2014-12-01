@@ -49,10 +49,16 @@ describe Smartdown::Parser::DirectoryInput do
   end
 
   describe "#snippets" do
-    it "returns an InputFile for every file in the snippets folder" do
-      expect(input.snippets).to match([instance_of(Smartdown::Parser::InputFile)])
-      expect(input.snippets.first.name).to eq("sn1")
-      expect(input.snippets.first.read).to eq("snippet one\n")
+    it "returns an InputFile for every file, ending in .txt, in the snippets folder to arbitrary sub directory depth" do
+      expect(input.snippets).to match([
+        instance_of(Smartdown::Parser::InputFile),
+        instance_of(Smartdown::Parser::InputFile),
+      ])
+      expect(input.snippets.map(&:name)).to include("sn1")
+      expect(input.snippets.map(&:read)).to include("snippet one\n")
+
+      expect(input.snippets.map(&:name)).to include("nested/nested_again/nsn1")
+      expect(input.snippets.map(&:read)).to include("nested snippet\n")
     end
   end
 end

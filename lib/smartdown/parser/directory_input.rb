@@ -24,7 +24,7 @@ module Smartdown
       end
 
       def snippets
-        read_dir("snippets")
+        recursive_files_relatively_renamed("snippets")
       end
 
       def filenames_hash
@@ -42,15 +42,35 @@ module Smartdown
           InputFile.new(filename)
         end
       end
+
+      def recursive_files_relatively_renamed(parent_dir, depth=nil)
+        parent_path = @coversheet_path.dirname + parent_dir
+        return [] unless File.exists?(parent_path)
+        
+        depth ||= parent_path.each_filename.count
+        parent_path.each_child.flat_map do |path| 
+          if path.directory?
+            recursive_files_relatively_renamed(path, depth)
+          else
+            InputFile.new(path, relatively_name(path, depth))
+          end
+        end
+      end
+
+      def relatively_name(path, depth)
+        path.each_filename.to_a[depth..-1].join('/')
+      end
+
     end
 
     class InputFile
-      def initialize(path)
+      def initialize(path, name=nil)
         @path = Pathname.new(path.to_s)
+        @name = name ||= @path.basename
       end
 
       def name
-        @path.basename.to_s.split(".").first
+        @name.to_s.split(".").first
       end
 
       def read

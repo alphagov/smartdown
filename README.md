@@ -342,6 +342,23 @@ extension, eg `my-flow-name/snippets/my_snippet.txt`.
 
 The contents of `my_snippet` will be inserted into the outcome/question.
 
+###Snippet Organisation
+
+You can organise related snippets into a sub-directory of arbitrary depth
+
+For example:
+
+```
+## My header
+
+Markdown copy..
+
+{{snippet: my_sub_directory/my_snippet}}
+
+More copy...
+```
+Where `snippet_name` is in a `snippets/` directory in the flow root with a `.txt` extension, eg `my-flow-name/snippets/my_sub_directory/my_snippet.txt`.
+
 ## Scenarios
 
 Scenarios are meant to be run as test to check that a Smartdown flow behaves
