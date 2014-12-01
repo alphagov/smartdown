@@ -18,7 +18,9 @@ require 'smartdown/model/element/next_steps'
 require 'smartdown/model/predicate/equality'
 require 'smartdown/model/predicate/set_membership'
 require 'smartdown/model/predicate/named'
-require 'smartdown/model/predicate/combined'
+require 'smartdown/model/predicate/not_operation'
+require 'smartdown/model/predicate/and_operation'
+require 'smartdown/model/predicate/or_operation'
 require 'smartdown/model/predicate/function'
 require 'smartdown/model/predicate/comparison/greater_or_equal'
 require 'smartdown/model/predicate/comparison/greater'
@@ -194,8 +196,16 @@ module Smartdown
         Smartdown::Model::Predicate::Otherwise.new
       }
 
-      rule(:combined_predicate => {first_predicate: subtree(:first_predicate), and_predicates: subtree(:and_predicates) }) {
-        Smartdown::Model::Predicate::Combined.new([first_predicate]+and_predicates)
+      rule(:and_operation => {first_predicate: subtree(:first_predicate), and_predicates: subtree(:and_predicates) }) {
+        Smartdown::Model::Predicate::AndOperation.new([first_predicate]+and_predicates)
+      }
+
+      rule(:or_operation => {first_predicate: subtree(:first_predicate), or_predicates: subtree(:or_predicates) }) {
+        Smartdown::Model::Predicate::OrOperation.new([first_predicate]+or_predicates)
+      }
+
+      rule(:not_operation => {predicate: subtree(:predicate)}) {
+        Smartdown::Model::Predicate::NotOperation.new(predicate)
       }
 
       rule(:function_argument => simple(:argument)) { argument.to_s }

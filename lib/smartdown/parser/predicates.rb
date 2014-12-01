@@ -4,9 +4,11 @@ module Smartdown
   module Parser
     class Predicates < Base
       rule(:equality_predicate) {
-        identifier.as(:varname) >> some_space >>
-          str('is') >> some_space >>
-          str("'") >> match("[^']").repeat.as(:expected_value) >> str("'")
+        (
+          identifier.as(:varname) >> some_space >>
+            str('is') >> some_space >>
+            str("'") >> match("[^']").repeat.as(:expected_value) >> str("'")
+        ).as(:equality_predicate)
       }
 
       rule(:comparison_operator) {
@@ -14,9 +16,9 @@ module Smartdown
       }
 
       rule(:comparison_predicate) {
-        identifier.as(:varname) >> some_space >>
+        (identifier.as(:varname) >> some_space >>
         comparison_operator.as(:operator) >> some_space >>
-        str("'") >> match("[^']").repeat.as(:value) >> str("'")
+        str("'") >> match("[^']").repeat.as(:value) >> str("'")).as(:comparison_predicate)
       }
 
       rule(:set_value) {
@@ -28,9 +30,11 @@ module Smartdown
       }
 
       rule(:set_membership_predicate) {
-        identifier.as(:varname) >> some_space >>
-          str('in') >> some_space >>
-          str("{") >> optional_space >> set_values.maybe.as(:values) >> optional_space >> str("}")
+        (
+          identifier.as(:varname) >> some_space >>
+            str('in') >> some_space >>
+            str("{") >> optional_space >> set_values.maybe.as(:values) >> optional_space >> str("}")
+        ).as(:set_membership_predicate)
       }
 
       rule(:named_predicate) {
@@ -42,18 +46,29 @@ module Smartdown
       }
 
       rule(:predicate) {
-        equality_predicate.as(:equality_predicate) |
-        set_membership_predicate.as(:set_membership_predicate) |
-        comparison_predicate.as(:comparison_predicate) |
-        function_predicate.as(:function_predicate) |
+        equality_predicate |
+        set_membership_predicate |
+        comparison_predicate |
+        function_predicate |
+        not_operation |
         otherwise_predicate |
         named_predicate
       }
 
-      rule (:combined_predicate) {
-        predicate.as(:first_predicate) >>
+      rule (:and_operation) {
+        (predicate.as(:first_predicate) >>
         (some_space >> str('AND') >> some_space >>
-        predicate).repeat(1).as(:and_predicates)
+         predicate).repeat(1).as(:and_predicates)).as(:and_operation)
+      }
+
+      rule (:or_operation) {
+        (predicate.as(:first_predicate) >>
+        (some_space >> str('OR') >> some_space >>
+         predicate).repeat(1).as(:or_predicates)).as(:or_operation)
+      }
+
+      rule (:not_operation) {
+        (str('NOT') >> some_space >> predicate.as(:predicate)).as(:not_operation)
       }
 
       rule(:function_arguments) {
@@ -61,14 +76,15 @@ module Smartdown
       }
 
       rule (:function_predicate) {
-        (identifier >> str('?').maybe).as(:name) >>
+        ((identifier >> str('?').maybe).as(:name) >>
         str('(') >>
         function_arguments.as(:arguments).maybe >>
-        str(')')
+        str(')')).as(:function_predicate)
       }
 
       rule (:predicates) {
-        combined_predicate.as(:combined_predicate) |
+        and_operation |
+        or_operation |
         predicate
       }
 

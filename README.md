@@ -224,6 +224,42 @@ date_variable_name >= '14/07/2014'
 date_variable_name < '14/07/2014'
 ```
 
+### Logical connectives
+
+There are operators that can be used to combine predicates, or invert
+their value. Namely NOT, OR and AND.
+
+eg.
+
+```
+variable_name is 'string' OR NOT variable name is 'date'
+```
+
+`OR` connectives join a sequence of predicates and will return true if
+any of them evaluate to true, otherwise false.
+
+`AND` connectives join a sequence of predicates and will return true if
+all of them evaluate to true, otherwise false.
+
+`NOT` connectives will invert the return value of a predicate. ie turn
+true to false and vice versa. They have high precedence so bind to a single
+predicate in chain eg in:
+
+```
+NOT variable_name is 'lovely name' OR variable_name is 'special name'
+```
+
+The implied parentheses around the experssion are:
+
+```
+(NOT variable_name is 'lovely name') OR variable_name is 'special name'
+```
+
+For more information on Logical Connectives see:
+
+http://en.wikipedia.org/wiki/Logical_connective
+
+
 ## Processing model
 
 Each response to a question is assigned to a variable which corresponds to the
