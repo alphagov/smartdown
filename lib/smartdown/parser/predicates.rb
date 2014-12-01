@@ -55,10 +55,10 @@ module Smartdown
         named_predicate
       }
 
-      rule (:combined_predicate) {
-        predicate.as(:first_predicate) >>
+      rule (:conjunction_predicate) {
+        (predicate.as(:first_predicate) >>
         (some_space >> str('AND') >> some_space >>
-        predicate).repeat(1).as(:and_predicates)
+         predicate).repeat(1).as(:and_predicates)).as(:conjunction_predicate)
       }
 
       rule (:negated_predicate) {
@@ -77,7 +77,7 @@ module Smartdown
       }
 
       rule (:predicates) {
-        combined_predicate.as(:combined_predicate) |
+        conjunction_predicate |
         predicate
       }
 

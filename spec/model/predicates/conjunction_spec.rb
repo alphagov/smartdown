@@ -1,9 +1,8 @@
-require 'smartdown/model/predicate/combined'
-require 'smartdown/model/predicate/combined'
+require 'smartdown/model/predicate/conjunction'
 require 'smartdown/model/predicate/named'
 require 'smartdown/engine/state'
 
-describe Smartdown::Model::Predicate::Combined do
+describe Smartdown::Model::Predicate::Conjunction do
   let(:predicate_1) { Smartdown::Model::Predicate::Named.new("my_pred?") }
   let(:predicate_2) { Smartdown::Model::Predicate::Named.new("my_other_pred?") }
   subject(:predicate) { described_class.new([predicate_1, predicate_2])}

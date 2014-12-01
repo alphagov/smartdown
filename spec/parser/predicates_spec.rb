@@ -78,7 +78,7 @@ describe Smartdown::Parser::Predicates do
     subject(:parser) { described_class.new }
 
     it { should parse("my_pred() AND my_other_pred?").as(
-      { combined_predicate: {
+      { conjunction_predicate: {
         first_predicate: { function_predicate: { name: "my_pred" } },
         and_predicates:
           [
@@ -87,7 +87,7 @@ describe Smartdown::Parser::Predicates do
       } }
     ) }
     it { should parse("my_pred? AND my_other_pred? AND varname in {a b c}").as(
-      { combined_predicate: {
+      { conjunction_predicate: {
         first_predicate: { named_predicate: "my_pred?" },
         and_predicates:
           [
@@ -107,7 +107,7 @@ describe Smartdown::Parser::Predicates do
         Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
       }
 
-      it { should eq(Smartdown::Model::Predicate::Combined.new(
+      it { should eq(Smartdown::Model::Predicate::Conjunction.new(
         [
           Smartdown::Model::Predicate::Function.new("my_pred", []),
           Smartdown::Model::Predicate::Named.new("my_other_pred?")
@@ -123,8 +123,8 @@ describe Smartdown::Parser::Predicates do
         } }
     ) }
 
-    it { should parse("NOT my_pred? AND my_other_pred?").as (
-      { combined_predicate:
+    it { should parse("NOT my_pred? AND  my_other_pred?").as (
+      { conjunction_predicate:
         {
           first_predicate:
             {
