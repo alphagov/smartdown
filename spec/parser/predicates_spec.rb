@@ -75,7 +75,6 @@ describe Smartdown::Parser::Predicates do
   end
 
   describe "predicate AND predicate" do
-    subject(:parser) { described_class.new }
 
     it { should parse("my_pred() AND my_other_pred?").as(
       { conjunction_predicate: {
@@ -114,6 +113,32 @@ describe Smartdown::Parser::Predicates do
       ]
       )) }
     end
+  end
+
+  describe "predicate OR predicate" do
+    it {should parse("my_pred() OR my_other_pred?").as(
+      { disjunction_predicate: {
+        first_predicate: { function_predicate: { name: "my_pred" } },
+        or_predicates:
+          [
+            {named_predicate: "my_other_pred?"},
+          ]
+      } }
+    ) }
+    it { should parse("my_pred? OR my_other_pred? OR varname in {a b c}").as(
+      { disjunction_predicate: {
+        first_predicate: { named_predicate: "my_pred?" },
+        or_predicates:
+          [
+            {named_predicate: "my_other_pred?"},
+            {set_membership_predicate:
+              {varname: "varname", values: [{set_value: "a"}, {set_value: "b"}, {set_value: "c"}]}
+            }
+          ]
+      } }
+    ) }
+    it { should_not parse("my_pred OR ") }
+
   end
 
   describe "NOT predicate" do

@@ -61,6 +61,12 @@ module Smartdown
          predicate).repeat(1).as(:and_predicates)).as(:conjunction_predicate)
       }
 
+      rule (:disjunction_predicate) {
+        (predicate.as(:first_predicate) >>
+        (some_space >> str('OR') >> some_space >>
+         predicate).repeat(1).as(:or_predicates)).as(:disjunction_predicate)
+      }
+
       rule (:negated_predicate) {
         (str('NOT') >> some_space >> predicate.as(:predicate)).as(:negated_predicate)
       }
@@ -78,6 +84,7 @@ module Smartdown
 
       rule (:predicates) {
         conjunction_predicate |
+        disjunction_predicate |
         predicate
       }
 
