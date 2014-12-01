@@ -98,6 +98,7 @@ describe Smartdown::Parser::Predicates do
       } }
     ) }
     it { should_not parse("my_pred AND ") }
+    it { should_not parse("my_pred AND my_other_pred OR special_pred") }
 
     describe "transformed" do
       let(:node_name) { "my_node" }
@@ -138,6 +139,7 @@ describe Smartdown::Parser::Predicates do
       } }
     ) }
     it { should_not parse("my_pred OR ") }
+    it { should_not parse("my_pred OR my_other_pred AND special_pred") }
 
     describe "transformed" do
       let(:node_name) { "my_node" }
