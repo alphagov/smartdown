@@ -139,6 +139,21 @@ describe Smartdown::Parser::Predicates do
     ) }
     it { should_not parse("my_pred OR ") }
 
+    describe "transformed" do
+      let(:node_name) { "my_node" }
+      let(:source) { "my_pred() OR my_other_pred?" }
+      subject(:transformed) {
+        Smartdown::Parser::NodeInterpreter.new(node_name, source, parser: parser).interpret
+      }
+
+      it { should eq(Smartdown::Model::Predicate::Disjunction.new(
+        [
+          Smartdown::Model::Predicate::Function.new("my_pred", []),
+          Smartdown::Model::Predicate::Named.new("my_other_pred?")
+      ]
+      )) }
+    end
+
   end
 
   describe "NOT predicate" do
