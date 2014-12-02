@@ -7,7 +7,6 @@ Gem::Specification.new do |s|
   s.name        = 'smartdown'
   s.version     = Smartdown::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.date        = '2014-07-09'
   s.summary     = "Interactive question-answer flows using markdown-like external DSL"
   s.authors     = ["David Heath"]
   s.homepage    = "https://github.com/alphagov/smartdown"
