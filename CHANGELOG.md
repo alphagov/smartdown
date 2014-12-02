@@ -1,3 +1,10 @@
+## 0.11.1
+
+Fix bugs with missing elements
+
+If certain optional elements were omitted, the api was throwing an
+exception, instead of returning nil - the behaviour prior to 0.11.0
+
 ## 0.11.0
 
 More lenient whitespace rules
