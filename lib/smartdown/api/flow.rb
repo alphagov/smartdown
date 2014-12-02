@@ -84,9 +84,9 @@ module Smartdown
     private
 
       def transform_node(node)
-        if node.elements.any?{|element| element.is_a? Smartdown::Model::Element::StartButton}
+        if node.is_start_page_node?
           Smartdown::Api::Coversheet.new(node)
-        elsif node.elements.any?{|element| element.is_a? Smartdown::Model::NextNodeRules}
+        elsif node.is_question_node?
           if node.elements.any?{|element| element.class.to_s.include?("Smartdown::Model::Element::Question")}
             Smartdown::Api::QuestionPage.new(node)
           else

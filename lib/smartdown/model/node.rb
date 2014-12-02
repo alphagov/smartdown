@@ -37,6 +37,14 @@ module Smartdown
         @is_start_page_node ||= !!start_button
       end
 
+      def is_question_node?
+        @is_question_node ||= elements.any?{|element| element.is_a? Smartdown::Model::NextNodeRules}
+      end
+
+      def is_outcome_page_node?
+        @is_outcome_page_node ||= !is_start_page_node? && !is_question_node?
+      end
+
       private
 
       def markdown_blocks_before_question
