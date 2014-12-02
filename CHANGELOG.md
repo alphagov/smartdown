@@ -1,3 +1,28 @@
+## 0.11.0
+
+More lenient whitespace rules
+
+It is now legal to have any whitespace you like on mandatory blank
+lines between smartdown elements. eg. a tab on your blank line will not
+longer cause a parsing error.
+
+
+Nested if statements
+
+If statements can now be nested inside if, else and elsif branches.
+
+
+Custom markdown tags inside conditionals
+
+It is now possible to include custom markdown tags beginning with the `$`
+character inside conditional statements - this is mainly an improvement
+for govspeak custom markdown tags.
+
+
+Markdown not HMTL
+
+The Smartdown API now returns raw markdown instead of html.
+
 ## 0.10.0
 
 Date Question range options
