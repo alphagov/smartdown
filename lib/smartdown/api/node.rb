@@ -50,11 +50,7 @@ module Smartdown
       end
 
       def build_govspeak(elements)
-        markdown_elements = elements.select do |element|
-          markdown_element?(element)
-        end
-        govspeak = markdown_elements.map(&:content).join("\n")
-        Govspeak::Document.new(govspeak).to_html.html_safe
+        elements.select { |element| markdown_element?(element) }.map(&:content).join("\n")
       end
     end
   end
