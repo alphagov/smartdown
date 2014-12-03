@@ -1,3 +1,8 @@
+## 0.11.2
+
+Bug fixes for nodes with no body/post body - now retuns nil instead of "" to
+be consitent with the rest of the API
+
 ## 0.11.1
 
 Fix bugs with missing elements
