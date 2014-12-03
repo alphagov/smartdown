@@ -1,3 +1,7 @@
+require 'parslet'
+require 'smartdown/parser/node_transform'
+require 'smartdown/parser/predicates'
+
 module Smartdown
   class Engine
     class Interpolator

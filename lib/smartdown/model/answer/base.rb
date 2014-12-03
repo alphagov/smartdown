@@ -43,6 +43,10 @@ module Smartdown
           @error.nil?
         end
 
+        def invalid?
+          !valid?
+        end
+
       private
         def parse_other_object(comparison_object)
           if comparison_object.is_a? Base

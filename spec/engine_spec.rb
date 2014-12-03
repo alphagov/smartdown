@@ -186,6 +186,13 @@ describe Smartdown::Engine do
         it "recorded input is accessiable via question alias" do
           expect(subject.get("passport_type?")).to eq("greek")
         end
+
+        context "extra answers passed" do
+          let(:responses) { %w{yes greek I wanna be the very best like no one ever was} }
+          it "return current_node as outcome and ignores extra responses" do
+            expect(subject.get(:current_node)).to eq("outcome_no_visa_needed")
+          end
+        end
       end
 
       context "USA passport" do
