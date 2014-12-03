@@ -29,6 +29,8 @@ module Smartdown
 
       while !unprocessed_responses.empty? do
         current_node = flow.node(state.get(:current_node))
+        break if current_node.is_outcome_page_node?
+        
         if current_node.is_start_page_node?
           # If it's a start page node, we've got to do something different because of the preceeding 'y' answer
           answers = unprocessed_responses.shift(1)
