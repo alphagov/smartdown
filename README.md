@@ -78,14 +78,16 @@ The language is designed to look like [Markdown](http://daringfireball.net/proje
 
 ## Overview
 
-A single smartdown flow has a cover sheet, a set of questions, a set of
-outcomes and a set of test scenarios. Cover sheets, questions and outcomes are
-all types of node. A node represents a single user interaction (normally a web
-page, but in other media may be presented differently).
+A single smartdown flow has a [Start Page](https://github.com/alphagov/smartdown/wiki/Start-Pages), a set of [Questions](https://github.com/alphagov/smartdown/wiki/Questions),
+[Outcomes]() and a set of [Test Scenarios]().
 
-Each question and outcome is held in a separate file. The name of the files
-are used to identify each question. Here's an example of the check-uk-visa
-flow:
+Start Pages, Questions and Outcomes are all a type of 'node'.
+A node represents a single user interaction (normally a web page, but in other media may be presented differently).
+
+Each question and outcome is held in its own file. The name of the files are significant: they are used to identify each question.
+
+
+Here's an example of the check-uk-visa flow:
 
 ```
 -- check-uk-visa
