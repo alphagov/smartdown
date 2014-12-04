@@ -122,58 +122,6 @@ Each file has three parts: front-matter, a model definition, rules/logic. Only t
 * **rules/logic** defines 'next node' transition rules or other
   logic/predicate definitions
 
-## Cover sheet node
-
-The cover sheet starts the flow off, its filename should match the flow name,
-e.g. 'check-uk-visa.txt'.
-
-It has initial 'front matter' which defines metadata for the flow. It then
-defines the copy for the cover sheet in markdown format. The h1 title is
-compulsory and used as the title for the smart answer.
-
-A start button determines which question node is presented first.
-
-```
-meta_description: You may need a visa to come to the UK to visit, study or work.
-satisfies_need: 100982
-
-# Check if you need a UK visa
-
-You may need a visa to come to the UK to visit, study or work.
-
-[start_button: what_passport_do_you_have]
-```
-
-## Question nodes
-
-Question nodes follow the same standard structure outlined above.
-
-Smartdown currently allows multiple questions to be defined per node, but this
-feature has only [recently been introduced](CHANGELOG.md#010) and may still change.
-
-The next sections define the various question types available.
-
-Note that at present only the 'choice' question type has been implemented.
-Unimplemented question types are marked with **(tbd)** in the heading. For
-these question types, consider this documentation to be a proposal of how they
-might work.
-
-### "Choice" questions (aka. radio buttons)
-
-A choice question allows the user to select a single option from a list of choices.
-
-```markdown
-## Will you pass through UK Border Control?
-
-You might pass through UK Border Control even if you don't leave the airport -
-eg your bags aren't checked through and you need to collect them before transferring
-to your outbound flight.
-
-[choice: uk_border_control]
-* yes: Yes
-* no: No
-```
-
 ### 'Country' question
 
 A 'country' question allows the user to select a country from a drop-down list.
