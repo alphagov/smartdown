@@ -74,10 +74,7 @@ Which on GOV.UK will look like:
 ![](http://cl.ly/image/1V3e042P0s0h/Screen%20Shot%202014-12-03%20at%2017.50.55.png)
 
 
-The language is designed to look like
-[Markdown](http://daringfireball.net/projects/markdown/), with some extensions
-to allow expression of logical rules, questions and conditional blocks of
-text.
+The language is designed to look like [Markdown](http://daringfireball.net/projects/markdown/), but it has been extended to allow you to write in logic rules, questions and conditional blocks of text.
 
 ## Overview
 
