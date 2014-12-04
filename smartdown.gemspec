@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'parslet', '~> 1.6.1'
   s.add_development_dependency "rspec", "~> 3.0.0"
   s.add_development_dependency "rake"
+  s.add_development_dependency "pry"
   s.add_development_dependency "gem_publisher"
   s.add_development_dependency "timecop"
 end
