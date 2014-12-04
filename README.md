@@ -43,10 +43,13 @@ Will produce:
     <article role="article" class="group">
       <div class="inner">
         <div class="intro">
-          <p>Smartdown helps GOV.UK users find the information they need without
-          having to search through daunting official </p>documentation.
+          <p>Smartdown helps GOV.UK users find the information they need
+          without having to search through daunting official
+          documentation.</p>
 
-          <h2 id="some-extra-information-you-need-to-know-before-you-start">Some extra information you need to know before you start</h2>
+          <h2 id="some-extra-information-you-need-to-know-before-you-start">
+            Some extra information you need to know before you start
+          </h2>
 
           <ul>
             <li>Like bullet points</li>
@@ -55,11 +58,15 @@ Will produce:
           </ul>
 
           <p class="get-started">
-            <a rel="nofollow" href="/animal-example-simple/y" class="big button">Start now</a>
+            <a rel="nofollow" href="/step-1/y" class="big button">
+              Start now
+            </a>
           </p>
         </div>
 
-        <h2 id="additional-context-after-a-start-button">Additional context after a start button</h2>
+        <h2 id="additional-context-after-a-start-button">
+          Additional context after a start button
+        </h2>
         <p>Any more information down here</p>
 
       </div>
