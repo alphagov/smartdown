@@ -79,7 +79,7 @@ The language is designed to look like [Markdown](http://daringfireball.net/proje
 ## Overview
 
 A single smartdown flow has a [Start Page](https://github.com/alphagov/smartdown/wiki/Start-Pages), a set of [Questions](https://github.com/alphagov/smartdown/wiki/Questions),
-[Outcomes]() and a set of [Test Scenarios](https://github.com/alphagov/smartdown/wiki/Scenarios).
+[Outcomes](https://github.com/alphagov/smartdown/wiki/Outcomes) and a set of [Test Scenarios](https://github.com/alphagov/smartdown/wiki/Scenarios).
 
 Start Pages, Questions and Outcomes are all a type of 'node'.
 A node represents a single user interaction (normally a web page, but in other media may be presented differently).
