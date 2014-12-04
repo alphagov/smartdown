@@ -27,12 +27,15 @@ module Smartdown
       end
 
       def post_body
-        elements_after_smartdown = elements.drop_while{|element| !smartdown_element?(element)}
+        elements_after_smartdown = elements.select{ |element| !next_node_element?(element) }
+                                           .reverse
+                                           .take_while{|element| !smartdown_element?(element)}
+                                           .reverse
         build_govspeak(elements_after_smartdown)
       end
 
       def next_nodes
-        elements.select{ |element| element.is_a? Smartdown::Model::NextNodeRules }
+        elements.select{ |element| next_node_element? element }
       end
 
       def permitted_next_nodes
@@ -45,12 +48,18 @@ module Smartdown
         (element.is_a? Smartdown::Model::Element::MarkdownParagraph) || (element.is_a? Smartdown::Model::Element::MarkdownHeading)
       end
 
+      def next_node_element?(element)
+        (element.is_a? Smartdown::Model::NextNodeRules)
+      end
+
       def smartdown_element?(element)
         !markdown_element?(element)
       end
 
       def build_govspeak(elements)
-        elements.select { |element| markdown_element?(element) }.map(&:content).join("\n")
+        elements.select { |element| markdown_element?(element) }
+        return nil if elements.empty?
+        elements.map(&:content).join("\n")
       end
     end
   end
