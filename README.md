@@ -2,7 +2,7 @@
 
 Smartdown is a [custom formatting language](http://www.martinfowler.com/bliki/DomainSpecificLanguage.html) designed to generate HTML formatted questions. These questions can then be joined in a manner that articulates a full user journey.
 
-Implementation details for each kind of quesiton can be found in the [wiki](https://github.com/alphagov/smartdown/wiki).
+Implementation details for each kind of question can be found in the [wiki](https://github.com/alphagov/smartdown/wiki).
 
 For example:
 
