@@ -122,15 +122,6 @@ Each file has three parts: front-matter, a model definition, rules/logic. Only t
 * **rules/logic** defines 'next node' transition rules or other
   logic/predicate definitions
 
-### 'Country' question
-
-A 'country' question allows the user to select a country from a drop-down list.
-
-```markdown
-## Where do you want to get married?
-
-[country: marriage_country, countries: all_countries]
-```
 
 Where `all_countries` is the name of a data-plugin method that will return a hash of
 country slugs/names.
