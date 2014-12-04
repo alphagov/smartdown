@@ -114,3 +114,11 @@ Here's an example of the check-uk-visa flow:
 ## Wiki
 
 Additional documentation and a [glossary of terms](https://github.com/alphagov/smartdown/wiki/Glossary) and concepts can be found in the [project wiki](https://github.com/alphagov/smartdown/wiki/)
+
+### Dependencies
+
+Currently smartdown relies on the [Smart Answers](https://github.com/alphagov/smart-answers/) application to run.
+
+### Running
+
+For GOV.UK developers you can `bowl smartanswers` and navigate to an example flow such as http://smartanswers.dev.gov.uk/animal-example-multiple from within the GOV.UK VM.
