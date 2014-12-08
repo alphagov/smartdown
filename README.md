@@ -2,7 +2,7 @@
 
 Smartdown is a [custom formatting language](http://www.martinfowler.com/bliki/DomainSpecificLanguage.html) designed to generate HTML formatted questions. These questions can then be joined in a manner that articulates a full user journey.
 
-Implementation details for each kind of question can be found in the [wiki](https://github.com/alphagov/smartdown/wiki).
+Implementation details for each kind of question can be found in the [documentation directory](doc).
 
 For example:
 
@@ -85,8 +85,8 @@ The language is designed to look like [Markdown](http://daringfireball.net/proje
 
 ## Overview
 
-A single smartdown flow has a [Start Page](https://github.com/alphagov/smartdown/wiki/Start-Pages), a set of [Questions](https://github.com/alphagov/smartdown/wiki/Questions),
-[Outcomes](https://github.com/alphagov/smartdown/wiki/Outcomes) and a set of [Test Scenarios](https://github.com/alphagov/smartdown/wiki/Scenarios).
+A single smartdown flow has a [Start Page](doc/start-pages.md), a set of [Questions](doc/questions.md),
+[Outcomes](doc/outcomes.md) and a set of [Test Scenarios](doc/scenarios.md).
 
 Start Pages, Questions and Outcomes are all a type of 'node'.
 A node represents a single user interaction (normally a web page, but in other media may be presented differently).
@@ -120,7 +120,7 @@ Here's an example of the check-uk-visa flow:
 
 ## Wiki
 
-Additional documentation and a [glossary of terms](https://github.com/alphagov/smartdown/wiki/Glossary) and concepts can be found in the [project wiki](https://github.com/alphagov/smartdown/wiki/)
+Additional documentation and a [glossary of terms](https://github.com/alphagov/smartdown/wiki/Glossary) and concepts can be found in the [project wiki](https://github.com/alphagov/smartdown/wiki/) or in the [documentation folder](doc)
 
 ### Dependencies
 
