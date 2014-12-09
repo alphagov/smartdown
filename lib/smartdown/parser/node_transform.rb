@@ -31,46 +31,6 @@ module Smartdown
   module Parser
     class NodeTransform < Parslet::Transform
 
-      attr_reader :data_module
-
-      def initialize data_module=nil, &block
-        super(&block)
-
-        @data_module = data_module || {}
-      end
-
-      # !!ALERT!! MONKEY PATCHING !!ALERT!!
-      #
-      # This call_on_match method is used for executing all the rule blocks you see
-      # below. The only variables that are in scope for these blocks  are the contents
-      # of bindings - which consists of information about bits of the AST that the rule
-      # matched.
-      #
-      # In the country rule: there is a need for accessing an external variable/method
-      # as the information required to create a country question object is defined in
-      # the data_module - so cannot be inferred purely from the syntax fed to parselet.
-      #
-      # There are 2 options we could have chosen, the first would be to have another
-      # transformation layer. We would create intermediate elements that were lacking
-      # information and then recreate them outside of parselet.
-      #
-      # A far simpler option is to manually modify the set of bindings available to
-      # rule blocks, so we can inject our information from the data_module. Unfortunately
-      # the only way to do this is to Monkey patch the call_on_match method to do the
-      # to injecting. The drawbacks of this are if the method changes its name or function
-      # in a newer parselet version; or possibly accidentally overriding some default
-      # bindings with methods from a data module.
-      #
-      # Ideally we would like a way of injecting information into bindings without this
-      # patch so we have submitted a PR to parselet describing this problem:
-      #
-      # https://github.com/kschiess/parslet/pull/119
-      #
-      def call_on_match(bindings, block)
-        bindings.merge! data_module
-        super(bindings, block)
-      end
-
       rule(body: subtree(:body)) {
         Smartdown::Model::Node.new(
           node_name, body, Smartdown::Model::FrontMatter.new({})
@@ -120,7 +80,7 @@ module Smartdown
 
       rule(:country => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
         country_data_method = Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('countries', nil)
-        country_hash = (eval country_data_method).call
+        country_hash = data_module[country_data_method].call
         Smartdown::Model::Element::Question::Country.new(
           identifier.to_s,
           country_hash,
