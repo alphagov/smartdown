@@ -16,7 +16,7 @@ module Smartdown
       end
 
       def outcomes
-        read_dir("outcomes")
+        recursive_files_relatively_renamed("outcomes")
       end
 
       def scenario_sets
