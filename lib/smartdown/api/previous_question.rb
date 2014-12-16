@@ -18,6 +18,8 @@ module Smartdown
           @question = SalaryQuestion.new(elements)
         elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Text}
           @question = TextQuestion.new(elements)
+        elsif element = elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Postcode}
+          @question = PostcodeQuestion.new(elements)
         end
         @answer = element.answer_type.new(response, element) if element
       end
