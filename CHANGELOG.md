@@ -1,3 +1,14 @@
+## 0.11.3
+
+Add postcode question.
+Provides the ability to accept postcode value answers.
+
+* postcode question
+
+```[postcode: home]```
+
+Accepts only valid full postcodes.
+
 ## 0.11.2
 
 Bug fixes for nodes with no body/post body - now retuns nil instead of "" to
