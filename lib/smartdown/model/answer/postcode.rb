@@ -20,10 +20,8 @@ module Smartdown
           postcode = UKPostcode.new(value)
           if !postcode.valid?
             @error = "Invalid postcode"
-            return
           elsif !postcode.full?
             @error = "Please enter a full postcode"
-            return
           end
           value
         end
