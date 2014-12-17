@@ -1,3 +1,7 @@
+## 0.11.4
+
+Bug fix: return answer even if postcode is invalid
+
 ## 0.11.3
 
 Add postcode question.
