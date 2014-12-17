@@ -16,11 +16,13 @@ describe Smartdown::Model::Answer::Postcode do
     context "partial postcodes are not allowed" do
       let(:answer_string) { "WC2B" }
       specify { expect(answer.error).to eql "Please enter a full postcode" }
+      specify { expect(answer.value).to eql "WC2B" }
     end
 
     context "invalid postcode" do
       let(:answer_string) { "invalid" }
       specify { expect(answer.error).to eql "Invalid postcode" }
+      specify { expect(answer.value).to eql "invalid" }
     end
 
     context "question not answered" do
