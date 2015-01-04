@@ -34,7 +34,9 @@ SOURCE
   describe "front matter and body" do
     let(:source) {
 <<SOURCE
+---
 name: My node
+---
 
 # This is my title
 
