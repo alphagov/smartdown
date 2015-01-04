@@ -22,18 +22,19 @@ module Smartdown
         }
 
         rule(:blocks_inside_conditional) {
-          conditional_body_block.repeat(1,1) >> (newline.repeat(1) >> conditional_body_block).repeat
+          conditional_body_block.repeat(1,1) >> (conditional_body_block).repeat
         }
 
         rule(:else_clause) {
-          dollar_else >> optional_space >> newline.repeat(2) >>
-            (blocks_inside_conditional.as(:false_case) >> newline).maybe
+          dollar_else >>
+          optional_space >> newline.repeat(1) >>
+          (blocks_inside_conditional.as(:false_case)).maybe
         }
 
         rule(:elseif_clause) {
           dollar_elseif >> (Predicates.new.as(:predicate) >>
-          optional_space >> newline.repeat(2) >>
-          (blocks_inside_conditional.as(:true_case) >> newline).maybe >>
+          optional_space >> newline.repeat(1) >>
+          (blocks_inside_conditional.as(:true_case)).maybe >>
           ((elseif_clause | else_clause).maybe)).as(:conditional).repeat(1,1).as(:false_case)
         }
 
@@ -41,8 +42,8 @@ module Smartdown
           (
             dollar_if >>
               Predicates.new.as(:predicate) >>
-              optional_space >> newline.repeat(2) >>
-              (blocks_inside_conditional.as(:true_case) >> newline).maybe >>
+              optional_space >> newline.repeat(1) >>
+              (blocks_inside_conditional.as(:true_case)).maybe >>
               (else_clause | elseif_clause).maybe >>
               dollar_endif >> optional_space >> line_ending
           ).as(:conditional)

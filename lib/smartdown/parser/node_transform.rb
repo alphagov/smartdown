@@ -2,6 +2,7 @@ require 'parslet/transform'
 require 'smartdown/parser/option_pairs_transform'
 require 'smartdown/model/node'
 require 'smartdown/model/front_matter'
+require 'smartdown/model/block'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
@@ -13,7 +14,8 @@ require 'smartdown/model/element/question/text'
 require 'smartdown/model/element/question/postcode'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
-require 'smartdown/model/element/markdown_paragraph'
+require 'smartdown/model/element/markdown_line'
+require 'smartdown/model/element/markdown_blank_line'
 require 'smartdown/model/element/conditional'
 require 'smartdown/model/element/next_steps'
 require 'smartdown/model/predicate/equality'
@@ -38,12 +40,29 @@ module Smartdown
         )
       }
 
+      rule(blankline: simple(:blankline), block: subtree(:block)) {
+        Smartdown::Model::Block.new(
+          [
+            Smartdown::Model::Element::MarkdownBlankLine.new(blankline.to_s),
+            block,
+          ]
+        )
+      }
+
       rule(h1: simple(:content)) {
         Smartdown::Model::Element::MarkdownHeading.new(content.to_s)
       }
 
-      rule(p: simple(:content)) {
-        Smartdown::Model::Element::MarkdownParagraph.new(content.to_s)
+      rule(:line => simple(:content)) {
+        Smartdown::Model::Element::MarkdownLine.new(content.to_s)
+      }
+
+      rule(:blank => simple(:content)) {
+        Smartdown::Model::Element::MarkdownBlankLine.new(content.to_s)
+      }
+
+      rule(:blankline => simple(:content)) {
+        Smartdown::Model::Element::MarkdownBlankLine.new(content.to_s)
       }
 
       rule(:start_button => simple(:start_node)) {
@@ -69,7 +88,6 @@ module Smartdown
       rule(:url => simple(:url), :label => simple(:label)) {
         [url.to_s, label.to_s]
       }
-
 
       rule(:multiple_choice => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs), options: subtree(:choices)}) {
         Smartdown::Model::Element::Question::MultipleChoice.new(

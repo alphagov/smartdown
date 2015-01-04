@@ -4,7 +4,14 @@ module Smartdown
   module Model
     Node = Struct.new(:name, :elements, :front_matter) do
       def initialize(name, elements, front_matter = nil)
-        super(name, elements, front_matter || Smartdown::Model::FrontMatter.new)
+        all_elements = elements.map do |element|
+          if element.is_a?(Smartdown::Model::Block)
+            element.elements
+          else
+            element
+          end
+        end.flatten
+        super(name, all_elements, front_matter || Smartdown::Model::FrontMatter.new)
       end
 
       def title
@@ -12,11 +19,11 @@ module Smartdown
       end
 
       def body
-        markdown_blocks_before_question.map { |block| as_markdown(block) }.compact.join("\n")
+        markdown_blocks_before_question.map { |block| as_markdown(block) }.compact.join
       end
 
       def post_body
-        markdown_blocks_after_question.map { |block| as_markdown(block) }.compact.join("\n")
+        markdown_blocks_after_question.map { |block| as_markdown(block) }.compact.join
       end
 
       def questions
@@ -50,14 +57,16 @@ module Smartdown
       def markdown_blocks_before_question
         elements.take_while { |e|
           e.is_a?(Smartdown::Model::Element::MarkdownHeading) ||
-          e.is_a?(Smartdown::Model::Element::MarkdownParagraph)
+          e.is_a?(Smartdown::Model::Element::MarkdownLine) ||
+          e.is_a?(Smartdown::Model::Element::MarkdownBlankLine)
         }[1..-1]
       end
 
       def markdown_blocks_after_question
         elements.reverse.take_while { |e|
           e.is_a?(Smartdown::Model::Element::MarkdownHeading) ||
-          e.is_a?(Smartdown::Model::Element::MarkdownParagraph)
+          e.is_a?(Smartdown::Model::Element::MarkdownLine) ||
+          e.is_a?(Smartdown::Model::Element::MarkdownBlankLine)
         }.reverse
       end
 
@@ -73,8 +82,10 @@ module Smartdown
       def as_markdown(block)
         case block
         when Smartdown::Model::Element::MarkdownHeading
-          "# #{block.content}\n"
-        when Smartdown::Model::Element::MarkdownParagraph
+          "# #{block.content}"
+        when Smartdown::Model::Element::MarkdownLine
+          block.content
+        when Smartdown::Model::Element::MarkdownBlankLine
           block.content
         else
           raise "Unknown markdown block type '#{block.class.to_s}'"

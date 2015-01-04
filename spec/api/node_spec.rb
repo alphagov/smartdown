@@ -6,7 +6,7 @@ require 'smartdown/model/front_matter'
 require 'smartdown/model/next_node_rules'
 require 'smartdown/model/element/question/date'
 require 'smartdown/model/element/markdown_heading'
-require 'smartdown/model/element/markdown_paragraph'
+require 'smartdown/model/element/markdown_line'
 
 describe Smartdown::Api::Node do
 
@@ -44,17 +44,17 @@ describe Smartdown::Api::Node do
 
   let(:body_content) { "I <3 bodyshopping" }
   let(:body_element) {
-    Smartdown::Model::Element::MarkdownParagraph.new(body_content)
+    Smartdown::Model::Element::MarkdownLine.new(body_content)
   }
 
   let(:post_body_content) { "hur hur such content" }
   let(:post_body_element) {
-    Smartdown::Model::Element::MarkdownParagraph.new(post_body_content)
+    Smartdown::Model::Element::MarkdownLine.new(post_body_content)
   }
 
   let(:other_post_body_content) { "Postman Pat and his black and white cat" }
   let(:other_post_body_element) {
-    Smartdown::Model::Element::MarkdownParagraph.new(other_post_body_content)
+    Smartdown::Model::Element::MarkdownLine.new(other_post_body_content)
   }
 
 

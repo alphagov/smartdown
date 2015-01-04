@@ -48,6 +48,7 @@ describe "Smartdown.parse" do
 
       it "has a body" do
         expect(coversheet.body).to eq(<<-EXPECTED)
+
 This is the body markdown.
 
 It has many paragraphs
@@ -83,15 +84,18 @@ EXPECTED
 
       it "has two body paras" do
         expect(question_node.body).to eq(<<-EXPECTED)
+
 Body text line 1.
 
 Body text
 para 2.
+
 EXPECTED
       end
 
       it "has a post body" do
         expect(question_node.post_body).to eq(<<-EXPECTED)
+
 Text after the question.
 EXPECTED
       end

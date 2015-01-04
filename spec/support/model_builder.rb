@@ -1,7 +1,7 @@
 require 'smartdown/model/flow'
 require 'smartdown/model/node'
 require 'smartdown/model/element/markdown_heading'
-require 'smartdown/model/element/markdown_paragraph'
+require 'smartdown/model/element/markdown_line'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/question/multiple_choice'
 require 'smartdown/model/element/question/date'
@@ -41,9 +41,9 @@ class ModelBuilder
     @elements.last
   end
 
-  def paragraph(content)
+  def line(content)
     @elements ||= []
-    @elements << Smartdown::Model::Element::MarkdownParagraph.new(content)
+    @elements << Smartdown::Model::Element::MarkdownLine.new(content)
     @elements.last
   end
 

@@ -10,10 +10,10 @@ describe Smartdown::Engine::ConditionalResolver do
         conditional do
           named_predicate "pred?"
           true_case do
-            paragraph("True case")
+            line("True case")
           end
           false_case do
-            paragraph("False case")
+            line("False case")
           end
         end
       end
@@ -29,7 +29,7 @@ describe Smartdown::Engine::ConditionalResolver do
 
       let(:expected_node_after_presentation) {
         model_builder.node("outcome_no_visa_needed") do
-          paragraph("True case")
+          line("True case")
         end
       }
 
@@ -48,7 +48,7 @@ describe Smartdown::Engine::ConditionalResolver do
 
       let(:expected_node_after_presentation) {
         model_builder.node("outcome_no_visa_needed") do
-          paragraph("False case")
+          line("False case")
         end
       }
 
@@ -63,13 +63,13 @@ describe Smartdown::Engine::ConditionalResolver do
         conditional do
           named_predicate "pred1?"
           true_case do
-            paragraph("True case")
+            line("True case")
           end
           false_case do
             conditional do
               named_predicate "pred2?"
               true_case do
-                paragraph("False True case")
+                line("False True case")
               end
             end
           end
@@ -88,7 +88,7 @@ describe Smartdown::Engine::ConditionalResolver do
 
       let(:expected_node_after_presentation) {
         model_builder.node("outcome_no_visa_needed") do
-          paragraph("True case")
+          line("True case")
         end
       }
 
@@ -110,7 +110,7 @@ describe Smartdown::Engine::ConditionalResolver do
 
         let(:expected_node_after_presentation) {
           model_builder.node("outcome_no_visa_needed") do
-            paragraph("False True case")
+            line("False True case")
           end
         }
 

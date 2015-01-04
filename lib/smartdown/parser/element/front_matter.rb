@@ -11,7 +11,10 @@ module Smartdown
           identifier.as(:name) >> str(":") >> ws >> whitespace_terminated_string.as(:value) >> line_ending
         }
         rule(:front_matter) {
-          front_matter_line.repeat(1).as(:front_matter)
+          front_matter_delimiter >>
+          front_matter_line.repeat(1).as(:front_matter) >>
+          front_matter_delimiter >>
+          newline.repeat
         }
         root(:front_matter)
       end

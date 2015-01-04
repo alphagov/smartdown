@@ -23,7 +23,11 @@ SOURCE
         should parse(source).as(
           conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "#{true_body}\n"}]
+            true_case: [
+              {line: "#{true_body}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ]
           }
         )
       }
@@ -37,7 +41,11 @@ SOURCE
           should eq(
             Smartdown::Model::Element::Conditional.new(
               Smartdown::Model::Predicate::Named.new("pred1?"),
-              [Smartdown::Model::Element::MarkdownParagraph.new(true_body + "\n")]
+              [
+                Smartdown::Model::Element::MarkdownLine.new(true_body),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+              ]
             )
           )
         }
@@ -53,7 +61,14 @@ SOURCE
         should parse(source).as(
           conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "#{one_line}\n"}, {p: "#{one_line}\n"}]
+            true_case: [
+              {line: "#{one_line}"},
+              {blank: "\n"},
+              {blank: "\n"},
+              {line: "#{one_line}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ]
           }
         )
       }
@@ -68,8 +83,12 @@ SOURCE
             Smartdown::Model::Element::Conditional.new(
               Smartdown::Model::Predicate::Named.new("pred1?"),
               [
-                Smartdown::Model::Element::MarkdownParagraph.new(one_line + "\n"),
-                Smartdown::Model::Element::MarkdownParagraph.new(one_line + "\n")
+                Smartdown::Model::Element::MarkdownLine.new(one_line),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new(one_line),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
               ]
             )
           )
@@ -125,8 +144,16 @@ SOURCE
         should parse(source).as(
           conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "#{true_body}\n"}],
-            false_case: [{p: "#{false_body}\n"}]
+            true_case: [
+              {line: "#{true_body}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ],
+            false_case: [
+              {line: "#{false_body}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ]
           }
         )
       }
@@ -140,8 +167,16 @@ SOURCE
           should eq(
             Smartdown::Model::Element::Conditional.new(
               Smartdown::Model::Predicate::Named.new("pred1?"),
-              [Smartdown::Model::Element::MarkdownParagraph.new(true_body + "\n")],
-              [Smartdown::Model::Element::MarkdownParagraph.new(false_body + "\n")]
+              [
+                Smartdown::Model::Element::MarkdownLine.new(true_body),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+              ],
+              [
+                Smartdown::Model::Element::MarkdownLine.new(false_body),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+              ]
             )
           )
         }
@@ -172,10 +207,18 @@ SOURCE
         should parse(source).as(
           conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "#{true1_body}\n"}],
+            true_case: [
+              {line: "#{true1_body}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ],
             false_case: [{conditional: {
               predicate: {named_predicate: "pred2?"},
-              true_case: [{p: "#{true2_body}\n"}],
+              true_case: [
+                {line: "#{true2_body}"},
+                {blank: "\n"},
+                {blank: "\n"},
+              ],
             }}]
           }
         )
@@ -190,10 +233,18 @@ SOURCE
             should eq(
               Smartdown::Model::Element::Conditional.new(
                 Smartdown::Model::Predicate::Named.new("pred1?"),
-                [Smartdown::Model::Element::MarkdownParagraph.new(true1_body + "\n")],
+                [
+                  Smartdown::Model::Element::MarkdownLine.new(true1_body),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                ],
                 [Smartdown::Model::Element::Conditional.new(
                   Smartdown::Model::Predicate::Named.new("pred2?"),
-                  [Smartdown::Model::Element::MarkdownParagraph.new(true2_body + "\n")]
+                  [
+                    Smartdown::Model::Element::MarkdownLine.new(true2_body),
+                    Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                    Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  ]
                 )]
               )
             )
@@ -230,13 +281,25 @@ SOURCE
         should parse(source).as(
           conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "#{true1_body}\n"}],
+            true_case: [
+              {line: "#{true1_body}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ],
             false_case: [{conditional: {
               predicate: {named_predicate: "pred2?"},
-              true_case: [{p: "#{true2_body}\n"}],
+              true_case: [
+                {line: "#{true2_body}"},
+                {blank: "\n"},
+                {blank: "\n"},
+              ],
               false_case: [{conditional: {
                 predicate: {named_predicate: "pred3?"},
-                true_case: [{p: "#{true3_body}\n"}],
+                true_case: [
+                  {line: "#{true3_body}"},
+                  {blank: "\n"},
+                  {blank: "\n"},
+                ],
               }}]
             }}]
           }
@@ -252,13 +315,25 @@ SOURCE
           should eq(
             Smartdown::Model::Element::Conditional.new(
               Smartdown::Model::Predicate::Named.new("pred1?"),
-              [Smartdown::Model::Element::MarkdownParagraph.new(true1_body + "\n")],
+              [
+                Smartdown::Model::Element::MarkdownLine.new(true1_body),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+              ],
               [Smartdown::Model::Element::Conditional.new(
                 Smartdown::Model::Predicate::Named.new("pred2?"),
-                [Smartdown::Model::Element::MarkdownParagraph.new(true2_body + "\n")],
+                [
+                  Smartdown::Model::Element::MarkdownLine.new(true2_body),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                ],
                   [Smartdown::Model::Element::Conditional.new(
                     Smartdown::Model::Predicate::Named.new("pred3?"),
-                    [Smartdown::Model::Element::MarkdownParagraph.new(true3_body + "\n")]
+                    [
+                      Smartdown::Model::Element::MarkdownLine.new(true3_body),
+                      Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                      Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                    ]
                   )]
               )]
             )
@@ -296,11 +371,23 @@ SOURCE
         should parse(source).as(
           conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "#{true1_body}\n"}],
+            true_case: [
+              {line: "#{true1_body}"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ],
             false_case: [{conditional: {
               predicate: {named_predicate: "pred2?"},
-              true_case: [{p: "#{true2_body}\n"}],
-              false_case: [{p: "#{false_body}\n"}]
+              true_case: [
+                {line: "#{true2_body}"},
+                {blank: "\n"},
+                {blank: "\n"},
+              ],
+              false_case: [
+                {line: "#{false_body}"},
+                {blank: "\n"},
+                {blank: "\n"},
+              ]
             }}]
           }
         )
@@ -316,11 +403,23 @@ SOURCE
           should eq(
             Smartdown::Model::Element::Conditional.new(
               Smartdown::Model::Predicate::Named.new("pred1?"),
-              [Smartdown::Model::Element::MarkdownParagraph.new(true1_body + "\n")],
+              [
+                Smartdown::Model::Element::MarkdownLine.new(true1_body),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+              ],
               [Smartdown::Model::Element::Conditional.new(
                 Smartdown::Model::Predicate::Named.new("pred2?"),
-                [Smartdown::Model::Element::MarkdownParagraph.new(true2_body + "\n")],
-                [Smartdown::Model::Element::MarkdownParagraph.new(false_body + "\n")]
+                [
+                  Smartdown::Model::Element::MarkdownLine.new(true2_body),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                ],
+                [
+                  Smartdown::Model::Element::MarkdownLine.new(false_body),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                ]
               )]
             )
           )
@@ -354,12 +453,21 @@ SOURCE
            conditional: {
              predicate: {named_predicate: "pred1?"},
              true_case: [
-               {p: "#{first_true_body}\n"},
+               {line: "#{first_true_body}"},
+               {blank: "\n"},
+               {blank: "\n"},
                {conditional: {
-                 predicate: {named_predicate: "pred2?"},
-                 true_case: [{p: "#{both_true_body}\n"}],
+                predicate: {named_predicate: "pred2?"},
+                true_case: [
+                  {line: "#{both_true_body}"},
+                  {blank: "\n"},
+                  {blank: "\n"},
+                ],
                }},
-               {p: "#{first_true_body}\n"}
+               {blank: "\n"},
+               {line: "#{first_true_body}"},
+               {blank: "\n"},
+               {blank: "\n"},
              ]
            }
         )
@@ -388,7 +496,13 @@ TAG
          conditional: {
            predicate: {named_predicate: "pred?"},
             true_case: [
-              {p: "#{true_body}"}
+              {line: "$E"},
+              {blank: "\n"},
+              {line: "Bit of content in lovely custom tag"},
+              {blank: "\n"},
+              {line: "$E"},
+              {blank: "\n"},
+              {blank: "\n"},
            ]},
         )
       }

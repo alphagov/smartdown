@@ -12,7 +12,7 @@ describe Smartdown::Engine do
     build_flow("check-uk-visa") do
       node("check-uk-visa") do
         heading("Check uk visa")
-        paragraph("This is the paragraph")
+        line("This is the paragraph")
         start_button("passport_question")
       end
 
@@ -39,16 +39,16 @@ describe Smartdown::Engine do
         conditional do
           named_predicate "pred?"
           true_case do
-            paragraph("True case")
+            line("True case")
           end
           false_case do
-            paragraph("False case")
+            line("False case")
           end
         end
       end
 
       node("outcome_with_interpolation") do
-        paragraph("The answer is %{interpolated_variable}")
+        line("The answer is %{interpolated_variable}")
       end
     end
   }
@@ -56,7 +56,7 @@ describe Smartdown::Engine do
     build_flow("check-uk-visa") do
       node("check-uk-visa") do
         heading("Check uk visa")
-        paragraph("This is the paragraph")
+        line("This is the paragraph")
         start_button("passport_question")
       end
 
@@ -115,24 +115,24 @@ describe Smartdown::Engine do
         conditional do
           named_predicate "pred?"
           true_case do
-            paragraph("True case")
+            line("True case")
           end
           false_case do
-            paragraph("False case")
+            line("False case")
           end
         end
       end
 
       node("outcome_imaginary_country") do
-        paragraph("Imaginary country")
+        line("Imaginary country")
       end
 
       node("outcome_with_interpolation") do
-        paragraph("The answer is %{interpolated_variable}")
+        line("The answer is %{interpolated_variable}")
       end
 
       node("outcome_passport_colour_specified") do
-        paragraph("What a pretty passport")
+        line("What a pretty passport")
       end
     end
   }
@@ -297,7 +297,7 @@ describe Smartdown::Engine do
 
       let(:expected_node_after_conditional_resolution) {
         model_builder.node("outcome_no_visa_needed") do
-          paragraph("True case")
+          line("True case")
         end
       }
 
@@ -315,7 +315,7 @@ describe Smartdown::Engine do
 
       let(:expected_node_after_conditional_resolution) {
         model_builder.node("outcome_with_interpolation") do
-          paragraph("The answer is 42")
+          line("The answer is 42")
         end
       }
 

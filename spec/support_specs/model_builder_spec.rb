@@ -7,7 +7,7 @@ describe ModelBuilder do
     let(:node1) {
       Smartdown::Model::Node.new("check-uk-visa", [
         Smartdown::Model::Element::MarkdownHeading.new("Check uk visa"),
-        Smartdown::Model::Element::MarkdownParagraph.new("This is the paragraph"),
+        Smartdown::Model::Element::MarkdownLine.new("This is the paragraph"),
         Smartdown::Model::Element::StartButton.new("what_passport_do_you_have?")
       ])
     }
@@ -33,7 +33,7 @@ describe ModelBuilder do
       model = builder.flow("check-uk-visa") do
         node("check-uk-visa") do
           heading("Check uk visa")
-          paragraph("This is the paragraph")
+          line("This is the paragraph")
           start_button("what_passport_do_you_have?")
         end
 
@@ -70,8 +70,8 @@ describe ModelBuilder do
     let(:expected) {
       Smartdown::Model::Element::Conditional.new(
         Smartdown::Model::Predicate::Named.new("pred?"),
-        [Smartdown::Model::Element::MarkdownParagraph.new("True case")],
-        [Smartdown::Model::Element::MarkdownParagraph.new("False case")]
+        [Smartdown::Model::Element::MarkdownLine.new("True case")],
+        [Smartdown::Model::Element::MarkdownLine.new("False case")]
       )
     }
 
@@ -79,10 +79,10 @@ describe ModelBuilder do
       builder.conditional do
         named_predicate "pred?"
         true_case do
-          paragraph("True case")
+          line("True case")
         end
         false_case do
-          paragraph("False case")
+          line("False case")
         end
       end
     }
@@ -95,11 +95,11 @@ describe ModelBuilder do
       let(:expected) {
         Smartdown::Model::Element::Conditional.new(
           Smartdown::Model::Predicate::Named.new("pred1?"),
-          [Smartdown::Model::Element::MarkdownParagraph.new("True case")],
+          [Smartdown::Model::Element::MarkdownLine.new("True case")],
           [Smartdown::Model::Element::Conditional.new(
             Smartdown::Model::Predicate::Named.new("pred2?"),
-            [Smartdown::Model::Element::MarkdownParagraph.new("False True case")],
-            [Smartdown::Model::Element::MarkdownParagraph.new("False False case")]
+            [Smartdown::Model::Element::MarkdownLine.new("False True case")],
+            [Smartdown::Model::Element::MarkdownLine.new("False False case")]
           )]
         )
       }
@@ -108,16 +108,16 @@ describe ModelBuilder do
         builder.conditional do
           named_predicate "pred1?"
           true_case do
-            paragraph("True case")
+            line("True case")
           end
           false_case do
             conditional do
               named_predicate "pred2?"
               true_case do
-                paragraph("False True case")
+                line("False True case")
               end
               false_case do
-                paragraph("False False case")
+                line("False False case")
               end
             end
           end

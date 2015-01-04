@@ -36,7 +36,7 @@ describe Smartdown::Model::Node do
         Smartdown::Model::Element::MarkdownHeading.new("A Heading"),
         Smartdown::Model::Element::Question::Date.new("a_date_question"),
         Smartdown::Model::Element::Question::MultipleChoice.new("a_multiple_choice_question"),
-        Smartdown::Model::Element::MarkdownParagraph.new("Some text"),
+        Smartdown::Model::Element::MarkdownLine.new("Some text"),
       ] }
       specify { expect(node.questions).to eq elements[1..2] }
     end

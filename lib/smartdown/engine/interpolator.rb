@@ -63,7 +63,7 @@ module Smartdown
       end
 
       INTERPOLATOR_CONFIG = {
-        Smartdown::Model::Element::MarkdownParagraph => ElementContentInterpolator,
+        Smartdown::Model::Element::MarkdownLine => ElementContentInterpolator,
         Smartdown::Model::Element::MarkdownHeading => ElementContentInterpolator
       }
 
