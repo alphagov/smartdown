@@ -57,6 +57,9 @@ of text.
 * can
 * have
 * lists
+
+
+And handles multiple new lines
 EXPECTED
       end
     end
