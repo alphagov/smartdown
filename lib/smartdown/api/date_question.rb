@@ -4,20 +4,26 @@ module Smartdown
   module Api
     class DateQuestion < Question
       extend Forwardable
-      DEFAULT_START_YEAR = Time.now.year - 1
-      DEFAULT_END_YEAR = Time.now.year + 3
 
       def start_year
-        parse_date(from) || DEFAULT_START_YEAR
+        parse_date(from) || default_start_year
       end
 
       def end_year
-        parse_date(to) || DEFAULT_END_YEAR
+        parse_date(to) || default_end_year
       end
 
     private
 
       delegate [:to, :from] => :question_element
+
+      def default_start_year
+        Time.now.year - 1
+      end
+
+      def default_end_year
+        Time.now.year + 3
+      end
 
       def question_element
         @question_element ||= elements.find{|element| element.is_a? Smartdown::Model::Element::Question::Date}
