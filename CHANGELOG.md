@@ -1,3 +1,12 @@
+## 0.12.0
+
+Blank line parsing: parse new lines and maintain number of new lines in markdown
+instead of treating them as separtors.
+
+`===` separators for front matter.
+
+Test fix: text failures on change of year to 2015
+
 ## 0.11.4
 
 Bug fix: return answer even if postcode is invalid
