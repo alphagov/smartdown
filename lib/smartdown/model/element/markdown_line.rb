@@ -1,7 +1,7 @@
 module Smartdown
   module Model
     module Element
-      MarkdownParagraph = Struct.new(:content)
+      MarkdownLine = Struct.new(:content)
     end
   end
 end

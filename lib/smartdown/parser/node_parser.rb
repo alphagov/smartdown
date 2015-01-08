@@ -9,14 +9,15 @@ require 'smartdown/parser/element/text_question'
 require 'smartdown/parser/element/country_question'
 require 'smartdown/parser/element/postcode_question'
 require 'smartdown/parser/element/markdown_heading'
-require 'smartdown/parser/element/markdown_paragraph'
+require 'smartdown/parser/element/markdown_line'
+require 'smartdown/parser/element/markdown_blank_line'
 require 'smartdown/parser/element/conditional'
 require 'smartdown/parser/element/next_steps'
 
 module Smartdown
   module Parser
     class NodeParser < Base
-      rule(:markdown_block) {
+      rule(:markdown_element) {
         Element::Conditional.new |
         Element::MarkdownHeading.new |
         Element::MultipleChoiceQuestion.new |
@@ -28,19 +29,21 @@ module Smartdown
         Rules.new |
         Element::StartButton.new |
         Element::NextSteps.new |
-        Element::MarkdownParagraph.new
+        Element::MarkdownLine.new |
+        Element::MarkdownBlankLine.new
       }
 
-      rule(:markdown_blocks) {
-        markdown_block.repeat(1, 1) >> (newline.repeat(1) >> markdown_block).repeat
+      rule(:markdown_elements) {
+        markdown_element.repeat(1, 1) >> 
+        (newline.repeat(1).as(:blank_line) >> markdown_element.as(:element)).repeat
       }
 
       rule(:body) {
-        markdown_blocks.as(:body) >> newline.repeat
+        markdown_elements.as(:body)
       }
 
       rule(:flow) {
-        Element::FrontMatter.new >> newline.repeat(1) >> body |
+        Element::FrontMatter.new >> body |
         Element::FrontMatter.new |
         ws >> body
       }

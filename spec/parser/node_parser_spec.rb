@@ -20,8 +20,10 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {p: "This is a paragraph of text with stuff\nthat flows along\n"},
-          {p: "Another paragraph of text\n"}
+          {blank_line: "\n", element: {line: "This is a paragraph of text with stuff"}},
+          {blank_line: "\n", element: {line: "that flows along"}},
+          {blank_line: "\n\n", element: {line: "Another paragraph of text"}},
+          {blank_line: "\n", element: {blank: nil}},
         ]
       })
     }
@@ -34,7 +36,9 @@ SOURCE
   describe "front matter and body" do
     let(:source) {
 <<SOURCE
+---
 name: My node
+---
 
 # This is my title
 
@@ -49,7 +53,8 @@ SOURCE
         ],
         body: [
           {h1: "This is my title"},
-          {p: "A paragraph\n"}
+          {blank_line: "\n", element: {line: "A paragraph"}},
+          {blank_line: "\n", element: {blank: nil}},
         ]
       })
     end
@@ -70,13 +75,16 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {multiple_choice: {
-            identifier: "my_question",
-            options: [
-              {value: "yes", label: "Yes"},
-              {value: "no", label: "No"}
-            ],
-            option_pairs: []}
+          {blank_line: "\n",
+           element: {
+             multiple_choice: {
+              identifier: "my_question",
+              options: [
+                {value: "yes", label: "Yes"},
+                {value: "no", label: "No"}
+              ],
+              option_pairs: []}
+            }
           }
         ]
       })
@@ -102,16 +110,22 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {multiple_choice: {
-            identifier: "my_question",
-            options: [
-              {value: "yes", label: "Yes"},
-              {value: "no", label: "No"}
-            ],
-            option_pairs: []}
+          {blank_line: "\n",
+           element: {
+             multiple_choice: {
+              identifier: "my_question",
+              options: [
+                {value: "yes", label: "Yes"},
+                {value: "no", label: "No"}
+              ],
+              option_pairs: []
+              }
+            }
           },
-          {h1: "Next node rules"},
-          {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}
+          {blank_line: "\n", element: {h1: "Next node rules"}},
+          {blank_line: "\n", element: 
+            {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}
+          }
         ]
       })
     }
@@ -125,8 +139,11 @@ SOURCE
       let(:expected_elements) {
         [
           Smartdown::Model::Element::MarkdownHeading.new("This is my title"),
+          Smartdown::Model::Element::MarkdownLine.new("\n"),
           Smartdown::Model::Element::Question::MultipleChoice.new("my_question", "yes"=>"Yes", "no"=>"No"),
+          Smartdown::Model::Element::MarkdownLine.new("\n"),
           Smartdown::Model::Element::MarkdownHeading.new("Next node rules"),
+          Smartdown::Model::Element::MarkdownLine.new("\n"),
           Smartdown::Model::NextNodeRules.new([
             Smartdown::Model::Rule.new(Smartdown::Model::Predicate::Named.new("pred1?"), "outcome")
           ])
@@ -159,10 +176,18 @@ SOURCE
     it {
       should parse(source).as({
         body: [
-          {conditional: {
+          { conditional: {
             predicate: {named_predicate: "pred1?"},
-            true_case: [{p: "Text when true\n"}],
-            false_case: [{p: "Text when false\n"}]
+            true_case: [
+              {line: "Text when true"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ],
+            false_case: [
+              {line: "Text when false"},
+              {blank: "\n"},
+              {blank: "\n"},
+            ]
           }}
         ]
       })
@@ -187,8 +212,10 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {p: "This is a paragraph of text with stuff\nthat flows along\n"},
-          {p: "Another paragraph of text\n"}
+          {blank_line: "\n", element: {line: "This is a paragraph of text with stuff"}},
+          {blank_line: "\n", element: {line: "that flows along"}},
+          {blank_line: "\n\n", element: {line: "Another paragraph of text"}},
+          {blank_line: "\n\n\n", element: {blank: nil}},
         ]
       })
     }
@@ -199,7 +226,7 @@ SOURCE
     let(:source) {
 <<SOURCE
 # Lovely title
-	 
+
 line of content
 SOURCE
 }
@@ -207,8 +234,9 @@ SOURCE
     it "doesn't blow up" do
       should parse(source).as({
         body: [
-          { h1: "Lovely title" },
-          { p: "line of content\n" },
+          {h1: "Lovely title" },
+          {blank_line: "\n", element: {line: "line of content" }},
+          {blank_line: "\n", element: {blank: nil }},
         ]
       })
     end

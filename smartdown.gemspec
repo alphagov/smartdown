@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.bindir      = 'bin'
   s.require_paths = ["lib"]
   s.license       = 'MIT'
-  s.add_runtime_dependency 'parslet', '~> 1.6.1'
+  s.add_runtime_dependency 'parslet', '~> 1.6.2'
   s.add_runtime_dependency 'uk_postcode', '~> 1.0.1'
   s.add_development_dependency "rspec", "~> 3.0.0"
   s.add_development_dependency "rake"

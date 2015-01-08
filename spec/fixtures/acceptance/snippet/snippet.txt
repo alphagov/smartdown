@@ -1,6 +1,8 @@
+---
 meta_description: Snippets
 satisfies_need: 999999
 status: draft
+---
 
 # A snippet in use
 

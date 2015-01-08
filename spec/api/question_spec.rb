@@ -2,7 +2,7 @@ require 'smartdown/api/question'
 require 'smartdown/api/date_question'
 require 'smartdown/model/element/question/date'
 require 'smartdown/model/element/markdown_heading'
-require 'smartdown/model/element/markdown_paragraph'
+require 'smartdown/model/element/markdown_line'
 
 describe Smartdown::Api::Question do
 
@@ -22,12 +22,12 @@ describe Smartdown::Api::Question do
 
   let(:body_content) { 'I <3 bodyshopping' }
   let(:body_element) {
-    Smartdown::Model::Element::MarkdownParagraph.new(body_content)
+    Smartdown::Model::Element::MarkdownLine.new(body_content)
   }
 
   let(:post_body_content) { 'hur hur such content' }
   let(:post_body_element) {
-    Smartdown::Model::Element::MarkdownParagraph.new(post_body_content)
+    Smartdown::Model::Element::MarkdownLine.new(post_body_content)
   }
 
 

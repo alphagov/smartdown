@@ -1,5 +1,7 @@
+---
 satisfies_need: 1234
 meta_description: Blah blah
+---
 
 # My coversheet
 
@@ -12,3 +14,6 @@ of text.
 * can
 * have
 * lists
+
+
+And handles multiple new lines
