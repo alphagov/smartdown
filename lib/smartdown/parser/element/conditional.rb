@@ -14,7 +14,7 @@ module Smartdown
 
         rule(:markdown_block_inside_conditional) {
           dollar_keywords = [dollar_if, dollar_else, dollar_elseif, dollar_endif]
-          dollar_keywords.map(&:absent?).reduce(:>>) >> NodeParser.new.markdown_block
+          dollar_keywords.map(&:absent?).reduce(:>>) >> NodeParser.new.markdown_element
         }
 
         rule(:conditional_body_block) {

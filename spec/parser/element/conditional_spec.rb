@@ -43,8 +43,8 @@ SOURCE
               Smartdown::Model::Predicate::Named.new("pred1?"),
               [
                 Smartdown::Model::Element::MarkdownLine.new(true_body),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
               ]
             )
           )
@@ -84,11 +84,11 @@ SOURCE
               Smartdown::Model::Predicate::Named.new("pred1?"),
               [
                 Smartdown::Model::Element::MarkdownLine.new(one_line),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
                 Smartdown::Model::Element::MarkdownLine.new(one_line),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
               ]
             )
           )
@@ -169,13 +169,13 @@ SOURCE
               Smartdown::Model::Predicate::Named.new("pred1?"),
               [
                 Smartdown::Model::Element::MarkdownLine.new(true_body),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
               ],
               [
                 Smartdown::Model::Element::MarkdownLine.new(false_body),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
               ]
             )
           )
@@ -235,15 +235,15 @@ SOURCE
                 Smartdown::Model::Predicate::Named.new("pred1?"),
                 [
                   Smartdown::Model::Element::MarkdownLine.new(true1_body),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
                 ],
                 [Smartdown::Model::Element::Conditional.new(
                   Smartdown::Model::Predicate::Named.new("pred2?"),
                   [
                     Smartdown::Model::Element::MarkdownLine.new(true2_body),
-                    Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                    Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                    Smartdown::Model::Element::MarkdownLine.new("\n"),
+                    Smartdown::Model::Element::MarkdownLine.new("\n"),
                   ]
                 )]
               )
@@ -317,22 +317,22 @@ SOURCE
               Smartdown::Model::Predicate::Named.new("pred1?"),
               [
                 Smartdown::Model::Element::MarkdownLine.new(true1_body),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
               ],
               [Smartdown::Model::Element::Conditional.new(
                 Smartdown::Model::Predicate::Named.new("pred2?"),
                 [
                   Smartdown::Model::Element::MarkdownLine.new(true2_body),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
                 ],
                   [Smartdown::Model::Element::Conditional.new(
                     Smartdown::Model::Predicate::Named.new("pred3?"),
                     [
                       Smartdown::Model::Element::MarkdownLine.new(true3_body),
-                      Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                      Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                      Smartdown::Model::Element::MarkdownLine.new("\n"),
+                      Smartdown::Model::Element::MarkdownLine.new("\n"),
                     ]
                   )]
               )]
@@ -405,20 +405,20 @@ SOURCE
               Smartdown::Model::Predicate::Named.new("pred1?"),
               [
                 Smartdown::Model::Element::MarkdownLine.new(true1_body),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
+                Smartdown::Model::Element::MarkdownLine.new("\n"),
               ],
               [Smartdown::Model::Element::Conditional.new(
                 Smartdown::Model::Predicate::Named.new("pred2?"),
                 [
                   Smartdown::Model::Element::MarkdownLine.new(true2_body),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
                 ],
                 [
                   Smartdown::Model::Element::MarkdownLine.new(false_body),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
-                  Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
+                  Smartdown::Model::Element::MarkdownLine.new("\n"),
                 ]
               )]
             )

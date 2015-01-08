@@ -5,7 +5,7 @@ module Smartdown
     Node = Struct.new(:name, :elements, :front_matter) do
       def initialize(name, elements, front_matter = nil)
         all_elements = elements.map do |element|
-          if element.is_a?(Smartdown::Model::Block)
+          if element.is_a?(Smartdown::Model::Elements)
             element.elements
           else
             element
@@ -57,16 +57,14 @@ module Smartdown
       def markdown_blocks_before_question
         elements.take_while { |e|
           e.is_a?(Smartdown::Model::Element::MarkdownHeading) ||
-          e.is_a?(Smartdown::Model::Element::MarkdownLine) ||
-          e.is_a?(Smartdown::Model::Element::MarkdownBlankLine)
+          e.is_a?(Smartdown::Model::Element::MarkdownLine)
         }[1..-1]
       end
 
       def markdown_blocks_after_question
         elements.reverse.take_while { |e|
           e.is_a?(Smartdown::Model::Element::MarkdownHeading) ||
-          e.is_a?(Smartdown::Model::Element::MarkdownLine) ||
-          e.is_a?(Smartdown::Model::Element::MarkdownBlankLine)
+          e.is_a?(Smartdown::Model::Element::MarkdownLine)
         }.reverse
       end
 
@@ -84,8 +82,6 @@ module Smartdown
         when Smartdown::Model::Element::MarkdownHeading
           "# #{block.content}"
         when Smartdown::Model::Element::MarkdownLine
-          block.content
-        when Smartdown::Model::Element::MarkdownBlankLine
           block.content
         else
           raise "Unknown markdown block type '#{block.class.to_s}'"

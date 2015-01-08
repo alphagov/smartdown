@@ -20,10 +20,10 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {blankline: "\n", block: {line: "This is a paragraph of text with stuff"}},
-          {blankline: "\n", block: {line: "that flows along"}},
-          {blankline: "\n\n", block: {line: "Another paragraph of text"}},
-          {blankline: "\n", block: {blank: nil}},
+          {blank_line: "\n", element: {line: "This is a paragraph of text with stuff"}},
+          {blank_line: "\n", element: {line: "that flows along"}},
+          {blank_line: "\n\n", element: {line: "Another paragraph of text"}},
+          {blank_line: "\n", element: {blank: nil}},
         ]
       })
     }
@@ -53,8 +53,8 @@ SOURCE
         ],
         body: [
           {h1: "This is my title"},
-          {blankline: "\n", block: {line: "A paragraph"}},
-          {blankline: "\n", block: {blank: nil}},
+          {blank_line: "\n", element: {line: "A paragraph"}},
+          {blank_line: "\n", element: {blank: nil}},
         ]
       })
     end
@@ -75,8 +75,8 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {blankline: "\n",
-           block: {
+          {blank_line: "\n",
+           element: {
              multiple_choice: {
               identifier: "my_question",
               options: [
@@ -110,8 +110,8 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {blankline: "\n",
-           block: {
+          {blank_line: "\n",
+           element: {
              multiple_choice: {
               identifier: "my_question",
               options: [
@@ -122,8 +122,8 @@ SOURCE
               }
             }
           },
-          {blankline: "\n", block: {h1: "Next node rules"}},
-          {blankline: "\n", block: 
+          {blank_line: "\n", element: {h1: "Next node rules"}},
+          {blank_line: "\n", element: 
             {next_node_rules: [{rule: {predicate: {named_predicate: "pred1?"}, outcome: "outcome"}}]}
           }
         ]
@@ -139,11 +139,11 @@ SOURCE
       let(:expected_elements) {
         [
           Smartdown::Model::Element::MarkdownHeading.new("This is my title"),
-          Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+          Smartdown::Model::Element::MarkdownLine.new("\n"),
           Smartdown::Model::Element::Question::MultipleChoice.new("my_question", "yes"=>"Yes", "no"=>"No"),
-          Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+          Smartdown::Model::Element::MarkdownLine.new("\n"),
           Smartdown::Model::Element::MarkdownHeading.new("Next node rules"),
-          Smartdown::Model::Element::MarkdownBlankLine.new("\n"),
+          Smartdown::Model::Element::MarkdownLine.new("\n"),
           Smartdown::Model::NextNodeRules.new([
             Smartdown::Model::Rule.new(Smartdown::Model::Predicate::Named.new("pred1?"), "outcome")
           ])
@@ -212,10 +212,10 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "This is my title"},
-          {blankline: "\n", block: {line: "This is a paragraph of text with stuff"}},
-          {blankline: "\n", block: {line: "that flows along"}},
-          {blankline: "\n\n", block: {line: "Another paragraph of text"}},
-          {blankline: "\n\n\n", block: {blank: nil}},
+          {blank_line: "\n", element: {line: "This is a paragraph of text with stuff"}},
+          {blank_line: "\n", element: {line: "that flows along"}},
+          {blank_line: "\n\n", element: {line: "Another paragraph of text"}},
+          {blank_line: "\n\n\n", element: {blank: nil}},
         ]
       })
     }
@@ -235,8 +235,8 @@ SOURCE
       should parse(source).as({
         body: [
           {h1: "Lovely title" },
-          {blankline: "\n", block: {line: "line of content" }},
-          {blankline: "\n", block: {blank: nil }},
+          {blank_line: "\n", element: {line: "line of content" }},
+          {blank_line: "\n", element: {blank: nil }},
         ]
       })
     end

@@ -17,7 +17,7 @@ require 'smartdown/parser/element/next_steps'
 module Smartdown
   module Parser
     class NodeParser < Base
-      rule(:markdown_block) {
+      rule(:markdown_element) {
         Element::Conditional.new |
         Element::MarkdownHeading.new |
         Element::MultipleChoiceQuestion.new |
@@ -33,13 +33,13 @@ module Smartdown
         Element::MarkdownBlankLine.new
       }
 
-      rule(:markdown_blocks) {
-        markdown_block.repeat(1, 1) >> 
-        (newline.repeat(1).as(:blankline) >> markdown_block.as(:block)).repeat
+      rule(:markdown_elements) {
+        markdown_element.repeat(1, 1) >> 
+        (newline.repeat(1).as(:blank_line) >> markdown_element.as(:element)).repeat
       }
 
       rule(:body) {
-        markdown_blocks.as(:body)
+        markdown_elements.as(:body)
       }
 
       rule(:flow) {
