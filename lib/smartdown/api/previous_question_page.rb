@@ -29,9 +29,13 @@ module Smartdown
       def questions
         @questions ||= elements.slice_before do |element|
           element.is_a? Smartdown::Model::Element::MarkdownHeading
-        end.each_with_index.map do |question_element_group, index|
+        end.select { |question_element_group| 
+          question_element_group.any? { 
+            |element| element.class.to_s.include?("Smartdown::Model::Element::Question")
+          }
+        }.each_with_index.map do |question_element_group, index|
           Smartdown::Api::PreviousQuestion.new(question_element_group, responses[index])
-        end
+        end.compact
       end
 
       private
