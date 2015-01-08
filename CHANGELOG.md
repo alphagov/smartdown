@@ -1,3 +1,7 @@
+## 0.12.1
+
+Bug: ignore blank line between question headings when building question pages
+
 ## 0.12.0
 
 Blank line parsing: parse new lines and maintain number of new lines in markdown
