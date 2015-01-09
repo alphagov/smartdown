@@ -8,6 +8,7 @@ require 'smartdown/parser/element/salary_question'
 require 'smartdown/parser/element/text_question'
 require 'smartdown/parser/element/country_question'
 require 'smartdown/parser/element/postcode_question'
+require 'smartdown/parser/element/money_question'
 require 'smartdown/parser/element/markdown_heading'
 require 'smartdown/parser/element/markdown_line'
 require 'smartdown/parser/element/markdown_blank_line'
@@ -26,6 +27,7 @@ module Smartdown
         Element::TextQuestion.new |
         Element::CountryQuestion.new |
         Element::PostcodeQuestion.new |
+        Element::MoneyQuestion.new |
         Rules.new |
         Element::StartButton.new |
         Element::NextSteps.new |
@@ -34,7 +36,7 @@ module Smartdown
       }
 
       rule(:markdown_elements) {
-        markdown_element.repeat(1, 1) >> 
+        markdown_element.repeat(1, 1) >>
         (newline.repeat(1).as(:blank_line) >> markdown_element.as(:element)).repeat
       }
 
