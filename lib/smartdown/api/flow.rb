@@ -2,6 +2,7 @@ require 'smartdown'
 require 'smartdown/engine'
 require 'smartdown/api/state'
 require 'smartdown/api/coversheet'
+require 'smartdown/model/element/question'
 require 'smartdown/api/question_page'
 require 'smartdown/api/outcome'
 require 'smartdown/parser/scenario_sets_interpreter'
@@ -99,6 +100,8 @@ module Smartdown
 
       def evaluate_node(node, state)
         Smartdown::Engine::NodePresenter.new.present(node, state)
+      # rescue Exception => e
+        # require 'pry'; binding.pry
       end
 
       def front_matter

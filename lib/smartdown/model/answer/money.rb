@@ -1,8 +1,4 @@
 # encoding: utf-8
-#TODO: this is no technically an answer (only used for plugin formatting for now)
-#since we will have money questions in the near future, this todo should be removed, and the
-#require in interpolator.rb removed
-
 require_relative "base"
 
 module Smartdown
