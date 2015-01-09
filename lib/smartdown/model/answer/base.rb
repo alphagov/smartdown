@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Smartdown
   module Model
     module Answer
