@@ -25,7 +25,7 @@ module Smartdown
           elsif question_element_group.find{|element| element.is_a? Smartdown::Model::Element::Question::Postcode}
             Smartdown::Api::PostcodeQuestion.new(question_element_group)
           end
-        end
+        end.compact
       end
     end
   end

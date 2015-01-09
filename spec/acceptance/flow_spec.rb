@@ -56,6 +56,7 @@ describe Smartdown::Api::Flow do
 
   context "flow with two questions per page" do
     let(:input) { Smartdown::Parser::DirectoryInput.new(fixture("animal-example-multiple")) }
+
     it "has two scenario_sets" do
       expect(flow.scenario_sets.size).to eq(2)
     end
@@ -88,6 +89,8 @@ describe Smartdown::Api::Flow do
 
       context "with a valid answer given to the first question, only first answer to second page" do
         specify { expect(flow.state("y",["lion", "yes", nil]).current_node.name).to eq "question_2" }
+        specify { expect(flow.state("y",["lion", "yes", nil]).previous_question_pages.first.questions.count).to eq 1 }
+        specify { expect(flow.state("y",["lion", "yes", nil]).current_node.questions.count).to eq 2 }
         specify { expect(flow.state("y",["lion", "yes", nil]).accepted_responses).to eq ["lion"] }
         specify { expect(flow.state("y",["lion", "yes", nil]).current_answers.count).to eq 2 }
         specify { expect(flow.state("y",["lion", "yes", nil]).current_answers[0].valid?).to be true }
