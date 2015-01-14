@@ -100,8 +100,6 @@ module Smartdown
 
       def evaluate_node(node, state)
         Smartdown::Engine::NodePresenter.new.present(node, state)
-      # rescue Exception => e
-        # require 'pry'; binding.pry
       end
 
       def front_matter

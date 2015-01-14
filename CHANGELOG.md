@@ -1,4 +1,4 @@
-## 0.xx.0
+## 0.xx.x
 
 * money question
 
