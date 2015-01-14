@@ -1,3 +1,5 @@
+require 'smartdown/model/element/question'
+
 module Smartdown
   module Api
     class QuestionPage < Node
