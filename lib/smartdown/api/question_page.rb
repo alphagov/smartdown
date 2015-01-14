@@ -1,11 +1,3 @@
-require 'smartdown/api/multiple_choice'
-require 'smartdown/api/date_question'
-require 'smartdown/api/country_question'
-require 'smartdown/api/salary_question'
-require 'smartdown/api/text_question'
-require 'smartdown/api/postcode_question'
-require 'smartdown/api/money_question'
-
 module Smartdown
   module Api
     class QuestionPage < Node
