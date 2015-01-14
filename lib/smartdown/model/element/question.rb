@@ -12,28 +12,48 @@ module Smartdown
     module Element
       module Question
 
-        def self.create_question_answer elements, response=nil
-          constants.find do |symbol|
-            question_type = const_get(symbol)
+        class << self
+          def create_question_answer elements, response=nil
+            first_question_element(elements) do |element|
+              question = create_question(elements, element)
+              answer   = create_answer(response, element)
+              return [question, answer]
+            end
+            return [nil, nil]
+          end
 
-            if element = elements.find {|e| e.is_a?(question_type) }
-              question = question_model(symbol)
-              answer = response ? element.answer_type.new(response, element) : nil
-              return [question.new(elements), answer]
+          private
+
+          def first_question_element elements
+            constants.find do |symbol|
+              question_type = const_get(symbol)
+
+              if element = elements.find {|e| e.is_a?(question_type) }
+                yield element
+              end
             end
           end
-          return [nil, nil]
-        end
 
-        private
-
-        def self.question_model symbol
-          unless Smartdown::Api.const_defined?(symbol)
-            symbol = (symbol.to_s + 'Question').to_sym
+          def create_question elements, element
+            question_model(element).new(elements)
           end
-          Smartdown::Api.const_get(symbol)
-        end
 
+          def question_model element
+            Smartdown::Api.const_get question_model_name(element)
+          end
+
+          def question_model_name element
+            symbol = element.class.name.split(':').last.to_sym
+            name = (symbol.to_s + 'Question').to_sym
+            name = symbol unless Smartdown::Api.const_defined?(name)
+            name
+          end
+
+          def create_answer response, element
+            response ? element.answer_type.new(response, element) : nil
+          end
+
+        end
       end
     end
   end
