@@ -138,7 +138,7 @@ module Smartdown
         )
       }
 
-      rule(:money => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
+      rule money: { identifier: simple(:identifier), option_pairs: subtree(:option_pairs) } {
         Smartdown::Model::Element::Question::Money.new(
           identifier.to_s,
           Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
