@@ -28,12 +28,16 @@ module Smartdown
         private
 
         def parse_value value
-          matched_value = value.strip.match FORMAT_REGEX
-          if matched_value
-            Float matched_value[1].gsub(',','')
+          if value.is_a?(Fixnum)
+            Float value
           else
-            @error = 'Invalid format'
-            return
+            matched_value = value.strip.match FORMAT_REGEX
+            if matched_value
+              Float matched_value[1].gsub(',','')
+            else
+              @error = 'Invalid format'
+              return
+            end
           end
         end
 

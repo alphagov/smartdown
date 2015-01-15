@@ -66,7 +66,7 @@ describe Smartdown::Model::Answer::Money do
   describe "comparisons" do
     let(:money_string) { '62,400' }
 
-    context "comparing against ::Floats" do
+    context "comparing against Float" do
       specify { expect(instance == 62400.0).to eql true }
 
       specify { expect(instance < 62400.1).to eql true }
@@ -84,6 +84,26 @@ describe Smartdown::Model::Answer::Money do
       specify { expect(instance >= 62400.1).to eql false }
       specify { expect(instance >= 62400.0).to eql true }
       specify { expect(instance >= 62399.9).to eql true }
+    end
+
+    context "comparing against Integer" do
+      specify { expect(instance == 62400).to eql true }
+
+      specify { expect(instance < 62401).to eql true }
+      specify { expect(instance < 62400).to eql false }
+      specify { expect(instance < 62399).to eql false }
+
+      specify { expect(instance > 62401).to eql false }
+      specify { expect(instance > 62400).to eql false }
+      specify { expect(instance > 62399).to eql true }
+
+      specify { expect(instance <= 62401).to eql true }
+      specify { expect(instance <= 62400).to eql true }
+      specify { expect(instance <= 62399).to eql false }
+
+      specify { expect(instance >= 62401).to eql false }
+      specify { expect(instance >= 62400).to eql true }
+      specify { expect(instance >= 62399).to eql true }
     end
 
     context "comparing against strings" do
