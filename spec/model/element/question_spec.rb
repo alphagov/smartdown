@@ -23,6 +23,17 @@ describe Smartdown::Model::Element::Question do
 
   describe 'create_question_answer()' do
 
+    context 'with no matching elements' do
+      before do
+        @question, @answer = described_class.create_question_answer([])
+      end
+
+      it 'does not create question or answer' do
+        expect(@question).to be_nil
+        expect(@answer).to be_nil
+      end
+    end
+
     context 'with response value not given' do
       before do
         @question, @answer = described_class.create_question_answer(elements)
