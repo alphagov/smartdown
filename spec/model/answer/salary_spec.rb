@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'smartdown/model/answer/date'
+require 'smartdown/model/answer/money'
 require 'smartdown/model/element/question/date'
 
 describe Smartdown::Model::Answer::Salary do
@@ -11,7 +12,7 @@ describe Smartdown::Model::Answer::Salary do
   specify { expect(instance.amount_per_period).to eql(500.00) }
 
   it "as a string, it should declare itself in the initial format provided" do
-    expect(instance.to_s).to eql("500.00-week")
+    expect(instance.to_s).to eql("500-week")
   end
 
   describe "#humanize" do
@@ -71,7 +72,6 @@ describe Smartdown::Model::Answer::Salary do
         expect(instance.error).to eql("Please answer this question")
       end
     end
-
   end
 
   context "declared by week" do
@@ -88,7 +88,6 @@ describe Smartdown::Model::Answer::Salary do
     let(:salary_string) { "20000-year" }
     specify { expect(instance.value).to eql 20000.0 }
   end
-
 
   describe "comparisons" do
     let(:salary_string) { "1200-week" } # equivalent to 62,400 yearly or 5200 monthly
@@ -136,7 +135,7 @@ describe Smartdown::Model::Answer::Salary do
       specify { expect(instance >= "5199.9-month").to eql true }
     end
 
-    context "comparing against Answer::Salaries" do
+    context "comparing against Answer::Salary" do
       specify { expect(instance == described_class.new("1200-week")).to eql true }
 
       specify { expect(instance < described_class.new("1200.1-week")).to eql true }

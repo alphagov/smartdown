@@ -6,12 +6,7 @@ require 'smartdown/model/elements'
 require 'smartdown/model/rule'
 require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
-require 'smartdown/model/element/question/multiple_choice'
-require 'smartdown/model/element/question/country'
-require 'smartdown/model/element/question/date'
-require 'smartdown/model/element/question/salary'
-require 'smartdown/model/element/question/text'
-require 'smartdown/model/element/question/postcode'
+require 'smartdown/model/element/question'
 require 'smartdown/model/element/start_button'
 require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_line'
@@ -132,6 +127,13 @@ module Smartdown
 
       rule(:postcode => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
         Smartdown::Model::Element::Question::Postcode.new(
+          identifier.to_s,
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
+        )
+      }
+
+      rule money: { identifier: simple(:identifier), option_pairs: subtree(:option_pairs) } {
+        Smartdown::Model::Element::Question::Money.new(
           identifier.to_s,
           Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil)
         )

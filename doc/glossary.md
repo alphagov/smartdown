@@ -47,6 +47,11 @@ Asks for an arbitrary text input.
 [salary: salary_value]
 ```
 
+### Money
+```markdown
+[money: money_value]
+```
+
 ## Aliases
 
 An alias lets you referrer to any question identifier by its question intentifer or its alias.
