@@ -28,7 +28,9 @@ module Smartdown
         private
 
         def parse_value value
-          if value.is_a?(Fixnum)
+          if value.is_a?(Float)
+            value
+          elsif value.is_a?(Fixnum)
             Float value
           else
             matched_value = value.strip.match FORMAT_REGEX

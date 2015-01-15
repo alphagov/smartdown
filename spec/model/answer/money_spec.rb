@@ -3,10 +3,22 @@ require 'smartdown/model/answer/money'
 
 describe Smartdown::Model::Answer::Money do
 
-  let(:money_string) { '1523.42' }
-  subject(:instance) { described_class.new(money_string) }
+  let(:money_input) { '1523.42' }
+  subject(:instance) { described_class.new(money_input) }
 
   specify { expect(instance.value).to eql(1523.42) }
+
+  describe 'instantiate with integer' do
+    let(:money_input) { 1523 }
+
+    specify { expect(instance.value).to eql(1523.0) }
+  end
+
+  describe 'instantiate with float' do
+    let(:money_input) { 1523.12 }
+
+    specify { expect(instance.value).to eql(1523.12) }
+  end
 
   describe 'to_s' do
     it "returns value without comma delimiter" do
@@ -20,25 +32,25 @@ describe Smartdown::Model::Answer::Money do
     end
 
     context "rounding up" do
-      let(:money_string) { '1523.427' }
+      let(:money_input) { '1523.427' }
       it "rounds up amounts of money correctly" do
         expect(instance.humanize).to eql("£1,523.43")
       end
     end
     context "rounding down" do
-      let(:money_string) { '1523.421' }
+      let(:money_input) { '1523.421' }
       it "rounds down amounts of money correctly" do
         expect(instance.humanize).to eql("£1,523.42")
       end
     end
     context "rounds down in the .005 case" do
-      let(:money_string) { '1523.425' }
+      let(:money_input) { '1523.425' }
       it "rounds down amounts of money correctly" do
         expect(instance.humanize).to eql("£1,523.42")
       end
     end
     context "no pence" do
-      let(:money_string) { '1523.00' }
+      let(:money_input) { '1523.00' }
       it "rounds down amounts of money correctly" do
         expect(instance.humanize).to eql("£1,523")
       end
@@ -47,7 +59,7 @@ describe Smartdown::Model::Answer::Money do
 
   describe "errors" do
     context "invalid formatting" do
-      let(:money_string) {"Loads'a'money"}
+      let(:money_input) {"Loads'a'money"}
 
       it "Has errors" do
         expect(instance.error).to eql("Invalid format")
@@ -55,7 +67,7 @@ describe Smartdown::Model::Answer::Money do
     end
 
     context "no input" do
-      let(:money_string) { nil }
+      let(:money_input) { nil }
 
       it "Has errors" do
         expect(instance.error).to eql("Please answer this question")
@@ -64,7 +76,7 @@ describe Smartdown::Model::Answer::Money do
   end
 
   describe "comparisons" do
-    let(:money_string) { '62,400' }
+    let(:money_input) { '62,400' }
 
     context "comparing against Float" do
       specify { expect(instance == 62400.0).to eql true }
@@ -115,7 +127,7 @@ describe Smartdown::Model::Answer::Money do
     end
 
     context "comparing against Answer::Money" do
-      specify { expect(instance == described_class.new(money_string)).to eql true }
+      specify { expect(instance == described_class.new(money_input)).to eql true }
 
       specify { expect(instance < described_class.new('62,400.1')).to eql true }
       specify { expect(instance < described_class.new('62,400')).to eql false }
