@@ -7,23 +7,19 @@ module Smartdown
       class Salary < Base
         attr_reader :period, :amount_per_period
 
-        FORMAT_REGEX = /^£?\W*([\d|,|]+[\.]?[\d]*)[-|\W*per\W*](week|month|year)$/
+        FORMAT_REGEX = Regexp.new(Money::FORMAT_REGEX.source.chomp('$') +
+            /[-|\W*per\W*](week|month|year)$/.source)
 
         def value_type
           ::Float
         end
 
         def to_s
-          "#{'%.2f' % amount_per_period}-#{period}"
+          "#{@money_per_period}-#{period}"
         end
 
         def humanize
-          whole, decimal = separate_by_comma(amount_per_period)
-          if decimal == "00"
-            "£#{whole} per #{period}"
-          else
-            "£#{whole}.#{decimal} per #{period}"
-          end
+          "#{@money_per_period.humanize} per #{period}"
         end
 
       private
@@ -33,8 +29,10 @@ module Smartdown
             @error = "Invalid format"
             return
           end
-          @amount_per_period, @period = *matched_value[1..2]
-          @amount_per_period = @amount_per_period.gsub(",","").to_f
+          amount_per_period, @period = *matched_value[1..2]
+
+          @money_per_period = Money.new(amount_per_period)
+          @amount_per_period = @money_per_period.value
           yearly_total
         end
 
@@ -49,13 +47,6 @@ module Smartdown
           end
         end
 
-        def separate_by_comma(number)
-          left, right = ('%.2f' % number).split('.')
-          left.gsub!(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
-            "#{digit_to_delimit},"
-          end
-          [left, right]
-        end
       end
     end
   end

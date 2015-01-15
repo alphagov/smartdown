@@ -5,15 +5,44 @@ module Smartdown
   module Model
     module Answer
       class Money < Base
+
+        FORMAT_REGEX = /^£?\W*([\d|,|]+[\.]?[\d]*)$/
+
         def value_type
           ::Float
         end
 
+        def to_s
+          '%.2f' % value
+        end
+
         def humanize
-          number_string = "£#{'%.2f' % value}".gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
+          whole, decimal = separate_by_comma(value)
+          if decimal == '00'
+            "£#{whole}"
+          else
+            "£#{whole}.#{decimal}"
+          end
+        end
+
+        private
+
+        def parse_value value
+          matched_value = value.strip.match FORMAT_REGEX
+          if matched_value
+            Float matched_value[1].gsub(',','')
+          else
+            @error = 'Invalid format'
+            return
+          end
+        end
+
+        def separate_by_comma(number)
+          left, right = ('%.2f' % number).split('.')
+          left.gsub!(/(\d)(?=(\d\d\d)+(?!\d))/) do |digit_to_delimit|
             "#{digit_to_delimit},"
           end
-          number_string.end_with?(".00") ? number_string[0..-4] : number_string
+          [left, right]
         end
       end
     end

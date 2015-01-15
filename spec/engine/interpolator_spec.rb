@@ -1,6 +1,4 @@
 # encoding: utf-8
-#TODO: this "require" for money is here for now since there is no associated question type for money yet
-require 'smartdown/model/answer/money'
 require 'smartdown/model/element/question/country'
 require 'smartdown/engine/interpolator'
 require 'smartdown/engine/state'
@@ -120,7 +118,7 @@ describe Smartdown::Engine::Interpolator do
     let(:state) {
       Smartdown::Engine::State.new(
           current_node: node.name,
-          money_answer: Smartdown::Model::Answer::Money.new(12.32523)
+          money_answer: Smartdown::Model::Answer::Money.new('12.32523')
       )
     }
     it "interpolates the result of the function call" do
