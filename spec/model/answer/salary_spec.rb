@@ -12,7 +12,7 @@ describe Smartdown::Model::Answer::Salary do
   specify { expect(instance.amount_per_period).to eql(500.00) }
 
   it "as a string, it should declare itself in the initial format provided" do
-    expect(instance.to_s).to eql("500.00-week")
+    expect(instance.to_s).to eql("500-week")
   end
 
   describe "#humanize" do

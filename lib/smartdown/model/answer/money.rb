@@ -13,7 +13,7 @@ module Smartdown
         end
 
         def to_s
-          '%.2f' % value
+          ('%.2f' % value).chomp('.00')
         end
 
         def humanize
