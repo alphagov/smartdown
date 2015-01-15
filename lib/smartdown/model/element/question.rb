@@ -1,4 +1,11 @@
 require 'forwardable'
+require 'smartdown/model/element/question/multiple_choice'
+require 'smartdown/model/element/question/country'
+require 'smartdown/model/element/question/date'
+require 'smartdown/model/element/question/money'
+require 'smartdown/model/element/question/salary'
+require 'smartdown/model/element/question/text'
+require 'smartdown/model/element/question/postcode'
 require 'smartdown/api/multiple_choice'
 require 'smartdown/api/date_question'
 require 'smartdown/api/country_question'
@@ -13,8 +20,8 @@ module Smartdown
       module Question
 
         class << self
-          def create_question_answer elements, response=nil
-            first_question_element(elements) do |element|
+          def create_question_answer(elements, response=nil)
+            matching_question_element(elements) do |element|
               question = create_question(elements, element)
               answer   = create_answer(response, element)
               return [question, answer]
@@ -24,7 +31,7 @@ module Smartdown
 
           private
 
-          def first_question_element elements
+          def matching_question_element(elements)
             constants.find do |symbol|
               question_type = const_get(symbol)
 
@@ -34,22 +41,22 @@ module Smartdown
             end
           end
 
-          def create_question elements, element
+          def create_question(elements, element)
             question_model(element).new(elements)
           end
 
-          def question_model element
+          def question_model(element)
             Smartdown::Api.const_get question_model_name(element)
           end
 
-          def question_model_name element
+          def question_model_name(element)
             symbol = element.class.name.split(':').last.to_sym
             name = (symbol.to_s + 'Question').to_sym
             name = symbol unless Smartdown::Api.const_defined?(name)
             name
           end
 
-          def create_answer response, element
+          def create_answer(response, element)
             response ? element.answer_type.new(response, element) : nil
           end
 

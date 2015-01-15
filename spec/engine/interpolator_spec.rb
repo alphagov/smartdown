@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'smartdown/model/element/question/country'
+require 'smartdown/model/element/question'
 require 'smartdown/engine/interpolator'
 require 'smartdown/engine/state'
 require 'parslet'

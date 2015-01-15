@@ -1,5 +1,5 @@
 require 'smartdown/api/question'
-require 'smartdown/model/element/question/country'
+require 'smartdown/model/element/question'
 
 module Smartdown
   module Api
