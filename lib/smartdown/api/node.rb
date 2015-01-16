@@ -60,7 +60,7 @@ module Smartdown
       def build_govspeak(elements)
         elements.select { |element| markdown_element?(element) }
         return nil if elements.empty?
-        elements.map(&:content).join("\n")
+        elements.map(&:content).join("")
       end
     end
   end
