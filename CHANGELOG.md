@@ -1,3 +1,8 @@
+## 0.13.1
+
+Fix bug where additional new lines were inserted into markdown text, which
+broke some markdown features (like tables) where new lines are meaningful.
+
 ## 0.13.0
 
 * money question
