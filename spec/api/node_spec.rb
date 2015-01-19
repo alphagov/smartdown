@@ -43,23 +43,35 @@ describe Smartdown::Api::Node do
   let(:question_heading) { Smartdown::Model::Element::MarkdownHeading.new(question_heading_content) }
 
   let(:body_content) { "I <3 bodyshopping" }
-  let(:body_element) {
-    Smartdown::Model::Element::MarkdownLine.new(body_content)
+  let(:body_elements) {
+    Smartdown::Model::Elements.new(
+      [
+        Smartdown::Model::Element::MarkdownLine.new(body_content),
+        Smartdown::Model::Element::MarkdownLine.new("\n")
+      ]
+    )
   }
 
   let(:post_body_content) { "hur hur such content" }
-  let(:post_body_element) {
-    Smartdown::Model::Element::MarkdownLine.new(post_body_content)
+  let(:post_body_elements) {
+    Smartdown::Model::Elements.new(
+      [Smartdown::Model::Element::MarkdownLine.new(post_body_content)]
+    )
   }
 
   let(:other_post_body_content) { "Postman Pat and his black and white cat" }
-  let(:other_post_body_element) {
-    Smartdown::Model::Element::MarkdownLine.new(other_post_body_content)
+  let(:other_post_body_elements) {
+    Smartdown::Model::Elements.new(
+      [
+        Smartdown::Model::Element::MarkdownLine.new("\n"),
+        Smartdown::Model::Element::MarkdownLine.new(other_post_body_content)
+      ]
+    )
   }
 
 
   context "with a body and post_body (and next node rules)" do
-    let(:elements) { [node_heading, body_element, question_heading, question_element, post_body_element, other_post_body_element, next_node_rules] }
+    let(:elements) { [node_heading, body_elements, question_heading, question_element, post_body_elements, other_post_body_elements, next_node_rules] }
 
     describe "#body" do
       it 'returns the content before the question element' do
@@ -77,7 +89,7 @@ describe Smartdown::Api::Node do
   end
 
   context "missing a body" do
-    let(:elements) { [question_element, post_body_element] }
+    let(:elements) { [question_element, post_body_elements] }
 
     describe "#body" do
       it 'returns nil' do
@@ -93,7 +105,7 @@ describe Smartdown::Api::Node do
   end
 
   context "missing a post body" do
-    let(:elements) { [node_heading, body_element, question_heading, question_element] }
+    let(:elements) { [node_heading, body_elements, question_heading, question_element] }
 
     describe "#body" do
       it 'returns the content before the question element' do

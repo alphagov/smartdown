@@ -61,6 +61,13 @@ of text.
 
 
 And handles multiple new lines
+
+And handles tables
+
+Academic Year | Form
+- | -
+2015 to 2016 | [PR1 - form (PDF, 569KB)](http://www.sfengland.slc.co.uk/media/860450/sfe_pr1_form_1516_d.pdf)
+2015 to 2016 | [PR1 - guidance notes (PDF, 199KB)](http://www.sfengland.slc.co.uk/media/860454/sfe_pr1_notes_1516_d.pdf)
 EXPECTED
       end
     end
