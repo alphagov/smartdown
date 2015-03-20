@@ -2,13 +2,17 @@ module Smartdown
   module Api
     class Node
 
-      attr_reader :title ,:elements, :front_matter, :name
+      attr_reader :title ,:elements, :front_matter, :name, :markers
 
       def initialize(node)
         node_elements = node.elements.clone
         headings = node_elements.select { |element|
           element.is_a? Smartdown::Model::Element::MarkdownHeading
         }
+        markers = node_elements.select { |element|
+          element.is_a? Smartdown::Model::Element::Marker
+        }
+        markers.each { |marker| node_elements.delete(marker) }
         nb_questions = node_elements.select{ |element|
           element.class.to_s.include?("Smartdown::Model::Element::Question")
         }.count
@@ -16,6 +20,7 @@ module Smartdown
           node_elements.delete(headings.first) #Remove page title
           @title = headings.first.content.to_s
         end
+        @markers = markers
         @elements = node_elements
         @front_matter = node.front_matter
         @name = node.name
@@ -45,7 +50,7 @@ module Smartdown
     private
 
       def markdown_element?(element)
-        (element.is_a? Smartdown::Model::Element::MarkdownLine) || 
+        (element.is_a? Smartdown::Model::Element::MarkdownLine) ||
         (element.is_a? Smartdown::Model::Element::MarkdownHeading)
       end
 
