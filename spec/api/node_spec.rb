@@ -16,15 +16,11 @@ describe Smartdown::Api::Node do
   let(:front_matter) { Smartdown::Model::FrontMatter.new({}) }
   let(:node_model) { Smartdown::Model::Node.new(node_name, elements, front_matter) }
 
-  let(:next_node_rules_content) { 
-    %{ Rule 1: Do not talk about Fight Club.
-       Rule 2: Do not talk about Fight Club.
-       Rule 3: If someone says "stop" or goes limp, taps out the fight is over.
-       Rule 4: Only two guys to a fight.
-       Rule 5: One fight at a time.
-       Rule 6: No shirts, no shoes.
-       Rule 7: Fights will go on as long as they have to.
-       Rule 8: If this is your first night at Fight Club, you have to fight.} }
+  let(:next_node_rules_content) {
+    %{ Rule 1: Is a rule
+       Rule 2: Is another rule }
+  }
+
   let(:next_node_rules) { Smartdown::Model::NextNodeRules.new(next_node_rules_content) }
 
   let(:question_element) {
@@ -39,10 +35,10 @@ describe Smartdown::Api::Node do
   let(:node_heading_content) { "hehehe" }
   let(:node_heading) { Smartdown::Model::Element::MarkdownHeading.new(node_heading_content) }
 
-  let(:question_heading_content) { "Do you feel lucky?" }
+  let(:question_heading_content) { "Is this a question?" }
   let(:question_heading) { Smartdown::Model::Element::MarkdownHeading.new(question_heading_content) }
 
-  let(:body_content) { "I <3 bodyshopping" }
+  let(:body_content) { "Body" }
   let(:body_elements) {
     Smartdown::Model::Elements.new(
       [
@@ -52,14 +48,14 @@ describe Smartdown::Api::Node do
     )
   }
 
-  let(:post_body_content) { "hur hur such content" }
+  let(:post_body_content) { "content" }
   let(:post_body_elements) {
     Smartdown::Model::Elements.new(
       [Smartdown::Model::Element::MarkdownLine.new(post_body_content)]
     )
   }
 
-  let(:other_post_body_content) { "Postman Pat and his black and white cat" }
+  let(:other_post_body_content) { "Post Body Content" }
   let(:other_post_body_elements) {
     Smartdown::Model::Elements.new(
       [
@@ -69,6 +65,7 @@ describe Smartdown::Api::Node do
     )
   }
 
+  let(:marker) { Smartdown::Model::Element::Marker.new("Content Marker") }
 
   context "with a body and post_body (and next node rules)" do
     let(:elements) { [node_heading, body_elements, question_heading, question_element, post_body_elements, other_post_body_elements, next_node_rules] }
@@ -153,6 +150,16 @@ describe Smartdown::Api::Node do
     describe "#next_nodes" do
       it 'returns the next node rules in a list' do
         expect(node.next_nodes).to eq([next_node_rules])
+      end
+    end
+  end
+
+  context "with a marker" do
+    let(:elements) { [node_heading, question_heading, question_element, marker] }
+
+    describe "#markers" do
+      it 'returns the markers' do
+        expect(node.markers).to eq([Smartdown::Model::Element::Marker.new("Content Marker")])
       end
     end
   end

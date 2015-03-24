@@ -291,6 +291,26 @@ More copy...
 ```
 Where `snippet_name` is in a `snippets/` directory in the flow root with a `.txt` extension, eg `my-flow-name/snippets/my_sub_directory/my_snippet.txt`.
 
+## Markers
+
+Markers are used to mark areas in a question/outcome for testing and are exposed as an array on the Api::Node object
+
+For example
+
+```
+$IF i_am_a_predicate
+
+{{marker: i_am_only_exposed_if_predicate_evaluates_to_true}}
+
+$ELSE
+
+{{marker: i_am_only_exposed_if_predicate_evaluates_to_false}}
+
+$ENDIF
+
+{{marker: i_am_always_exposed}}
+
+```
 
 ##Code terminology
 

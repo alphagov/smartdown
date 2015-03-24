@@ -2,6 +2,7 @@ require 'smartdown/parser/base'
 require 'smartdown/parser/rules'
 require 'smartdown/parser/element/front_matter'
 require 'smartdown/parser/element/start_button'
+require 'smartdown/parser/element/marker'
 require 'smartdown/parser/element/multiple_choice_question'
 require 'smartdown/parser/element/date_question'
 require 'smartdown/parser/element/money_question'
@@ -30,6 +31,7 @@ module Smartdown
         Element::MoneyQuestion.new |
         Rules.new |
         Element::StartButton.new |
+        Element::Marker.new |
         Element::NextSteps.new |
         Element::MarkdownLine.new |
         Element::MarkdownBlankLine.new

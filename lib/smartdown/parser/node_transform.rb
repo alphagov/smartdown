@@ -8,6 +8,7 @@ require 'smartdown/model/nested_rule'
 require 'smartdown/model/next_node_rules'
 require 'smartdown/model/element/question'
 require 'smartdown/model/element/start_button'
+require 'smartdown/model/element/marker'
 require 'smartdown/model/element/markdown_heading'
 require 'smartdown/model/element/markdown_line'
 require 'smartdown/model/element/conditional'
@@ -61,6 +62,10 @@ module Smartdown
 
       rule(:start_button => simple(:start_node)) {
         Smartdown::Model::Element::StartButton.new(start_node.to_s)
+      }
+
+      rule(:marker => simple(:marker)) {
+        Smartdown::Model::Element::Marker.new(marker.to_s)
       }
 
       rule(:front_matter => subtree(:attrs), body: subtree(:body)) {
@@ -226,12 +231,15 @@ module Smartdown
       rule(:rule => {predicate: subtree(:predicate), outcome: simple(:outcome_name) } ) {
         Smartdown::Model::Rule.new(predicate, outcome_name.to_s)
       }
+
       rule(:nested_rule => {predicate: subtree(:predicate), child_rules: subtree(:child_rules) } ) {
         Smartdown::Model::NestedRule.new(predicate, child_rules)
       }
+
       rule(:next_node_rules => subtree(:rules)) {
         Smartdown::Model::NextNodeRules.new(rules)
       }
+
     end
   end
 end
