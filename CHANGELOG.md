@@ -1,3 +1,21 @@
+## 0.14.0
+
+* Add marker syntax
+```{{marker: this_is_a_marker}}```
+* Update Api::Node to expose markers
+```node.markers # [Model::Marker(:marker_name)]```
+* Update Scenarios to implement and expose markers
+```
+Api:
+scenario.markers # ["marker_name"]
+
+In Scenario:
+has markers: marker_name, another_marker
+or
+has marker: marker_name
+```
+
+
 ## 0.13.1
 
 Fix bug where additional new lines were inserted into markdown text, which
