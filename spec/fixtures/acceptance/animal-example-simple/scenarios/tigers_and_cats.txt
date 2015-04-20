@@ -2,4 +2,5 @@
 # And cats are amazing
 - question_1: cat
 outcome_safe_pet
-has markers: is_a_safe_pet, safe_pets_are_cool
+has marker: is_a_safe_pet
+exact markers: is_a_safe_pet, safe_pets_are_cool
