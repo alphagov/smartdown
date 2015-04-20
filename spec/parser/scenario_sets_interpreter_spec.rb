@@ -25,7 +25,8 @@ describe Smartdown::Parser::ScenarioSetsInterpreter do
       expect(tigers_and_cats_scenario_set.scenarios.first.description).to eq("User has a cat;And cats are amazing")
       expect(tigers_and_cats_scenario_set.scenarios.first.question_groups.size).to eq(1)
       expect(tigers_and_cats_scenario_set.scenarios.first.outcome).to eq("outcome_safe_pet")
-      expect(tigers_and_cats_scenario_set.scenarios.first.markers).to eq(['is_a_safe_pet', 'safe_pets_are_cool'])
+      expect(tigers_and_cats_scenario_set.scenarios.first.markers).to eq(['is_a_safe_pet'])
+      expect(tigers_and_cats_scenario_set.scenarios.first.exact_markers).to eq(['is_a_safe_pet', 'safe_pets_are_cool'])
     end
 
     it "has scenario questions with name and answer" do
