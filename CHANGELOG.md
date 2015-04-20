@@ -1,3 +1,16 @@
+## 0.15.0
+
+* Update Scenarios to implement and expose exact markers
+```
+Api:
+scenario.exact_markers # ["marker_name"]
+
+In Scenario:
+exact markers: marker_name, another_marker
+or
+exact marker: marker_name
+```
+
 ## 0.14.0
 
 * Add marker syntax
