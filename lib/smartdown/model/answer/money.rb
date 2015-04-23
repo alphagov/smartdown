@@ -6,7 +6,7 @@ module Smartdown
     module Answer
       class Money < Base
 
-        FORMAT_REGEX = /^£?\W*([\d|,|]+[\.]?[\d]*)$/
+        FORMAT_REGEX = /^£?\W*([\d|,|]+(\.[\d]+)?)$/
 
         def value_type
           ::Float

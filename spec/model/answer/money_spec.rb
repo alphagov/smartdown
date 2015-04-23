@@ -57,19 +57,43 @@ describe Smartdown::Model::Answer::Money do
     end
   end
 
-  describe "errors" do
-    context "invalid formatting" do
-      let(:money_input) {"Loads'a'money"}
+  describe "parsing" do
+    context "£200.00" do
+      let(:money_input) {"£200.00"}
 
-      it "Has errors" do
+      it "raises no errors" do
+        expect(instance.error).to eql(nil)
+      end
+    end
+
+    context "1" do
+      let(:money_input) {"1"}
+
+      it "raises no errors" do
+        expect(instance.error).to eql(nil)
+      end
+    end
+
+    context "a number that ends with a dot" do
+      let(:money_input) {"200."}
+
+      it "has errors" do
         expect(instance.error).to eql("Invalid format")
       end
     end
 
-    context "no input" do
+    context "a string with no digits" do
+      let(:money_input) {"Loads'a'money"}
+
+      it "has errors" do
+        expect(instance.error).to eql("Invalid format")
+      end
+    end
+
+    context "nil input" do
       let(:money_input) { nil }
 
-      it "Has errors" do
+      it "has errors" do
         expect(instance.error).to eql("Please answer this question")
       end
     end
