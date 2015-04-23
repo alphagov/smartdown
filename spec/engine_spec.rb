@@ -70,9 +70,9 @@ describe Smartdown::Engine do
                 usa: "USA"
             }
         )
-        heading("What country are you going to?")
-        multiple_choice(
-            "what_country_are_you_going_to?",
+        heading("Which countries are you going to?")
+        multiple_option(
+            "which_countries_are_you_going_to?",
             {
                 usa: "USA",
                 narnia: "Narnia"
@@ -80,7 +80,7 @@ describe Smartdown::Engine do
         )
         next_node_rules do
           rule do
-            set_membership_predicate("what_country_are_you_going_to?", ["narnia"])
+            set_membership_predicate("which_countries_are_you_going_to?", ["narnia"])
             outcome("outcome_imaginary_country")
           end
           rule do
@@ -225,7 +225,7 @@ describe Smartdown::Engine do
 
         it "has recorded inputs" do
           expect(subject.get("what_passport_do_you_have?")).to eq("greek")
-          expect(subject.get("what_country_are_you_going_to?")).to eq("narnia")
+          expect(subject.get("which_countries_are_you_going_to?")).to eq("narnia")
         end
       end
 
@@ -238,7 +238,7 @@ describe Smartdown::Engine do
 
         it "has recorded inputs" do
           expect(subject.get("what_passport_do_you_have?")).to eq("greek")
-          expect(subject.get("what_country_are_you_going_to?")).to eq("usa")
+          expect(subject.get("which_countries_are_you_going_to?")).to eq("usa")
         end
       end
 
@@ -276,12 +276,12 @@ describe Smartdown::Engine do
       end
 
       context "british, going to usa" do
-        let(:responses) { ["yes", "british", "usa", nil] }
+        let(:responses) { ["yes", "british", "narnia,usa", nil] }
         it "raises parsing errors" do
           expect(subject.get(:current_node)).to eq("second_passport_question")
           expect(subject.get("current_answers").count).to eq 1
           expect(subject.get("current_answers").first.error).to eq "Please answer this question"
-          expect(subject.get("accepted_responses")).to eq ["yes", "british", "usa"]
+          expect(subject.get("accepted_responses")).to eq ["yes", "british", "narnia,usa"]
         end
       end
     end

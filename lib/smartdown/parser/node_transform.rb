@@ -96,6 +96,14 @@ module Smartdown
         )
       }
 
+      rule(:multiple_option => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs), options: subtree(:choices)}) {
+        Smartdown::Model::Element::Question::MultipleOption.new(
+          identifier.to_s,
+          Hash[choices],
+          Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('alias', nil),
+        )
+      }
+
       rule(:country => {identifier: simple(:identifier), :option_pairs => subtree(:option_pairs)}) {
         country_data_method = Smartdown::Parser::OptionPairs.transform(option_pairs).fetch('countries', nil)
         country_hash = data_module[country_data_method].call

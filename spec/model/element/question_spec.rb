@@ -11,6 +11,7 @@ describe Smartdown::Model::Element::Question do
     it 'has expected order' do
       expect(described_class.constants).to eq [
         :MultipleChoice,
+        :MultipleOption,
         :Country,
         :Date,
         :Money,

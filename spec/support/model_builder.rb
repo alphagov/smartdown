@@ -57,6 +57,13 @@ class ModelBuilder
     @elements.last
   end
 
+  def multiple_option(name, options, question_alias=nil)
+    @elements ||= []
+    options_with_string_keys = ::Hash[options.map {|k,v| [k.to_s, v]}]
+    @elements << Smartdown::Model::Element::Question::MultipleOption.new(name, options_with_string_keys, question_alias)
+    @elements.last
+  end
+
   def date(name)
     @elements ||= []
     @elements << Smartdown::Model::Element::Question::Date.new(name)

@@ -91,6 +91,37 @@ SOURCE
     end
   end
 
+  describe "body with multiple choice multiple answer options" do
+    let(:source) {
+<<SOURCE
+# This is my title
+
+[options: my_question]
+* option-a: Option A
+* option-b: Option B
+SOURCE
+     }
+
+    it do
+      should parse(source).as({
+        body: [
+          {h1: "This is my title"},
+          {blank_line: "\n",
+           element: {
+             multiple_option: {
+              identifier: "my_question",
+              options: [
+                {value: "option-a", label: "Option A"},
+                {value: "option-b", label: "Option B"}
+              ],
+              option_pairs: []}
+            }
+          }
+        ]
+      })
+    end
+  end
+
   describe "body and next_node rules" do
     let(:source) {
 <<SOURCE
