@@ -29,7 +29,7 @@ module Smartdown
             @error = "Invalid format"
             return
           end
-          amount_per_period, @period = *matched_value[1..2]
+          amount_per_period, _, @period = *matched_value[1..3]
 
           @money_per_period = Money.new(amount_per_period)
           @amount_per_period = @money_per_period.value
