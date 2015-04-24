@@ -20,6 +20,18 @@ describe Smartdown::Model::Answer::Money do
     specify { expect(instance.value).to eql(1523.12) }
   end
 
+  describe 'instantiate with £' do
+    let(:money_input) { '£1523.45' }
+
+    specify { expect(instance.value).to eql(1523.45) }
+  end
+
+  describe 'instantiate with float with a trailing dot' do
+    let(:money_input) { '1523.' }
+
+    specify { expect(instance.value).to eql(1523.0) }
+  end
+
   describe 'to_s' do
     it "returns value without comma delimiter" do
       expect(instance.to_s).to eql("1523.42")
@@ -49,27 +61,35 @@ describe Smartdown::Model::Answer::Money do
         expect(instance.humanize).to eql("£1,523.42")
       end
     end
+
     context "no pence" do
       let(:money_input) { '1523.00' }
       it "rounds down amounts of money correctly" do
         expect(instance.humanize).to eql("£1,523")
       end
     end
+
+    context "for value with a trailing dot" do
+      let(:money_input) { '1523.' }
+      it "ignores the trailing dot" do
+        expect(instance.humanize).to eql("£1,523")
+      end
+    end
   end
 
-  describe "errors" do
-    context "invalid formatting" do
+  describe "parsing" do
+    context "no digits" do
       let(:money_input) {"Loads'a'money"}
 
-      it "Has errors" do
+      it "raises an error" do
         expect(instance.error).to eql("Invalid format")
       end
     end
 
-    context "no input" do
+    context "empty input" do
       let(:money_input) { nil }
 
-      it "Has errors" do
+      it "raises an error" do
         expect(instance.error).to eql("Please answer this question")
       end
     end

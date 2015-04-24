@@ -35,7 +35,7 @@ module Smartdown
           else
             matched_value = value.strip.match FORMAT_REGEX
             if matched_value
-              Float matched_value[1].gsub(',','')
+              Float matched_value[1].gsub(',','').chomp('.')
             else
               @error = 'Invalid format'
               return
