@@ -1,3 +1,9 @@
+## 0.15.1
+
+Fixes a bug where a user was getting a generic 500 response when providing
+money values with a trailing dot eg `2100.`. Now it treats such values as
+money values with no decimal points, as expected by the user.
+
 ## 0.15.0
 
 * Update Scenarios to implement and expose exact markers
