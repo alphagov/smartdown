@@ -16,7 +16,8 @@ module Smartdown
           question_groups,
           outcome,
           markers,
-          exact_markers
+          exact_markers,
+          content_to_match
         )
       end
 
@@ -48,16 +49,20 @@ module Smartdown
       end
 
       def has_markers?
-        @scenario_lines.any? { |line| line.match(/(has markers:|has marker:)/) }
+        @scenario_lines.any? { |line| line.match(/(^has markers:|^has marker:)/) }
       end
 
       def has_exact_markers?
-        @scenario_lines.any? { |line| line.match(/(exact markers:|exact marker:)/) }
+        @scenario_lines.any? { |line| line.match(/(^exact markers:|^exact marker:)/) }
+      end
+
+      def has_content_to_match?
+        @scenario_lines.any? { |line| line.match(/^has content:/) }
       end
 
       def markers
         if has_markers?
-          marker_line = @scenario_lines.find { |line| line.match(/(has markers:|has marker:)/) }
+          marker_line = @scenario_lines.find { |line| line.match(/(^has markers:|^has marker:)/) }
           comma_sperated_markers = marker_line.slice(marker_line.index(":") + 1, marker_line.size)
           comma_sperated_markers.split(',').map(&:strip)
         else
@@ -67,9 +72,19 @@ module Smartdown
 
       def exact_markers
         if has_exact_markers?
-          marker_line = @scenario_lines.find { |line| line.match(/(exact markers:|exact marker:)/) }
+          marker_line = @scenario_lines.find { |line| line.match(/(^exact markers:|^exact marker:)/) }
           comma_sperated_markers = marker_line.slice(marker_line.index(":") + 1, marker_line.size)
           comma_sperated_markers.split(',').map(&:strip)
+        else
+          []
+        end
+      end
+
+      def content_to_match
+        if has_content_to_match?
+          content_line = @scenario_lines.find { |line| line.match(/^has content:/) }
+          content = content_line.split(":", 2).last
+          content.split('",').map{ |phrase| phrase.gsub(/\A[" ]+|[" ]+\Z/, '')}
         else
           []
         end

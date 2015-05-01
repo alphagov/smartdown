@@ -15,6 +15,7 @@ Each scenario is made of:
 * list of questions pages (each question page starts with a -), inside which questions to answers are defined
 * name of the outcome
 * optional marker/markers
+* optional content
 
 ```
 # Description
@@ -22,7 +23,8 @@ Each scenario is made of:
 - name_of_q1_p2: answer_to_q1_p2
   name_of_q2_p2: answer_to_q2_p2
 outcome_the_result
-has markers: marker1, marker2
+exact markers: marker1, marker2
+has content: "Some content", "Some more content"
 
 # Descriptions
 # can have several lines
