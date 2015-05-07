@@ -13,7 +13,7 @@ RSpec.describe 'bin/smartdown' do
   let(:input) { fixture("animal-example-simple") }
 
   before(:each) do
-    @output = `#{executable_path} "#{input}" #{responses} 2>&1`
+    @output = `LANG="en_GB.UTF-8" #{executable_path} "#{input}" #{responses} 2>&1`
     fail(raw_output) unless $?.success?
   end
 
