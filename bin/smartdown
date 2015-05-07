@@ -22,7 +22,7 @@ else
     engine = Smartdown::Engine.new(flow)
     end_state = engine.process(responses)
 
-    puts "RESPONSES: " + end_state.get(:responses).join(" / ")
+    puts "RESPONSES: " + end_state.get(:accepted_responses).join(" / ")
     puts "PATH: " + (end_state.get(:path) + [end_state.get(:current_node)]).join(" -> ")
     node = engine.evaluate_node(end_state)
     puts "# #{node.title}\n\n"
