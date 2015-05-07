@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'pathname'
+require 'English'
 
 RSpec.describe 'bin/smartdown' do
   let(:executable_path) {
@@ -14,7 +15,7 @@ RSpec.describe 'bin/smartdown' do
 
   before(:each) do
     @output = `LANG="en_GB.UTF-8" #{executable_path} "#{input}" #{responses} 2>&1`
-    fail(raw_output) unless $?.success?
+    fail(raw_output) unless $CHILD_STATUS.success?
   end
 
   describe 'invocation with no response' do
