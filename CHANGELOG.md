@@ -1,3 +1,5 @@
+## 0.16.0
+
 * Add `Smartdown::Api::Flow#content_id`
 
 ## 0.15.1
