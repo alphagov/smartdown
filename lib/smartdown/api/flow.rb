@@ -46,6 +46,10 @@ module Smartdown
         front_matter.fetch :satisfies_need, nil
       end
 
+      def content_id
+        front_matter.fetch :content_id, nil
+      end
+
       def status
         front_matter.status
       end

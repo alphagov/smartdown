@@ -141,8 +141,9 @@ describe Smartdown::Api::Flow do
     it "has a need id" do
       expect(flow.need_id).to eq("100982")
     end
+
+    it "has a content id" do
+      expect(flow.content_id).to eq("A-NICE-CONTENT-ID")
+    end
   end
-
 end
-
-

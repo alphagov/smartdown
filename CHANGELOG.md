@@ -1,3 +1,5 @@
+* Add `Smartdown::Api::Flow#content_id`
+
 ## 0.15.1
 
 Fixes a bug where a user was getting a generic 500 response when providing
