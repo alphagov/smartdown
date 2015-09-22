@@ -2,6 +2,7 @@
 meta_description: Animals eh?
 satisfies_need: 100982
 status: draft
+content_id: A-NICE-CONTENT-ID
 ---
 
 # A simple example of smartdown
