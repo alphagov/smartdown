@@ -4,3 +4,4 @@
 outcome_safe_pet
 has marker: is_a_safe_pet
 exact markers: is_a_safe_pet, safe_pets_are_cool
+has content: "With answers, that are smart. Down with that", "Lorem ipsum dolor sit amet"

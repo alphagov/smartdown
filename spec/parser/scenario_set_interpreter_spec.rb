@@ -23,4 +23,8 @@ describe Smartdown::Parser::ScenarioSetInterpreter do
   describe "#exact_markers" do
     it { expect(subject.exact_markers).to eq(["is_a_safe_pet", "safe_pets_are_cool"]) }
   end
+
+  describe "#content_to_match" do
+    it { expect(subject.content_to_match).to eq(["With answers, that are smart. Down with that", "Lorem ipsum dolor sit amet"]) }
+  end
 end
